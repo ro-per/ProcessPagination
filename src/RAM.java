@@ -92,14 +92,14 @@ public class RAM {
     */
     public void removeProcess(int processId) {
         Process process = new Process(processId);
-        for(int i=0; i<processList.size(); i++) {
-            if (processList.get(i).getProcessID() == processId) {
-                process = processList.get(i);
+        for (Process value : processList) {
+            if (value.getProcessID() == processId) {
+                process = value;
             }
         }
-        for(int i=0; i<frameArray.length; i++) {
-            if(frameArray[i].getProcessID() == process.getProcessID()) {
-                removePage(frameArray[i]);
+        for (Page page : frameArray) {
+            if (page.getProcessID() == process.getProcessID()) {
+                removePage(page);
             }
         }
         processList.remove(process);
@@ -209,8 +209,7 @@ public class RAM {
     /**
     * 
     * @param bitValue
-    * @param processID
-    * @param pageNrAndOffset 
+    * @param pageNrAndOffset
     */
     public void setModifybit(int bitValue, Process process, int[] pageNrAndOffset) {
         int page = pageNrAndOffset[0];

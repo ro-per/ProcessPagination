@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +85,7 @@ public class VMView extends javax.swing.JFrame {
     public void updateProcessTable(ArrayList<Process> processList) {
         DefaultTableModel tableModel = (DefaultTableModel) processTable.getModel();
         tableModel.setRowCount(0);
-        Object rowData[] = new Object[3];
+        Object[] rowData = new Object[3];
         
         for(Process p: processList){
             rowData[0] = p.getProcessID();
@@ -102,7 +101,7 @@ public class VMView extends javax.swing.JFrame {
         DefaultTableModel tableModel = (DefaultTableModel) PageTable.getModel();
         tableModel.setRowCount(0);
         
-        Object rowData[] = new Object[5];
+        Object[] rowData = new Object[5];
         for(PageTableEntry pte: pageTable){
             
             rowData[0] = page;
@@ -120,41 +119,41 @@ public class VMView extends javax.swing.JFrame {
     
     void updateFrames(Page[] frames) {
         if(frames[0] != null) {
-            jLabel3.setText("PID: " + Integer.toString(frames[0].getProcessID()));
-            jLabel16.setText("Page NR: " + Integer.toString(frames[0].getPageNumber()));
+            jLabel3.setText("PID: " + frames[0].getProcessID());
+            jLabel16.setText("Page NR: " + frames[0].getPageNumber());
 
-            jLabel18.setText("PID: " + Integer.toString(frames[1].getProcessID()));
-            jLabel19.setText("Page NR: " + Integer.toString(frames[1].getPageNumber()));
+            jLabel18.setText("PID: " + frames[1].getProcessID());
+            jLabel19.setText("Page NR: " + frames[1].getPageNumber());
 
-            jLabel21.setText("PID: " + Integer.toString(frames[2].getProcessID()));
-            jLabel22.setText("Page NR: " + Integer.toString(frames[2].getPageNumber()));
+            jLabel21.setText("PID: " + frames[2].getProcessID());
+            jLabel22.setText("Page NR: " + frames[2].getPageNumber());
 
-            jLabel33.setText("PID: " + Integer.toString(frames[3].getProcessID()));
-            jLabel34.setText("Page NR: " + Integer.toString(frames[3].getPageNumber()));
+            jLabel33.setText("PID: " + frames[3].getProcessID());
+            jLabel34.setText("Page NR: " + frames[3].getPageNumber());
 
-            jLabel36.setText("PID: " + Integer.toString(frames[4].getProcessID()));
-            jLabel37.setText("Page NR: " + Integer.toString(frames[4].getPageNumber()));
+            jLabel36.setText("PID: " + frames[4].getProcessID());
+            jLabel37.setText("Page NR: " + frames[4].getPageNumber());
 
-            jLabel24.setText("PID: " + Integer.toString(frames[5].getProcessID()));
-            jLabel25.setText("Page NR: " + Integer.toString(frames[5].getPageNumber()));
+            jLabel24.setText("PID: " + frames[5].getProcessID());
+            jLabel25.setText("Page NR: " + frames[5].getPageNumber());
 
-            jLabel27.setText("PID: " + Integer.toString(frames[6].getProcessID()));
-            jLabel28.setText("Page NR: " + Integer.toString(frames[6].getPageNumber()));
+            jLabel27.setText("PID: " + frames[6].getProcessID());
+            jLabel28.setText("Page NR: " + frames[6].getPageNumber());
 
-            jLabel30.setText("PID: " + Integer.toString(frames[7].getProcessID()));
-            jLabel31.setText("Page NR: " + Integer.toString(frames[7].getPageNumber()));
+            jLabel30.setText("PID: " + frames[7].getProcessID());
+            jLabel31.setText("Page NR: " + frames[7].getPageNumber());
 
-            jLabel39.setText("PID: " + Integer.toString(frames[8].getProcessID()));
-            jLabel44.setText("Page NR: " + Integer.toString(frames[8].getPageNumber()));
+            jLabel39.setText("PID: " + frames[8].getProcessID());
+            jLabel44.setText("Page NR: " + frames[8].getPageNumber());
 
-            jLabel61.setText("PID: " + Integer.toString(frames[9].getProcessID()));
-            jLabel62.setText("Page NR: " + Integer.toString(frames[9].getPageNumber()));
+            jLabel61.setText("PID: " + frames[9].getProcessID());
+            jLabel62.setText("Page NR: " + frames[9].getPageNumber());
 
-            jLabel46.setText("PID: " + Integer.toString(frames[10].getProcessID()));
-            jLabel47.setText("Page NR: " + Integer.toString(frames[10].getPageNumber()));
+            jLabel46.setText("PID: " + frames[10].getProcessID());
+            jLabel47.setText("Page NR: " + frames[10].getPageNumber());
 
-            jLabel64.setText("PID: " + Integer.toString(frames[11].getProcessID()));
-            jLabel65.setText("Page NR: " + Integer.toString(frames[11].getPageNumber()));
+            jLabel64.setText("PID: " + frames[11].getProcessID());
+            jLabel65.setText("Page NR: " + frames[11].getPageNumber());
         }
         else {
             resetFrames();
