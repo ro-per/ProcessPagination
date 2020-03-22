@@ -4,9 +4,9 @@ import javax.swing.JRadioButton;
 
 /**
  *
- * @author Ruben
- * 
- * This is the controller which binds the model and the view 
+ *
+ *
+ * This is the controller which binds the model and the view
  */
 public class VMController {
     
