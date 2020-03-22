@@ -9,6 +9,5 @@ public class Main {
                 view.setVisible(true);
             }
         });
-//test
     }
 }
