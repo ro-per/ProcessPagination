@@ -6,7 +6,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainView">
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
     <VBox maxHeight="0.0" maxWidth="0.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
         <children>
             <MenuBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
@@ -21,8 +21,8 @@
                             <MenuItem mnemonicParsing="false" onAction="#quitApplication" text="Quit" />
                         </items>
                     </Menu>
-                    <Menu id="Reset" fx:id="Reset" mnemonicParsing="false" text="Reset" />
-                    <Menu id="About" fx:id="About" mnemonicParsing="false" onAction="#openGithubInBrowser" text="About">
+                    <Menu id="Reset" fx:id="Reset" mnemonicParsing="false" onAction="#reset" text="Reset" />
+                    <Menu id="About" fx:id="About" mnemonicParsing="false" text="About">
                         <items>
                             <MenuItem mnemonicParsing="false" onAction="#openGithub" text="Github" />
                         </items>
@@ -35,7 +35,7 @@
                         <items>
                             <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="250.0" prefWidth="250.0">
                                 <children>
-                                    <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" prefHeight="20.0" prefWidth="-1.0" style="&#10;" text="Master" textAlignment="CENTER" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <Label fx:id="clockField" alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" prefHeight="20.0" prefWidth="-1.0" style="&#10;" text="Clock" textAlignment="CENTER" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                         <font>
                                             <Font size="18.0" fx:id="x1" />
                                         </font>
@@ -46,9 +46,9 @@
                                     <Label layoutX="34.0" layoutY="36.0" text="Label" />
                                     <AnchorPane layoutX="12.0" layoutY="36.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="225.0" AnchorPane.topAnchor="20.0">
                                         <children>
-                                            <Button layoutY="15.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="&lt; prev." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" />
+                                            <Button layoutY="15.0" mnemonicParsing="false" onAction="#previous" prefHeight="25.0" prefWidth="75.0" text="&lt; prev." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" />
                                             <Button layoutX="76.0" layoutY="15.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="I I" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="15.0" />
-                                            <Button layoutX="152.0" layoutY="15.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="next &gt;" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="0.0" />
+                                            <Button layoutX="152.0" layoutY="15.0" mnemonicParsing="false" onAction="#next" prefHeight="25.0" prefWidth="75.0" text="next &gt;" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="0.0" />
                                         </children>
                                     </AnchorPane>
                                     <VBox layoutX="75.0" layoutY="176.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
@@ -125,7 +125,7 @@
                                     <Color red="0.625" green="0.625" blue="0.625" fx:id="x4" />
                                 </textFill>
                             </Label>
-                            <ProgressBar layoutX="187.0" prefHeight="15.0" prefWidth="681.0" progress="0.0" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="85.0" />
+                            <ProgressBar fx:id="progressBar" layoutX="187.0" prefHeight="15.0" prefWidth="681.0" progress="0.0" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="85.0" />
                             <Label alignment="CENTER_RIGHT" maxWidth="-1.0" onMouseClicked="#openGithub" prefWidth="85.0" text="Source code" textAlignment="RIGHT" AnchorPane.rightAnchor="0.0">
                                 <font>
                                     <Font size="11.0" fx:id="x24" />
