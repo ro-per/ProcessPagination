@@ -1,9 +1,7 @@
+package oldFiles;
+
 import java.util.ArrayList;
 
-/**
- *
- * @author lander
- */
 public class Process {
     private int processID;
     private int lastAccessTime;

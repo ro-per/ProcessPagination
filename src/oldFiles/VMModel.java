@@ -1,3 +1,5 @@
+package oldFiles;
+
 import java.io.File;
 import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
@@ -12,7 +14,7 @@ public class VMModel {
     public RAM ram;
     public int timer;
     public int[] pageNrAndOffset;
-    public Process currentProcess;//wordt telkens aangepast bij elke instructie 
+    public Process currentProcess;//wordt telkens aangepast bij elke instructie
     public ArrayList<Process> processesOveral;
     public String fileName = "Instructions_30_3.xml";
 

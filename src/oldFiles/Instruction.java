@@ -1,3 +1,5 @@
+package oldFiles;
+
 public class Instruction {
     private int processID;
     private String operation;

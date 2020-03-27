@@ -1,13 +1,10 @@
+package oldFiles;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JRadioButton;
 
-/**
- *
- *
- *
- * This is the controller which binds the model and the view
- */
+
 public class VMController {
     
     private VMView view;

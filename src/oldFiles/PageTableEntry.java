@@ -1,7 +1,6 @@
-/**
- *
- * @author Ruben
- */
+package oldFiles;
+
+
 public class PageTableEntry {
     private boolean presentBit;
     private boolean modifyBit;

@@ -1,13 +1,12 @@
+package oldFiles;
+
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author lander
- */
+
 public class VMView extends javax.swing.JFrame {
 
     /**

@@ -1,7 +1,6 @@
-/**
- *
- * @author Ruben
- */
+package oldFiles;
+
+
 public class Page {
     private int processID;
     private int pageNumber;

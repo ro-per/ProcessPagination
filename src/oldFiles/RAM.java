@@ -1,10 +1,9 @@
+package oldFiles;
+
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author lander
- */
+
 public class RAM {
     List<Process> processList = new ArrayList<>();  //max 4 processen
     Page[] frameArray = new Page[12];
