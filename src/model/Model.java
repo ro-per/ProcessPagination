@@ -12,7 +12,7 @@ public class Model extends Observable {
         this.clock = Long.valueOf(0);
     }
 
-    public Model(Long clock, double progress, int numberOfProcesses) {
+    public Model(Long clock) {
         super();
         this.clock = clock;
 

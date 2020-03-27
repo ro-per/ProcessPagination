@@ -10,7 +10,7 @@ import model.Model;
 
 import java.io.IOException;
 
-public class Main_new extends Application {
+public class MainNew extends Application {
 
     private Stage primaryStage;
     private Model model;
