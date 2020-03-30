@@ -2,17 +2,17 @@ package model;
 
 import java.util.Observable;
 
-public class Model extends Observable {
+public class MainModel extends Observable {
     //************************** ATTRIBUTES **************************
     private Long clock;
 
     //************************** CONSTRUCTORS **************************
-    public Model() {
+    public MainModel() {
         super();
         this.clock = Long.valueOf(0);
     }
 
-    public Model(Long clock) {
+    public MainModel(Long clock) {
         super();
         this.clock = clock;
 

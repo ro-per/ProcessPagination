@@ -10,12 +10,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 public class VMModel {
-    public ArrayList<Instruction> instructionList;
+    public ArrayList<Instruction_old> instructionList;
     public RAM ram;
     public int timer;
     public int[] pageNrAndOffset;
-    public Process currentProcess;//wordt telkens aangepast bij elke instructie
-    public ArrayList<Process> processesOveral;
+    public Process_old currentProcess;//wordt telkens aangepast bij elke instructie
+    public ArrayList<Process_old> processesOveral;
     public String fileName = "Instructions_30_3.xml";
 
 
@@ -39,7 +39,7 @@ public class VMModel {
     public ArrayList loadXML(String bestand) {
         try {
             File file = new File(bestand);
-            instructionList = new ArrayList<Instruction>();
+            instructionList = new ArrayList<Instruction_old>();
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document document = (Document) db.parse(file);
@@ -51,7 +51,7 @@ public class VMModel {
                 int processID = Integer.parseInt(element.getElementsByTagName("processID").item(0).getTextContent());
                 String operation = element.getElementsByTagName("operation").item(0).getTextContent();
                 int address = Integer.parseInt(element.getElementsByTagName("address").item(0).getTextContent());
-                Instruction instruction = new Instruction(processID, operation, address);
+                Instruction_old instruction = new Instruction_old(processID, operation, address);
                 instructionList.add(instruction);
             }
             System.out.println("loadXML: ingelezen");
@@ -62,14 +62,14 @@ public class VMModel {
         }
     }
 
-    public Instruction performOneInstruction() {
+    public Instruction_old performOneInstruction() {
         if (timer < instructionList.size()) {
-            Instruction currentInstruction = instructionList.get(timer);
+            Instruction_old currentInstruction = instructionList.get(timer);
             String operation = currentInstruction.getOperation();
             switch (operation) {
                 case "Start":
                     pageNrAndOffset = null;
-                    currentProcess = new Process(currentInstruction.getProcessID());
+                    currentProcess = new Process_old(currentInstruction.getProcessID());
                     processesOveral.add(currentProcess);
                     ram.addProcess(currentProcess, timer);
                     System.out.println(currentInstruction.getProcessID() + " start");
@@ -109,7 +109,7 @@ public class VMModel {
     /*
      * Get the instruction that isn't executed yet
      */
-    public Instruction getCurrentInstruction() {
+    public Instruction_old getCurrentInstruction() {
         if (timer < instructionList.size()) {
             return instructionList.get(timer);
         }
@@ -120,13 +120,13 @@ public class VMModel {
         init();
     }
 
-    public Process getCurrentProcess() {
+    public Process_old getCurrentProcess() {
 
         return currentProcess;
     }
 
     private void setCurrentProcess(int processID) {
-        for (Process p : processesOveral) {
+        for (Process_old p : processesOveral) {
             if (p.getProcessID() == processID) {
                 currentProcess = p;
             }
@@ -134,14 +134,14 @@ public class VMModel {
 
     }
 
-    public Page[] getFrames() {
+    public Page_old[] getFrames() {
         if (ram != null) {
             return ram.frameArray;
         }
         return null;
     }
 
-    public ArrayList<Process> getAllProcesses() {
+    public ArrayList<Process_old> getAllProcesses() {
         if (ram != null) {
             return processesOveral;
         }
@@ -149,12 +149,12 @@ public class VMModel {
         return null;
     }
 
-    public int getFrameNumber(Instruction executedInstruction) {
+    public int getFrameNumber(Instruction_old executedInstruction) {
         int pid = executedInstruction.getProcessID();
         int adress = executedInstruction.getAddress();
         int[] pnEnOffset = ram.analyseAdress(adress);
         int framenummer = 0;
-        for (Page p : ram.frameArray) {
+        for (Page_old p : ram.frameArray) {
             //check of pid en pn gelijk zijn aan die van de instructie
             if (p != null) {
                 if (p.getProcessID() == pid) {

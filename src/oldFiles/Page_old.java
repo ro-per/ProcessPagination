@@ -1,11 +1,11 @@
 package oldFiles;
 
 
-public class Page {
+public class Page_old {
     private int processID;
     private int pageNumber;
     
-    public Page(int processID, int pageNumber) {
+    public Page_old(int processID, int pageNumber) {
         this.processID = processID;
         this.pageNumber = pageNumber;
     }

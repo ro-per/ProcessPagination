@@ -56,7 +56,7 @@ public class VMView extends javax.swing.JFrame {
     /*
     * Update the Instructions
     */
-    public void update(Instruction currentInstruction, Instruction previousInstruction) {
+    public void update(Instruction_old currentInstruction, Instruction_old previousInstruction) {
       
         // Update current Instruction
         if(currentInstruction != null) {
@@ -81,12 +81,12 @@ public class VMView extends javax.swing.JFrame {
         this.timeLabel.setText(Integer.toString(timer));
     }
     
-    public void updateProcessTable(ArrayList<Process> processList) {
+    public void updateProcessTable(ArrayList<Process_old> processList) {
         DefaultTableModel tableModel = (DefaultTableModel) processTable.getModel();
         tableModel.setRowCount(0);
         Object[] rowData = new Object[3];
         
-        for(Process p: processList){
+        for(Process_old p: processList){
             rowData[0] = p.getProcessID();
             rowData[1] = p.getReadFromRAM();
             rowData[2] = p.getWriteToRAM();
@@ -116,7 +116,7 @@ public class VMView extends javax.swing.JFrame {
         }
     }
     
-    void updateFrames(Page[] frames) {
+    void updateFrames(Page_old[] frames) {
         if(frames[0] != null) {
             jLabel3.setText("PID: " + frames[0].getProcessID());
             jLabel16.setText("Page NR: " + frames[0].getPageNumber());

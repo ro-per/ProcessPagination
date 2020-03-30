@@ -1,0 +1,16 @@
+package model;
+
+import java.util.List;
+
+public class Ram {
+
+    //Ram has max. 12 frames or 12 pages
+    Page[] frames = new Page[12];
+
+    //In Ram max 4 times same process
+    //Each process has exactly the same amount of frames:
+    // 1 process:   12 frames/process
+    // 2 processes: 6 frames/process
+    // 3 processes: 4 frames/process
+    // 4 processes: 3 frames/process
+}

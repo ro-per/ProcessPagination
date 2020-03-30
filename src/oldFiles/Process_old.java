@@ -2,16 +2,16 @@ package oldFiles;
 
 import java.util.ArrayList;
 
-public class Process {
+public class Process_old {
     private int processID;
     private int lastAccessTime;
     private int readFromRAM;
     private int writeToRAM;
     
-    ArrayList<Page> pageList = new ArrayList<Page>();
+    ArrayList<Page_old> pageList = new ArrayList<Page_old>();
     ArrayList <PageTableEntry> pageTable = new ArrayList<>();
     
-    public Process(int processID) {
+    public Process_old(int processID) {
         this.processID = processID;
         initializePageList();
         initializePageTable();
@@ -21,7 +21,7 @@ public class Process {
     
     private void initializePageList() {
         for(int i=0; i<16;i++) {
-            this.pageList.add(new Page(this.processID, i));
+            this.pageList.add(new Page_old(this.processID, i));
         }
     }
     
@@ -79,7 +79,7 @@ public class Process {
     }
 
     
-    public Page findNonPresentPage() {
+    public Page_old findNonPresentPage() {
         for(int i=0; i<pageTable.size(); i++) {
             if(!pageTable.get(i).getPresentBit()) {
                 return pageList.get(i);
@@ -98,7 +98,7 @@ public class Process {
         return oldestPTE.getFrameNumber();
     }
     
-    public Page getLRUPage() {
+    public Page_old getLRUPage() {
         int index = -1;
         int min = Integer.MAX_VALUE;
         for(int i=0; i<pageTable.size(); i++) {

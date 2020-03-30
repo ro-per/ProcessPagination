@@ -5,8 +5,8 @@ import java.util.List;
 
 
 public class RAM {
-    List<Process> processList = new ArrayList<>();  //max 4 processen
-    Page[] frameArray = new Page[12];
+    List<Process_old> processList = new ArrayList<>();  //max 4 processen
+    Page_old[] frameArray = new Page_old[12];
     //List<Page> pageList = new ArrayList<>();
     private int frameCount;
     
@@ -14,7 +14,7 @@ public class RAM {
         this.frameCount = frameCount;
     }
     
-    public void addProcess(Process process, int timer) {
+    public void addProcess(Process_old process, int timer) {
         if(processList.size() >= 4) {
             int min = Integer.MAX_VALUE;
             int index = -1;
@@ -36,14 +36,14 @@ public class RAM {
     public void reAdjustFrames() {
         if(processList.size() > 0) {
             int framesPerProcess = frameCount/processList.size();
-            for(Process p : processList) {
+            for(Process_old p : processList) {
                 while (p.getNumberOfPresentPages() != framesPerProcess) {
                     int test = p.getNumberOfPresentPages();
                     if(p.getNumberOfPresentPages() > framesPerProcess) {
                         removePage(p.getLRUPage());
                     }
                     else {
-                        Page newPage = p.findNonPresentPage();
+                        Page_old newPage = p.findNonPresentPage();
                         boolean foundNextEmptyFrame = false;
                         int emptyFrameIndex = 0;
                         while(!foundNextEmptyFrame) {
@@ -62,22 +62,22 @@ public class RAM {
         }
     }
     
-    public void swapPage(int frameIndex, Page newPage) {
-        Page oldPage = frameArray[frameIndex];
+    public void swapPage(int frameIndex, Page_old newPage) {
+        Page_old oldPage = frameArray[frameIndex];
         if(oldPage != null) {
-            Process oldPageProcess = findProcessByPage(oldPage);
+            Process_old oldPageProcess = findProcessByPage(oldPage);
             // Modify bit gets set to false if it was true
             oldPageProcess.updatePageTable(oldPage.getPageNumber(), 0, false, false);
             oldPageProcess.increaseWriteToRAM();
         }
-        Process newPageProcess = findProcessByPage(newPage);
+        Process_old newPageProcess = findProcessByPage(newPage);
         newPageProcess.updatePageTable(newPage.getPageNumber(), frameIndex, true, false);
         newPageProcess.increaseReadFromRAM();
         frameArray[frameIndex] = newPage;
     }
     
-    public Process findProcessByPage(Page page) {
-        for(Process p : processList) {
+    public Process_old findProcessByPage(Page_old page) {
+        for(Process_old p : processList) {
             if(p.getProcessID() == page.getProcessID()) {
                 return p;
             }
@@ -90,13 +90,13 @@ public class RAM {
     * the pages from that process from the pageList
     */
     public void removeProcess(int processId) {
-        Process process = new Process(processId);
-        for (Process value : processList) {
+        Process_old process = new Process_old(processId);
+        for (Process_old value : processList) {
             if (value.getProcessID() == processId) {
                 process = value;
             }
         }
-        for (Page page : frameArray) {
+        for (Page_old page : frameArray) {
             if (page.getProcessID() == process.getProcessID()) {
                 removePage(page);
             }
@@ -104,8 +104,8 @@ public class RAM {
         processList.remove(process);
     }
     
-    public void removePage(Page page) {
-        Process process = findProcessByPage(page);
+    public void removePage(Page_old page) {
+        Process_old process = findProcessByPage(page);
         int frameNumber = process.pageTable.get(page.getPageNumber()).getFrameNumber();
         process.updatePageTable(page.getPageNumber(), frameNumber, false, false);
         frameArray[frameNumber] = null;
@@ -143,8 +143,8 @@ public class RAM {
      * @param pid
      * @return process if true else null
      */
-    public Process isProcessInRam(int pid){
-        for(Process p: processList){
+    public Process_old isProcessInRam(int pid){
+        for(Process_old p: processList){
             if(p.getProcessID() == pid) return p;
         }
         return null;
@@ -163,16 +163,16 @@ public class RAM {
      */
     public void write(int pid, int[] pageNrAndOffset, int time){
         //eerst controleren of proces in ram zit 
-        Process proc = isProcessInRam(pid);
+        Process_old proc = isProcessInRam(pid);
         if(proc == null){//als proces zit nog niet in ramin ram
-            proc = new Process(pid);
+            proc = new Process_old(pid);
                 addProcess(proc,time); // in die methode wordt alles gecontroleerd 
         }
         if(proc.hasPageInRam(pageNrAndOffset)){
             setModifybit(1, proc,  pageNrAndOffset);
             setLastAccessTime(time, proc, pageNrAndOffset);
         }else{
-                Page oldPage = proc.getLRUPage();// checkt in de frames
+                Page_old oldPage = proc.getLRUPage();// checkt in de frames
                 int oldPageFrameNumber = proc.pageTable.get(oldPage.getPageNumber()).getFrameNumber();
                 swapPage(oldPageFrameNumber, proc.pageList.get(pageNrAndOffset[0]));
                 proc.updatePageTable(proc.pageList.get(pageNrAndOffset[0]).getPageNumber(), oldPageFrameNumber, true, true);
@@ -185,14 +185,14 @@ public class RAM {
     
     void read(int pid, int[] pageNrAndOffset, int time) {
             //eerst controleren of proces in ram zit 
-        Process proc = isProcessInRam(pid);
+        Process_old proc = isProcessInRam(pid);
         if(proc == null){//als proces zit nog niet in ramin ram
                 addProcess(proc,time); // in die methode wordt alles gecontroleerd 
         }
         if(proc.hasPageInRam(pageNrAndOffset)){
             setLastAccessTime(time, proc, pageNrAndOffset);
         }else{
-                Page oldPage = proc.getLRUPage();//checkt in de frames
+                Page_old oldPage = proc.getLRUPage();//checkt in de frames
                 int oldPageFrameNumber = proc.pageTable.get(oldPage.getPageNumber()).getFrameNumber();
                 swapPage(oldPageFrameNumber, proc.pageList.get(pageNrAndOffset[0]));
                 proc.updatePageTable(proc.pageList.get(pageNrAndOffset[0]).getPageNumber(), oldPageFrameNumber, true, false);
@@ -210,7 +210,7 @@ public class RAM {
     * @param bitValue
     * @param pageNrAndOffset
     */
-    public void setModifybit(int bitValue, Process process, int[] pageNrAndOffset) {
+    public void setModifybit(int bitValue, Process_old process, int[] pageNrAndOffset) {
         int page = pageNrAndOffset[0];
         process.pageTable.get(page).setModifyBit(true);
     }
@@ -219,7 +219,7 @@ public class RAM {
      * @param time
      * @param proc 
      */
-    private void setLastAccessTime(int time, Process proc, int[]pageNrAndOffset) {
+    private void setLastAccessTime(int time, Process_old proc, int[]pageNrAndOffset) {
         int page = pageNrAndOffset[0];
         proc.pageTable.get(page).setLastAccessTime(time);
     }

@@ -4,17 +4,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import model.Model;
+import model.MainModel;
 
-import javax.swing.*;
 import java.util.Observable;
 import java.util.Observer;
 
 public class MainController implements Observer {
 
-    private Model model;
+    private MainModel model;
 
-    public void setModel(Model model) {
+    public void setModel(MainModel model) {
         this.model = model;
     }
 

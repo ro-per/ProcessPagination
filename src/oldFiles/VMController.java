@@ -67,8 +67,8 @@ public class VMController {
     class OneInstructionListener implements ActionListener{
         public void actionPerformed(ActionEvent e) {
             try{
-                Instruction executedInstruction = model.performOneInstruction();
-                Instruction currentInstruction = model.getCurrentInstruction();
+                Instruction_old executedInstruction = model.performOneInstruction();
+                Instruction_old currentInstruction = model.getCurrentInstruction();
                 view.update(currentInstruction, executedInstruction);
                 view.updatePageTable(model.getCurrentProcess().pageTable);
                 view.updateFrames(model.getFrames());
@@ -98,11 +98,11 @@ public class VMController {
         public void actionPerformed(ActionEvent e) {
             try{
                 model.cancel();
-                Instruction executedInstruction = null;
+                Instruction_old executedInstruction = null;
                 for(int i=0; i<model.instructionList.size(); i++) {
                     executedInstruction = model.performOneInstruction();
                 }
-                Instruction currentInstruction = model.getCurrentInstruction();
+                Instruction_old currentInstruction = model.getCurrentInstruction();
                 view.update(currentInstruction, executedInstruction);
                 view.updatePageTable(model.getCurrentProcess().pageTable);
                 view.updateProcessTable(model.getAllProcesses());

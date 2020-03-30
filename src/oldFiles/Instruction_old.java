@@ -1,11 +1,11 @@
 package oldFiles;
 
-public class Instruction {
+public class Instruction_old {
     private int processID;
     private String operation;
     private int address;
 
-    public Instruction(int processID, String operation, int address) {
+    public Instruction_old(int processID, String operation, int address) {
         this.processID = processID;
         this.operation = operation;
         this.address = address;

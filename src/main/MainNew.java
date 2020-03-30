@@ -6,22 +6,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.Model;
+import model.MainModel;
 
 import java.io.IOException;
 
 public class MainNew extends Application {
 
     private Stage primaryStage;
-    private Model model;
+    private MainModel mainModel;
     private String title;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        model = new Model();
+        mainModel = new MainModel();
         this.primaryStage = primaryStage;
         showMain();
-        model.refresh();
+        mainModel.refresh();
         this.title = "PAGINATION EMULATOR";
     }
 
@@ -38,8 +38,8 @@ public class MainNew extends Application {
         primaryStage.resizableProperty().set(false);
         primaryStage.show();
 
-        controller.setModel(model);
-        model.addObserver(controller);
+        controller.setModel(mainModel);
+        mainModel.addObserver(controller);
 
     }
 }
