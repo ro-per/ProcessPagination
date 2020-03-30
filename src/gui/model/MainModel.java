@@ -15,7 +15,6 @@ public class MainModel extends Observable {
     public MainModel(Long clock) {
         super();
         this.clock = clock;
-
     }
 
     //************************** METHODS **************************
@@ -27,14 +26,11 @@ public class MainModel extends Observable {
     //************************** CLOCK COUNTERS **************************
     public void countClockUp() {
         this.clock++;
-
-
         refresh();
     }
 
     public void countClockDown() {
         this.clock--;
-
         refresh();
     }
 

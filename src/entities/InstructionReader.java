@@ -15,6 +15,10 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Document reader
+ * From XML file to list of instructions
+ */
 public class InstructionReader {
 
     public static final String INSTR_30_4 = "30_3";
@@ -41,8 +45,7 @@ public class InstructionReader {
                 Element element = (Element) node;
                 instruction.setProcessID(Integer.parseInt(element.getElementsByTagName("processID").item(0).getTextContent()));
                 instruction.setOperation(element.getElementsByTagName("operation").item(0).getTextContent());
-                instruction.setVirtualAdress(Integer.parseInt(element.getElementsByTagName("adress").item(0).getTextContent()));
-
+                instruction.setVirtualAdress(Integer.parseInt(element.getElementsByTagName("address").item(0).getTextContent()));
                 instructions.add(instruction);
             }
         }
