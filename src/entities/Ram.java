@@ -1,6 +1,4 @@
-package model;
-
-import java.util.List;
+package entities;
 
 public class Ram {
 

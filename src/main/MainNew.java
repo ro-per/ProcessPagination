@@ -1,12 +1,12 @@
 package main;
 
-import controller.MainController;
+import gui.controller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.MainModel;
+import gui.model.MainModel;
 
 import java.io.IOException;
 
@@ -28,7 +28,7 @@ public class MainNew extends Application {
 
     private void showMain() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/view/MainView.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/gui/view/MainView.fxml"));
         Parent root = fxmlLoader.load();
         MainController controller = fxmlLoader.getController();
 

@@ -1,14 +1,18 @@
-package model;
+package entities;
 
 public class Instruction {
+
     private int processID;
-    private Operation operation;
+    private String operation;
     private int virtualAdress;
 
-    public Instruction(int processID,Operation operation, int virtualAdress){
+    public Instruction(int processID,String operation, int virtualAdress){
         this.processID = processID;
         this.operation = operation;
         this.virtualAdress = virtualAdress;
+    }
+
+    public Instruction() {
     }
 
     public int getProcessID() {
@@ -19,11 +23,11 @@ public class Instruction {
         this.processID = processID;
     }
 
-    public Operation getOperation() {
+    public String getOperation() {
         return operation;
     }
 
-    public void setOperation(Operation operation) {
+    public void setOperation(String operation) {
         this.operation = operation;
     }
 

@@ -1,7 +1,6 @@
-package model;
+package entities;
 
 public class Page {
-
     private int processID;
     private int frameNumber;
 

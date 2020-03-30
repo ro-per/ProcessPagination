@@ -1,10 +1,10 @@
-package controller;
+package gui.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import model.MainModel;
+import gui.model.MainModel;
 
 import java.util.Observable;
 import java.util.Observer;

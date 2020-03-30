@@ -1,16 +1,25 @@
-package model;
+package entities;
 
 public class Entry {
     private boolean isModified;
     private boolean isPersistent;
     private int lastAccessTime;
     private int frameNumber;
+    private final Page page;
 
     public Entry(){
         isModified = false;
         isPersistent = false;
-        lastAccessTime = 0;
+        lastAccessTime = -1;
         frameNumber = 0;
+        this.page =null;
+    }
+
+    public Entry(Page page){
+        isModified = false;
+        isPersistent = false;
+        lastAccessTime = -1;
+        this.page = page;
     }
 
     public boolean isModified() {
