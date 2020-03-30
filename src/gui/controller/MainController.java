@@ -29,8 +29,6 @@ public class MainController implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         clockField.setText(String.valueOf(model.getClock()));
-
-
     }
     //************************** MENU-FILE **************************
 
@@ -57,7 +55,7 @@ public class MainController implements Observer {
     //************************** MENU-RESET **************************
     @FXML
     public void reset(ActionEvent event) {
-        model.setClock(Long.valueOf(0));
+        model.setClock(-1);
     }
 
     //************************** ABOUT **************************

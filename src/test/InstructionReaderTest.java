@@ -7,7 +7,6 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -24,6 +23,6 @@ public class InstructionReaderTest {
         Instruction instruction = list.get(0);
         assertEquals(instruction.getProcessID(),processID);
         assertEquals(instruction.getOperation(),operation);
-        assertEquals(instruction.getVirtualAdress(),virtualAddress);
+        assertEquals(instruction.getVirtualAddress(),virtualAddress);
     }
 }

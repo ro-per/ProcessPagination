@@ -4,7 +4,6 @@ public class Page {
     private int processID;
     private int frameNumber;
 
-
     public Page(int processID, int frameNumber) {
         this.processID = processID;
         this.frameNumber = frameNumber;
