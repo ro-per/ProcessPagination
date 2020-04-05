@@ -2,11 +2,11 @@ package entities;
 
 public class Page {
     private int processID;
-    private int frameNumber;
+    private int pageNumber;
 
-    public Page(int processID, int frameNumber) {
+    public Page(int processID, int pageNumber) {
         this.processID = processID;
-        this.frameNumber = frameNumber;
+        this.pageNumber = pageNumber;
     }
 
     public int getProcessID() {
@@ -17,11 +17,20 @@ public class Page {
         this.processID = processID;
     }
 
-    public int getFrameNumber() {
-        return frameNumber;
+    public int getPageNumber() {
+        return pageNumber;
     }
 
-    public void setFrameNumber(int frameNumber) {
-        this.frameNumber = frameNumber;
+    public void setPageNumber(int pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "\n Page{" +
+                "processID=" + processID +
+                ", pageNumber=" + pageNumber +
+                '}';
     }
 }
+

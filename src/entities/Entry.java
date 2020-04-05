@@ -2,22 +2,22 @@ package entities;
 
 public class Entry {
     private boolean isModified;
-    private boolean isPersistent;
+    private boolean isPresent;
     private int lastAccessTime;
     private int frameNumber;
     private final Page page;
 
-    public Entry(){
+    public Entry() {
         isModified = false;
-        isPersistent = false;
+        isPresent = false;
         lastAccessTime = -1;
         frameNumber = 0;
-        this.page =null;
+        page = null;
     }
 
-    public Entry(Page page){
+    public Entry(Page page) {
         isModified = false;
-        isPersistent = false;
+        isPresent = false;
         lastAccessTime = -1;
         this.page = page;
     }
@@ -30,12 +30,12 @@ public class Entry {
         isModified = modified;
     }
 
-    public boolean isPersistent() {
-        return isPersistent;
+    public boolean isPresent() {
+        return isPresent;
     }
 
-    public void setPersistent(boolean persistent) {
-        isPersistent = persistent;
+    public void setPresent(boolean present) {
+        isPresent = present;
     }
 
     public int getLastAccessTime() {
@@ -52,5 +52,20 @@ public class Entry {
 
     public void setFrameNumber(int frameNumber) {
         this.frameNumber = frameNumber;
+    }
+
+    public Page getPage() {
+        return page;
+    }
+
+    @Override
+    public String toString() {
+        return "\n Entry{" +
+                "isModified=" + isModified +
+                ", isPresent=" + isPresent +
+                ", lastAccessTime=" + lastAccessTime +
+                ", frameNumber=" + frameNumber +
+                ", page=" + page +
+                '}';
     }
 }

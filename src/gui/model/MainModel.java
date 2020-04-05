@@ -24,7 +24,7 @@ public class MainModel extends Observable {
 
     //************************** CONSTRUCTORS **************************
     public MainModel() throws ParserConfigurationException, SAXException, IOException {
-        ram = new Ram(12);
+        ram = new Ram();
         instructionReader = new InstructionReader();
         filename = InstructionReader.INSTR_30_4;
         init();

@@ -6,7 +6,7 @@ public class Instruction {
     private String operation;
     private int virtualAddress;
 
-    public Instruction(int processID,String operation, int virtualAdress){
+    public Instruction(int processID, String operation, int virtualAdress) {
         this.processID = processID;
         this.operation = operation;
         this.virtualAddress = virtualAdress;
@@ -15,27 +15,27 @@ public class Instruction {
     public Instruction() {
     }
 
-    private String convertToBinary(int adress){
-        String binaryAdress = Integer.toBinaryString(adress);
-        int zeroes = 16 - binaryAdress.length();
+    private String convertToBinary(int address) {
+        String binaryAddress = Integer.toBinaryString(address);
+        int zeroes = 16 - binaryAddress.length();
         StringBuilder binaryBuilder = new StringBuilder();
-        for(int i=0; i < zeroes; i++){
+        for (int i = 0; i < zeroes; i++) {
             binaryBuilder.append("0");
         }
-        binaryBuilder.append(binaryAdress);
+        binaryBuilder.append(binaryAddress);
         return binaryBuilder.toString();
     }
 
-    public int getOffset(){
+    public int getOffset() {
         String binary = convertToBinary(virtualAddress);
-        String binaryOffset = binary.substring(binary.length()-12);
-        return Integer.parseInt(binaryOffset,2);
+        String binaryOffset = binary.substring(binary.length() - 12);
+        return Integer.parseInt(binaryOffset, 2);
     }
 
-    public int getPageNumber(){
+    public int getPageNumber() {
         String binary = convertToBinary(virtualAddress);
-        String binaryPageNumber = binary.substring(0, binary.length()-12);
-        return Integer.parseInt(binaryPageNumber,2);
+        String binaryPageNumber = binary.substring(0, binary.length() - 12);
+        return Integer.parseInt(binaryPageNumber, 2);
     }
 
 
@@ -61,5 +61,14 @@ public class Instruction {
 
     public void setVirtualAddress(int virtualAddress) {
         this.virtualAddress = virtualAddress;
+    }
+
+    @Override
+    public String toString() {
+        return "Instruction{" +
+                "processID=" + processID +
+                ", operation='" + operation + '\'' +
+                ", virtualAddress=" + virtualAddress +
+                '}';
     }
 }
