@@ -56,6 +56,11 @@ public class Ram {
         }
     }
 
+    public void removeProcess(int processID){
+        Process process = getProcess(processID);
+        removeProcess(process);
+    }
+
 
     public void removePage(Process process) {
         Page page = process.getLruPage();
@@ -91,8 +96,56 @@ public class Ram {
         }
     }
 
-    public void swapPage() {
-        //TODO
+
+    public void write(int processID, int pageNumber, int time) {
+        Process currentProcess = getProcess(processID);
+        if (currentProcess == null) {
+            currentProcess = new Process(processID);
+            addProcess(currentProcess);
+        }
+        if (currentProcess.isPageInRam(pageNumber)) {
+            currentProcess.setModified(pageNumber, true);
+        } else {
+            Page page = currentProcess.getLruPage();
+            int currentFrameNumber = currentProcess.getFrameNumber(page.getPageNumber());
+            swapPage(currentFrameNumber, pageNumber, processID);
+        }
+        currentProcess.setLastAccesTime(pageNumber, time);
+        currentProcess.setLastAccessTime(time);
+    }
+
+    public void read(int processID, int pageNumber, int time) {
+        Process currentProcess = getProcess(processID);
+        if (currentProcess == null) {
+            addProcess(currentProcess);
+        }
+        if (!currentProcess.isPageInRam(pageNumber)) {
+            Page page = currentProcess.getLruPage();
+            int currentFrameNumber = currentProcess.getFrameNumber(page.getPageNumber());
+            swapPage(currentFrameNumber, pageNumber, processID);
+            currentProcess.updatePageTable(currentProcess.getPageNumber(pageNumber), currentFrameNumber, true, false);
+        }
+        currentProcess.setLastAccesTime(pageNumber, time);
+        currentProcess.setLastAccessTime(time);
+    }
+
+    public Process getProcess(int processID) {
+        for (Process process : processes) {
+            if (process.getProcessID() == processID) {
+                return process;
+            }
+        }
+        return null;
+    }
+
+    public void swapPage(int currentFrameNumber, int newPageNumber, int processID) {
+        Page currentPage = frames[currentFrameNumber];
+        Process currentProcess = getProcess(processID);
+        if (currentPage != null) {
+            currentProcess.updatePageTable(currentPage.getPageNumber(), 0, false, false);
+        }
+        currentProcess.updatePageTable(newPageNumber, currentFrameNumber, true, false);
+        frames[currentFrameNumber] = currentProcess.getPage(newPageNumber);
     }
 
     @Override

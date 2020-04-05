@@ -43,10 +43,13 @@ public class Test {
             switch (operation){
                 case "Read":
                     System.out.println("Reading process " + currentInstruction.getProcessID() + " with virtual address "+ currentInstruction.getVirtualAddress());
+                    ram.read(currentInstruction.getProcessID(),currentInstruction.getPageNumber(),timer);
+                    System.out.println("Readed "+ ram.toString());
                     break;
                 case "Write":
-
                     System.out.println("Writing to process " + currentInstruction.getProcessID() + " with virtual address "+ currentInstruction.getVirtualAddress());
+                    ram.write(currentInstruction.getProcessID(),currentInstruction.getPageNumber(),timer);
+                    System.out.println("Writed " + ram.toString());
                     break;
                 case "Start":
                     System.out.println("Starting process " + currentInstruction.getProcessID());
@@ -57,7 +60,7 @@ public class Test {
                     break;
                 case "Terminate":
                     System.out.println("Terminating process " + currentInstruction.getProcessID());
-                    ram.removeProcess(currentProcess);
+                    ram.removeProcess(currentInstruction.getProcessID());
                     ram.adjustFrames();
                     System.out.println("Terminated:" + ram.toString());
                     break;

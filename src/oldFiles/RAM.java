@@ -166,7 +166,7 @@ public class RAM {
         Process_old proc = isProcessInRam(pid);
         if(proc == null){//als proces zit nog niet in ramin ram
             proc = new Process_old(pid);
-                addProcess(proc,time); // in die methode wordt alles gecontroleerd 
+            addProcess(proc,time); // in die methode wordt alles gecontroleerd
         }
         if(proc.hasPageInRam(pageNrAndOffset)){
             setModifybit(1, proc,  pageNrAndOffset);
@@ -200,11 +200,6 @@ public class RAM {
         }
         proc.setLastAccessTime(time);
     }
-    
-    
-    
-    
-    
     /**
     * 
     * @param bitValue

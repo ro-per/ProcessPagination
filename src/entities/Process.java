@@ -54,6 +54,14 @@ public class Process {
         return pageTable.get(pageNumber).getFrameNumber();
     }
 
+    public Page getPage(int pageNumber){
+        return pageTable.get(pageNumber).getPage();
+    }
+
+    public int getPageNumber(int pageNumber){
+        return pageTable.get(pageNumber).getPage().getPageNumber();
+    }
+
     public Page getLruPage() {
         int min = Integer.MAX_VALUE;
         Page LruPage = null;
@@ -64,6 +72,18 @@ public class Process {
             }
         }
         return LruPage;
+    }
+
+    public boolean isPageInRam(int pageNumber){
+        return pageTable.get(pageNumber).isPresent();
+    }
+
+    public void setModified(int pageNumber, boolean modified){
+        pageTable.get(pageNumber).setModified(modified);
+    }
+
+    public void setLastAccesTime(int pageNumber, int time){
+        pageTable.get(pageNumber).setLastAccessTime(time);
     }
 
     public int getLastAccessTime() {
