@@ -6,13 +6,10 @@ public class Instruction {
     private String operation;
     private int virtualAddress;
 
-    public Instruction(int processID, String operation, int virtualAdress) {
-        this.processID = processID;
-        this.operation = operation;
-        this.virtualAddress = virtualAdress;
-    }
-
     public Instruction() {
+        processID = 0;
+        operation = null;
+        virtualAddress = 0;
     }
 
     private String convertToBinary(int address) {

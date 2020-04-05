@@ -64,14 +64,14 @@ public class Process {
 
     public Page getLruPage() {
         int min = Integer.MAX_VALUE;
-        Page LruPage = null;
+        Page lruPage = null;
         for (Entry entry : pageTable) {
             if (entry.isPresent() && entry.getLastAccessTime() < min) {
                 min = entry.getLastAccessTime();
-                LruPage = entry.getPage();
+                lruPage = entry.getPage();
             }
         }
-        return LruPage;
+        return lruPage;
     }
 
     public boolean isPageInRam(int pageNumber){

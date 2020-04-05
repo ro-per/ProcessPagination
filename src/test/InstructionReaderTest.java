@@ -18,7 +18,7 @@ public class InstructionReaderTest {
         int processID = 0;
         int virtualAddress=0;
         String operation = "Start";
-        InstructionReader instructionReader = new InstructionReader();
+        InstructionReader instructionReader = InstructionReader.getInstance();
         List<Instruction> list = instructionReader.readInstructions(InstructionReader.INSTR_30_4);
         Instruction instruction = list.get(0);
         assertEquals(instruction.getProcessID(),processID);

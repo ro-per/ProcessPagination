@@ -24,8 +24,13 @@ public class InstructionReader {
     public static final String INSTR_30_4 = "30_3";
     public static final String INSTR_20000_4 = "20000_4";
     public static final String INSTR_20000_20 = "20000_20";
+    private static InstructionReader instructionReader = new InstructionReader();
 
-    public InstructionReader() {
+    private InstructionReader() {
+    }
+
+    public static InstructionReader getInstance() {
+        return instructionReader;
     }
 
     public List<Instruction> readInstructions(String amount) throws ParserConfigurationException, IOException, SAXException {

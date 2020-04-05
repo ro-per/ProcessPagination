@@ -7,9 +7,9 @@ import java.util.List;
 public class Ram {
 
     //Ram has max. 12 frames or 12 pages
-    Page[] frames = new Page[12];
+    private Page[] frames = new Page[12];
     //Present Processes
-    List<Process> processes;
+    private List<Process> processes;
 
     private int framesPerProcess;
     private int processCounter;
@@ -49,24 +49,23 @@ public class Ram {
         if (process != null) {
             for (Page frame : frames) {
                 if (frame.getProcessID() == process.getProcessID()) {
-                    removePage(process);
+                    removePage(frame);
                 }
             }
             processes.remove(process);
         }
     }
 
-    public void removeProcess(int processID){
+    public void removeProcess(int processID) {
         Process process = getProcess(processID);
         removeProcess(process);
     }
 
 
-    public void removePage(Process process) {
-        Page page = process.getLruPage();
-        int pageNumber = page.getPageNumber();
-        int frameNumber = process.getFrameNumber(pageNumber);
-        process.updatePageTable(pageNumber, frameNumber, false, false);
+    public void removePage(Page page) {
+        Process process = getProcess(page.getProcessID());
+        int frameNumber = process.getFrameNumber(page.getPageNumber());
+        process.updatePageTable(page.getPageNumber(), frameNumber, false, false);
         frames[frameNumber] = null;
     }
 
@@ -76,7 +75,7 @@ public class Ram {
             for (Process process : processes) {
                 while (process.getAmountOfPresentPages() != framesPerProcess) {
                     if (process.getAmountOfPresentPages() > framesPerProcess) {
-                        removePage(process);
+                        removePage(process.getLruPage());
                     } else {
                         int index = 0;
                         Page page = process.getNonPresentPage();
@@ -117,6 +116,7 @@ public class Ram {
     public void read(int processID, int pageNumber, int time) {
         Process currentProcess = getProcess(processID);
         if (currentProcess == null) {
+            currentProcess = new Process(processID);
             addProcess(currentProcess);
         }
         if (!currentProcess.isPageInRam(pageNumber)) {
@@ -128,6 +128,7 @@ public class Ram {
         currentProcess.setLastAccesTime(pageNumber, time);
         currentProcess.setLastAccessTime(time);
     }
+
 
     public Process getProcess(int processID) {
         for (Process process : processes) {

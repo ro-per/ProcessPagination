@@ -8,20 +8,13 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Test {
 
     private static Ram ram;
-    private static InstructionReader instructionReader;
-    private static String filename;
     private static List<Instruction> instructionList;
     private static int timer;
-    private static Instruction currentInstruction;
-    private static Process currentProcess;
-
 
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
         init();
@@ -30,15 +23,15 @@ public class Test {
 
     public static void init() throws IOException, SAXException, ParserConfigurationException {
          ram = new Ram();
-         instructionReader = new InstructionReader();
-         filename = InstructionReader.INSTR_30_4;
+         InstructionReader instructionReader = InstructionReader.getInstance();
+         String filename = InstructionReader.INSTR_30_4;
          instructionList = instructionReader.readInstructions(filename);
          timer = 0;
     }
 
     public static void run(){
         while (timer < instructionList.size()){
-            currentInstruction = instructionList.get(timer);
+            Instruction currentInstruction = instructionList.get(timer);
             String operation = currentInstruction.getOperation();
             switch (operation){
                 case "Read":
@@ -53,7 +46,7 @@ public class Test {
                     break;
                 case "Start":
                     System.out.println("Starting process " + currentInstruction.getProcessID());
-                    currentProcess = new Process(currentInstruction.getProcessID());
+                    Process currentProcess = new Process(currentInstruction.getProcessID());
                     ram.addProcess(currentProcess);
                     ram.adjustFrames();
                     System.out.println("Started: " + ram.toString());
