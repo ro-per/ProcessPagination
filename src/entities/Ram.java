@@ -26,8 +26,8 @@ public class Ram {
     public Ram() {
         processCounter = 0;
         processes = new ArrayList<>();
-        totalReads =0;
-        totalWrites=0;
+        totalReads = 0;
+        totalWrites = 0;
     }
 
     public void addProcess(Process process) {
@@ -83,22 +83,26 @@ public class Ram {
                     } else {
                         int index = 0;
                         Page page = process.getNonPresentPage();
-                        boolean isEmptyFrame = false;
-                        while (!isEmptyFrame) {
-                            if (frames[index] == null) {
-                                isEmptyFrame = true;
-                            } else {
-                                index++;
-                            }
-                        }
-                        frames[index] = page;
-                        process.updatePageTable(page.getPageNumber(), index, true, false);
+                        updateFrames(process.getProcessID(), page, index);
                     }
                 }
             }
         }
     }
 
+    public void updateFrames(int processID, Page page, int index) {
+        Process process = getProcess(processID);
+        boolean isEmptyFrame = false;
+        while (!isEmptyFrame) {
+            if (frames[index] == null) {
+                isEmptyFrame = true;
+            } else {
+                index++;
+            }
+        }
+        frames[index] = page;
+        process.updatePageTable(page.getPageNumber(), index, true, false);
+    }
 
     public void write(int processID, int pageNumber, int time) {
         Process currentProcess = getProcess(processID);
