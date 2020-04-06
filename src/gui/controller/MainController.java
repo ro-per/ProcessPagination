@@ -30,55 +30,13 @@ public class MainController implements Observer {
     public void update(Observable o, Object arg) {
         clockField.setText(String.valueOf(model.getClock()));
     }
-    //************************** MENU-FILE **************************
 
-    @FXML
-    public void openFileChooser(ActionEvent event) {
 
-    }
 
-    @FXML
-    public void save(ActionEvent event) {
 
-    }
+    //************************** Frames **************************
 
-    @FXML
-    public void saveAs(ActionEvent event) {
 
-    }
 
-    @FXML
-    public void quitApplication(ActionEvent event) {
 
-    }
-
-    //************************** MENU-RESET **************************
-    @FXML
-    public void reset(ActionEvent event) {
-        model.setClock(-1);
-    }
-
-    //************************** ABOUT **************************
-    @FXML
-    public void openGithub(ActionEvent event) {
-
-    }
-
-    //************************** MASTER-BUTTONS **************************
-    @FXML
-    public void previous(ActionEvent event) {
-        model.countClockDown();
-
-    }
-
-    @FXML
-    public void pause(ActionEvent event) {
-
-    }
-
-    @FXML
-    public void next(ActionEvent event) {
-        model.countClockUp();
-
-    }
 }
