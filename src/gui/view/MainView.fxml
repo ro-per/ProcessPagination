@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.MainController">
-    <VBox maxHeight="0.0" maxWidth="0.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="500.0" prefWidth="1600.0" stylesheets="@general.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.MainController">
+    <VBox maxHeight="0.0" maxWidth="0.0" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
         <children>
             <MenuBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
                 <menus>
@@ -29,113 +39,838 @@
                     </Menu>
                 </menus>
             </MenuBar>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="584.0" prefWidth="1000.0" VBox.vgrow="ALWAYS">
+            <AnchorPane minHeight="0.0" minWidth="0.0" VBox.vgrow="ALWAYS">
                 <children>
-                    <SplitPane dividerPositions="0.2505567928730512, 0.5" focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="524.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                        <items>
-                            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="250.0" prefWidth="250.0">
+                    <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <children>
+                            <AnchorPane fx:id="anchor_left" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="300.0">
                                 <children>
-                                    <Label fx:id="clockField" alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" prefHeight="20.0" prefWidth="-1.0" style="&#10;" text="Clock" textAlignment="CENTER" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <Label fx:id="clockField" alignment="CENTER" minWidth="60.0" prefHeight="20.0" prefWidth="-1.0" style="&#10;" text="Clock" textAlignment="CENTER" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                         <font>
                                             <Font size="18.0" fx:id="x1" />
                                         </font>
                                         <textFill>
-                                            <Color red="0.624" green="0.624" blue="0.624" fx:id="x2" />
+                                            <Color blue="0.624" green="0.624" red="0.624" fx:id="x2" />
                                         </textFill>
                                     </Label>
-                                    <Label layoutX="34.0" layoutY="36.0" text="Label" />
-                                    <AnchorPane layoutX="12.0" layoutY="36.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="225.0" AnchorPane.topAnchor="20.0">
+                                    <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                                         <children>
-                                            <Button layoutY="15.0" mnemonicParsing="false" onAction="#previous" prefHeight="25.0" prefWidth="75.0" text="&lt; prev." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" />
-                                            <Button layoutX="76.0" layoutY="15.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="I I" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="15.0" />
-                                            <Button layoutX="152.0" layoutY="15.0" mnemonicParsing="false" onAction="#next" prefHeight="25.0" prefWidth="75.0" text="next &gt;" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="0.0" />
+                                            <RadioButton fx:id="set_20_3" mnemonicParsing="false" text="20_3">
+                                    <HBox.margin>
+                                       <Insets left="5.0" right="5.0" />
+                                    </HBox.margin></RadioButton>
+                                            <RadioButton fx:id="set_20k_4" mnemonicParsing="false" text="20k_4">
+                                    <HBox.margin>
+                                       <Insets left="5.0" right="5.0" />
+                                    </HBox.margin></RadioButton>
+                                            <RadioButton fx:id="set_20k_20" mnemonicParsing="false" text="20k_20">
+                                    <HBox.margin>
+                                       <Insets left="5.0" right="5.0" />
+                                    </HBox.margin></RadioButton>
                                         </children>
-                                    </AnchorPane>
-                                    <VBox layoutX="75.0" layoutY="176.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+                                    </HBox>
+                                    <HBox alignment="CENTER" layoutY="50.0" prefHeight="50.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
                                         <children>
-                                            <AnchorPane prefHeight="250.0" style="-fx-background-color: gray;">
+                                            <Button fx:id="button_run" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" text="Run" HBox.hgrow="ALWAYS">
+                                                <padding>
+                                                    <Insets left="5.0" right="5.0" />
+                                                </padding>
+                                                <HBox.margin>
+                                                    <Insets left="5.0" right="5.0" />
+                                                </HBox.margin>
+                                            </Button>
+                                            <Button fx:id="button_next" mnemonicParsing="false" onAction="#next" prefHeight="25.0" text="next &gt;" HBox.hgrow="ALWAYS">
+                                                <padding>
+                                                    <Insets left="5.0" right="5.0" />
+                                                </padding>
+                                                <HBox.margin>
+                                                    <Insets left="5.0" right="5.0" />
+                                                </HBox.margin>
+                                            </Button>
+                                        </children>
+                                    </HBox>
+                                    <VBox fx:id="cards" layoutX="75.0" layoutY="176.0" stylesheets="@card.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="130.0">
+                                        <children>
+                                            <AnchorPane fx:id="cur_card" styleClass="card" stylesheets="@card.css">
                                                 <children>
-                                                    <Label alignment="CENTER" prefHeight="20.0" style="&#10;" text="Current Instruction" textAlignment="CENTER" textFill="WHITE" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                    <Label fx:id="cur_title" alignment="CENTER" prefHeight="20.0" style="&#10;" styleClass="Label" text="Current Instruction" textAlignment="CENTER" textFill="WHITE" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                                         <font>
                                                             <Font size="18.0" fx:id="x221" />
                                                         </font>
                                                     </Label>
+                                                    <VBox fx:id="cur_vbox" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                                        <children>
+                                                            <HBox fx:id="cur_pid" alignment="CENTER_LEFT">
+                                                                <children>
+                                                                    <Label fx:id="cur_pid_label" minWidth="100.0" styleClass="Label" text="pID: " />
+                                                   <AnchorPane fx:id="cur_pid_valuePane" styleClass="pID">
+                                                      <children>
+                                                                          <Label fx:id="cur_pid_value" text="000" />
+                                                      </children>
+                                                   </AnchorPane>
+                                                                </children>
+                                                <VBox.margin>
+                                                   <Insets bottom="2.0" top="2.0" />
+                                                </VBox.margin>
+                                                            </HBox>
+                                                            <HBox fx:id="vAddr" alignment="CENTER_LEFT">
+                                                                <children>
+                                                                    <Label fx:id="cur_va_label" minWidth="100.0" styleClass="Label" text="Virtual Address" />
+                                                   <AnchorPane fx:id="vAddr" styleClass="vAddr">
+                                                      <children>
+                                                                          <Label fx:id="cur_va_value" text="00000" />
+                                                      </children>
+                                                   </AnchorPane>
+                                                                </children>
+                                                <VBox.margin>
+                                                   <Insets bottom="2.0" top="2.0" />
+                                                </VBox.margin>
+                                                            </HBox>
+                                                            <HBox fx:id="op" alignment="CENTER_LEFT">
+                                                                <children>
+                                                                    <Label fx:id="cur_op_label" styleClass="Label" text="operation: " />
+                                                   <AnchorPane fx:id="cur_op_start" styleClass="op">
+                                                      <children>
+                                                                          <Label fx:id="cur_op_START" alignment="CENTER" contentDisplay="CENTER" text="START" textAlignment="CENTER" wrapText="true">
+                                                                              <padding>
+                                                                                  <Insets left="5.0" right="5.0" />
+                                                                              </padding>
+                                                                          </Label>
+                                                      </children>
+                                                      <HBox.margin>
+                                                         <Insets left="5.0" />
+                                                      </HBox.margin>
+                                                   </AnchorPane>
+                                                   <AnchorPane fx:id="cur_op_read" styleClass="op">
+                                                      <children>
+                                                                          <Label fx:id="cur_op_READ" alignment="CENTER" contentDisplay="CENTER" text="READ" textAlignment="CENTER" wrapText="true">
+                                                                              <padding>
+                                                                                  <Insets left="5.0" right="5.0" />
+                                                                              </padding>
+                                                                          </Label>
+                                                      </children>
+                                                      <HBox.margin>
+                                                         <Insets left="5.0" right="5.0" />
+                                                      </HBox.margin>
+                                                   </AnchorPane>
+                                                   <AnchorPane fx:id="cur_op_write" styleClass="op">
+                                                      <children>
+                                                                          <Label fx:id="cur_op_WRITE" alignment="CENTER" contentDisplay="CENTER" text="WRITE" wrapText="true">
+                                                                              <padding>
+                                                                                  <Insets left="5.0" right="5.0" />
+                                                                              </padding>
+                                                                          </Label>
+                                                      </children>
+                                                      <HBox.margin>
+                                                         <Insets left="5.0" right="5.0" />
+                                                      </HBox.margin>
+                                                   </AnchorPane>
+                                                   <AnchorPane fx:id="cur_op_terminate" styleClass="op">
+                                                      <children>
+                                                                          <Label fx:id="cur_op_TERMINATE" alignment="CENTER" contentDisplay="CENTER" text="TERMINATE" wrapText="true">
+                                                                              <padding>
+                                                                                  <Insets left="5.0" right="5.0" />
+                                                                              </padding>
+                                                                          </Label>
+                                                      </children>
+                                                      <HBox.margin>
+                                                         <Insets right="5.0" />
+                                                      </HBox.margin>
+                                                   </AnchorPane>
+                                                                </children>
+                                                <VBox.margin>
+                                                   <Insets bottom="2.0" top="2.0" />
+                                                </VBox.margin>
+                                                            </HBox>
+                                                        </children>
+                                                    </VBox>
                                                 </children>
+                                    <VBox.margin>
+                                       <Insets />
+                                    </VBox.margin>
                                             </AnchorPane>
-                                            <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="250.0" style="-fx-background-color: gray;">
+                                 <AnchorPane fx:id="prev_card" styleClass="card" stylesheets="@card.css">
+                                    <children>
+                                       <Label fx:id="prev_title" alignment="CENTER" prefHeight="20.0" style="&#10;" styleClass="Label" text="Previous Instruction" textAlignment="CENTER" textFill="WHITE" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                          <font>
+                                             <Font size="18.0" fx:id="x2211" />
+                                          </font>
+                                       </Label>
+                                       <VBox fx:id="prev_vbox" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                          <children>
+                                             <HBox fx:id="prev_pid" alignment="CENTER_LEFT">
                                                 <children>
-                                                    <Label alignment="CENTER" prefHeight="20.0" style="&#10;" text="Previous Instruction" textAlignment="CENTER" textFill="WHITE" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                        <font>
-                                                            <Font size="18.0" fx:id="x2211" />
-                                                        </font>
-                                                    </Label>
+                                                   <Label fx:id="prev_pid_label" minWidth="100.0" styleClass="Label" text="pID: " />
+                                                   <AnchorPane fx:id="prev_pid_pane" styleClass="pID">
+                                                      <children>
+                                                         <Label fx:id="prev_pid_value" text="000" />
+                                                      </children>
+                                                   </AnchorPane>
                                                 </children>
-                                            </AnchorPane>
+                                                <VBox.margin>
+                                                   <Insets bottom="2.0" top="2.0" />
+                                                </VBox.margin>
+                                             </HBox>
+                                             <HBox fx:id="prev_vAddr" alignment="CENTER_LEFT">
+                                                <children>
+                                                   <Label fx:id="cur_va_label1" minWidth="100.0" styleClass="Label" text="Virtual Address" />
+                                                   <AnchorPane fx:id="prev_vAddr1_pane" styleClass="vAddr">
+                                                      <children>
+                                                         <Label fx:id="prev_vAddr_value" text="00000" />
+                                                      </children>
+                                                   </AnchorPane>
+                                                </children>
+                                                <VBox.margin>
+                                                   <Insets bottom="2.0" top="2.0" />
+                                                </VBox.margin>
+                                             </HBox>
+                                             <HBox fx:id="prev_op" alignment="CENTER_LEFT">
+                                                <children>
+                                                   <Label fx:id="prev_op_label" styleClass="Label" text="Operation: " />
+                                                   <AnchorPane fx:id="prev_op_start_pane" styleClass="op">
+                                                      <children>
+                                                         <Label fx:id="prev_op_start_value" alignment="CENTER" contentDisplay="CENTER" text="START" textAlignment="CENTER" wrapText="true">
+                                                            <padding>
+                                                               <Insets left="5.0" right="5.0" />
+                                                            </padding>
+                                                         </Label>
+                                                      </children>
+                                                      <HBox.margin>
+                                                         <Insets left="5.0" />
+                                                      </HBox.margin>
+                                                   </AnchorPane>
+                                                   <AnchorPane fx:id="prev_op_read_pane" styleClass="op">
+                                                      <children>
+                                                         <Label fx:id="prev_op_read_value" alignment="CENTER" contentDisplay="CENTER" text="READ" textAlignment="CENTER" wrapText="true">
+                                                            <padding>
+                                                               <Insets left="5.0" right="5.0" />
+                                                            </padding>
+                                                         </Label>
+                                                      </children>
+                                                      <HBox.margin>
+                                                         <Insets left="5.0" right="5.0" />
+                                                      </HBox.margin>
+                                                   </AnchorPane>
+                                                   <AnchorPane fx:id="prev_op_write_pane" styleClass="op">
+                                                      <children>
+                                                         <Label fx:id="prev_op_write_value" alignment="CENTER" contentDisplay="CENTER" text="WRITE" wrapText="true">
+                                                            <padding>
+                                                               <Insets left="5.0" right="5.0" />
+                                                            </padding>
+                                                         </Label>
+                                                      </children>
+                                                      <HBox.margin>
+                                                         <Insets left="5.0" right="5.0" />
+                                                      </HBox.margin>
+                                                   </AnchorPane>
+                                                   <AnchorPane fx:id="prev_op_terminate_pane" styleClass="op">
+                                                      <children>
+                                                         <Label fx:id="prev_op_terminate_value" alignment="CENTER" contentDisplay="CENTER" text="TERMINATE" wrapText="true">
+                                                            <padding>
+                                                               <Insets left="5.0" right="5.0" />
+                                                            </padding>
+                                                         </Label>
+                                                      </children>
+                                                      <HBox.margin>
+                                                         <Insets right="5.0" />
+                                                      </HBox.margin>
+                                                   </AnchorPane>
+                                                </children>
+                                                <VBox.margin>
+                                                   <Insets bottom="2.0" top="2.0" />
+                                                </VBox.margin>
+                                             </HBox>
+                                             <HBox fx:id="prev_rAddr" alignment="CENTER_LEFT">
+                                                <children>
+                                                   <Label fx:id="prev_rAddr_label" minWidth="100.0" styleClass="Label" text="Physical Address" />
+                                                   <AnchorPane fx:id="prev_rAddr_pane" styleClass="rAddr">
+                                                      <children>
+                                                         <Label fx:id="prev_rAddr_value" text="00000" />
+                                                      </children>
+                                                   </AnchorPane>
+                                                </children>
+                                             </HBox>
+                                             <HBox fx:id="prev_frame" alignment="CENTER_LEFT">
+                                                <children>
+                                                   <Label fx:id="prev_frameNr_label" minWidth="100.0" styleClass="Label" text="Frame Number" />
+                                                   <AnchorPane fx:id="prev_frameNr_pane" styleClass="frameNr">
+                                                      <children>
+                                                         <Label fx:id="prev_frameNr_value" text="00000" />
+                                                      </children>
+                                                   </AnchorPane>
+                                                   <Label fx:id="prev_frameOffset_label" minWidth="100.0" styleClass="Label" text="Offset" />
+                                                   <AnchorPane fx:id="prev_frameOffset_pane" styleClass="offset">
+                                                      <children>
+                                                         <Label fx:id="prev_frameOffset_value" text="00000" />
+                                                      </children>
+                                                   </AnchorPane>
+                                                </children>
+                                             </HBox>
+                                          </children>
+                                       </VBox>
+                                    </children>
+                                 </AnchorPane>
                                         </children>
                                     </VBox>
                                 </children>
                             </AnchorPane>
-                            <SplitPane dividerPositions="0.47897196261682246" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="500.0" prefWidth="600.0">
-                                <items>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                                        <children>
-                                            <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" style="&#10;" text="Pages" textAlignment="CENTER" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                <font>
-                                                    <Font size="18.0" fx:id="x11" />
-                                                </font>
-                                                <textFill>
-                                                    <Color red="0.624" green="0.624" blue="0.624" fx:id="x21" />
-                                                </textFill>
-                                            </Label>
-                                        </children>
-                                    </AnchorPane>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                                        <children>
-                                            <Label alignment="CENTER" style="&#10;" text="Frames" textAlignment="CENTER" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                <font>
-                                                    <Font size="18.0" fx:id="x22" />
-                                                </font>
-                                                <textFill>
-                                                    <Color red="0.624" green="0.624" blue="0.624" fx:id="x23" />
-                                                </textFill>
-                                            </Label>
-                                        </children>
-                                    </AnchorPane>
-                                </items>
-                            </SplitPane>
-                            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="250.0" prefWidth="250.0">
+                            <AnchorPane fx:id="anchor_pages" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="300.0">
                                 <children>
-                                    <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" prefHeight="20.0" style="&#10;" text="Processes" textAlignment="CENTER" textFill="$x2" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                    <VBox layoutX="75.0" layoutY="84.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0" />
+                                    <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="20.0" style="&#10;" text="Pages" textAlignment="CENTER" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        <font>
+                                            <Font size="18.0" fx:id="x11" />
+                                        </font>
+                                        <textFill>
+                                            <Color blue="0.624" green="0.624" red="0.624" fx:id="x21" />
+                                        </textFill>
+                                    </Label>
                                 </children>
                             </AnchorPane>
-                        </items>
-                    </SplitPane>
+                            <AnchorPane fx:id="anchor_frames" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="300.0">
+                                <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" style="&#10;" text="Frames" textAlignment="CENTER" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        <font>
+                                            <Font size="18.0" fx:id="x22" />
+                                        </font>
+                                        <textFill>
+                                            <Color blue="0.624" green="0.624" red="0.624" fx:id="x23" />
+                                        </textFill>
+                                    </Label>
+                           <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                              <children>
+                                 <VBox prefHeight="200.0" prefWidth="100.0" styleClass="AnchorPane" stylesheets="@frame.css" HBox.hgrow="ALWAYS">
+                                    <children>
+                                       <AnchorPane fx:id="Frame0" styleClass="AcnhorPane" stylesheets="@frame.css">
+                                          <children>
+                                             <Label alignment="CENTER" prefHeight="20.0" style="&#10;" text="Frame 0" textAlignment="CENTER" textFill="WHITE" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                <font>
+                                                   <Font size="18.0" fx:id="x22111" />
+                                                </font>
+                                             </Label>
+                                             <VBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                                <children>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_pid_label11" minWidth="100.0" text="pID: " />
+                                                         <AnchorPane fx:id="pID11">
+                                                            <children>
+                                                               <Label fx:id="cur_pid_value11" text="000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_va_label11" minWidth="100.0" text="Page Number" />
+                                                         <AnchorPane fx:id="vAddr11">
+                                                            <children>
+                                                               <Label fx:id="cur_va_value11" text="00000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                </children>
+                                             </VBox>
+                                          </children>
+                                       </AnchorPane>
+                                       <AnchorPane fx:id="Frame1" styleClass="AcnhorPane">
+                                          <children>
+                                             <Label alignment="CENTER" prefHeight="20.0" style="&#10;" text="Frame 1" textAlignment="CENTER" textFill="WHITE" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                <font>
+                                                   <Font size="18.0" fx:id="x221111" />
+                                                </font>
+                                             </Label>
+                                             <VBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                                <children>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_pid_label111" minWidth="100.0" text="pID: " />
+                                                         <AnchorPane fx:id="pID111">
+                                                            <children>
+                                                               <Label fx:id="cur_pid_value111" text="000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_va_label111" minWidth="100.0" text="Page Number" />
+                                                         <AnchorPane fx:id="vAddr111">
+                                                            <children>
+                                                               <Label fx:id="cur_va_value111" text="00000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                </children>
+                                             </VBox>
+                                          </children>
+                                          <stylesheets>
+                                             <URL value="@frame.css" />
+                                             <URL value="@frame.css" />
+                                          </stylesheets>
+                                       </AnchorPane>
+                                       <AnchorPane fx:id="Frame2" styleClass="AcnhorPane" stylesheets="@frame.css">
+                                          <children>
+                                             <Label alignment="CENTER" prefHeight="20.0" style="&#10;" text="Frame 2" textAlignment="CENTER" textFill="WHITE" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                <font>
+                                                   <Font size="18.0" fx:id="x221112" />
+                                                </font>
+                                             </Label>
+                                             <VBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                                <children>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_pid_label112" minWidth="100.0" text="pID: " />
+                                                         <AnchorPane fx:id="pID112">
+                                                            <children>
+                                                               <Label fx:id="cur_pid_value112" text="000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_va_label112" minWidth="100.0" text="Page Number" />
+                                                         <AnchorPane fx:id="vAddr112">
+                                                            <children>
+                                                               <Label fx:id="cur_va_value112" text="00000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                </children>
+                                             </VBox>
+                                          </children>
+                                       </AnchorPane>
+                                       <AnchorPane fx:id="Frame3" styleClass="AcnhorPane" stylesheets="@frame.css">
+                                          <children>
+                                             <Label alignment="CENTER" prefHeight="20.0" style="&#10;" text="Frame 3" textAlignment="CENTER" textFill="WHITE" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                <font>
+                                                   <Font size="18.0" fx:id="x221113" />
+                                                </font>
+                                             </Label>
+                                             <VBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                                <children>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_pid_label113" minWidth="100.0" text="pID: " />
+                                                         <AnchorPane fx:id="pID113">
+                                                            <children>
+                                                               <Label fx:id="cur_pid_value113" text="000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_va_label113" minWidth="100.0" text="Page Number" />
+                                                         <AnchorPane fx:id="vAddr113">
+                                                            <children>
+                                                               <Label fx:id="cur_va_value113" text="00000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                </children>
+                                             </VBox>
+                                          </children>
+                                       </AnchorPane>
+                                       <AnchorPane fx:id="Frame4" styleClass="AcnhorPane" stylesheets="@frame.css">
+                                          <children>
+                                             <Label alignment="CENTER" prefHeight="20.0" style="&#10;" text="Frame 4" textAlignment="CENTER" textFill="WHITE" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                <font>
+                                                   <Font size="18.0" fx:id="x221114" />
+                                                </font>
+                                             </Label>
+                                             <VBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                                <children>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_pid_label114" minWidth="100.0" text="pID: " />
+                                                         <AnchorPane fx:id="pID114">
+                                                            <children>
+                                                               <Label fx:id="cur_pid_value114" text="000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_va_label114" minWidth="100.0" text="Page Number" />
+                                                         <AnchorPane fx:id="vAddr114">
+                                                            <children>
+                                                               <Label fx:id="cur_va_value114" text="00000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                </children>
+                                             </VBox>
+                                          </children>
+                                       </AnchorPane>
+                                       <AnchorPane fx:id="Frame5" styleClass="AcnhorPane" stylesheets="@frame.css">
+                                          <children>
+                                             <Label alignment="CENTER" prefHeight="20.0" style="&#10;" text="Frame 5" textAlignment="CENTER" textFill="WHITE" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                <font>
+                                                   <Font size="18.0" fx:id="x221115" />
+                                                </font>
+                                             </Label>
+                                             <VBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                                <children>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_pid_label115" minWidth="100.0" text="pID: " />
+                                                         <AnchorPane fx:id="pID115">
+                                                            <children>
+                                                               <Label fx:id="cur_pid_value115" text="000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_va_label115" minWidth="100.0" text="Page Number" />
+                                                         <AnchorPane fx:id="vAddr115">
+                                                            <children>
+                                                               <Label fx:id="cur_va_value115" text="00000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                </children>
+                                             </VBox>
+                                          </children>
+                                       </AnchorPane>
+                                    </children>
+                                 </VBox>
+                                 <VBox prefHeight="200.0" prefWidth="100.0" styleClass="AnchorPane" stylesheets="@frame.css" HBox.hgrow="ALWAYS">
+                                    <children>
+                                       <AnchorPane fx:id="Frame6" styleClass="AcnhorPane" stylesheets="@frame.css">
+                                          <children>
+                                             <Label alignment="CENTER" prefHeight="20.0" style="&#10;" text="Frame 6" textAlignment="CENTER" textFill="WHITE" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                <font>
+                                                   <Font size="18.0" fx:id="x2211161" />
+                                                </font>
+                                             </Label>
+                                             <VBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                                <children>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_pid_label1161" minWidth="100.0" text="pID: " />
+                                                         <AnchorPane fx:id="pID1161">
+                                                            <children>
+                                                               <Label fx:id="cur_pid_value1161" text="000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_va_label1161" minWidth="100.0" text="Page Number" />
+                                                         <AnchorPane fx:id="vAddr1161">
+                                                            <children>
+                                                               <Label fx:id="cur_va_value1161" text="00000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                </children>
+                                             </VBox>
+                                          </children>
+                                       </AnchorPane>
+                                       <AnchorPane fx:id="Frame7" styleClass="AcnhorPane" stylesheets="@frame.css">
+                                          <children>
+                                             <Label alignment="CENTER" prefHeight="20.0" style="&#10;" text="Frame 7" textAlignment="CENTER" textFill="WHITE" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                <font>
+                                                   <Font size="18.0" fx:id="x2211171" />
+                                                </font>
+                                             </Label>
+                                             <VBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                                <children>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_pid_label1171" minWidth="100.0" text="pID: " />
+                                                         <AnchorPane fx:id="pID1171">
+                                                            <children>
+                                                               <Label fx:id="cur_pid_value1171" text="000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_va_label1171" minWidth="100.0" text="Page Number" />
+                                                         <AnchorPane fx:id="vAddr1171">
+                                                            <children>
+                                                               <Label fx:id="cur_va_value1171" text="00000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                </children>
+                                             </VBox>
+                                          </children>
+                                       </AnchorPane>
+                                       <AnchorPane fx:id="Frame8" styleClass="AcnhorPane" stylesheets="@frame.css">
+                                          <children>
+                                             <Label alignment="CENTER" prefHeight="20.0" style="&#10;" text="Frame 8" textAlignment="CENTER" textFill="WHITE" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                <font>
+                                                   <Font size="18.0" fx:id="x2211181" />
+                                                </font>
+                                             </Label>
+                                             <VBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                                <children>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_pid_label1181" minWidth="100.0" text="pID: " />
+                                                         <AnchorPane fx:id="pID1181">
+                                                            <children>
+                                                               <Label fx:id="cur_pid_value1181" text="000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_va_label1181" minWidth="100.0" text="Page Number" />
+                                                         <AnchorPane fx:id="vAddr1181">
+                                                            <children>
+                                                               <Label fx:id="cur_va_value1181" text="00000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                </children>
+                                             </VBox>
+                                          </children>
+                                       </AnchorPane>
+                                       <AnchorPane fx:id="Frame9" styleClass="AcnhorPane" stylesheets="@frame.css">
+                                          <children>
+                                             <Label alignment="CENTER" prefHeight="20.0" style="&#10;" text="Frame 9" textAlignment="CENTER" textFill="WHITE" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                <font>
+                                                   <Font size="18.0" fx:id="x2211191" />
+                                                </font>
+                                             </Label>
+                                             <VBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                                <children>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_pid_label1191" minWidth="100.0" text="pID: " />
+                                                         <AnchorPane fx:id="pID1191">
+                                                            <children>
+                                                               <Label fx:id="cur_pid_value1191" text="000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_va_label1191" minWidth="100.0" text="Page Number" />
+                                                         <AnchorPane fx:id="vAddr1191">
+                                                            <children>
+                                                               <Label fx:id="cur_va_value1191" text="00000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                </children>
+                                             </VBox>
+                                          </children>
+                                       </AnchorPane>
+                                       <AnchorPane fx:id="Frame10" styleClass="AcnhorPane" stylesheets="@frame.css">
+                                          <children>
+                                             <Label alignment="CENTER" prefHeight="20.0" style="&#10;" text="Frame 10" textAlignment="CENTER" textFill="WHITE" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                <font>
+                                                   <Font size="18.0" fx:id="x22111101" />
+                                                </font>
+                                             </Label>
+                                             <VBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                                <children>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_pid_label11101" minWidth="100.0" text="pID: " />
+                                                         <AnchorPane fx:id="pID11101">
+                                                            <children>
+                                                               <Label fx:id="cur_pid_value11101" text="000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_va_label11101" minWidth="100.0" text="Page Number" />
+                                                         <AnchorPane fx:id="vAddr11101">
+                                                            <children>
+                                                               <Label fx:id="cur_va_value11101" text="00000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                </children>
+                                             </VBox>
+                                          </children>
+                                       </AnchorPane>
+                                       <AnchorPane fx:id="Frame11" styleClass="AcnhorPane" stylesheets="@frame.css">
+                                          <children>
+                                             <Label alignment="CENTER" prefHeight="20.0" style="&#10;" text="Frame 11" textAlignment="CENTER" textFill="WHITE" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                <font>
+                                                   <Font size="18.0" fx:id="x22111111" />
+                                                </font>
+                                             </Label>
+                                             <VBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                                <children>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_pid_label11111" minWidth="100.0" text="pID: " />
+                                                         <AnchorPane fx:id="pID11111">
+                                                            <children>
+                                                               <Label fx:id="cur_pid_value11111" text="000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                   <HBox alignment="CENTER_LEFT">
+                                                      <children>
+                                                         <Label fx:id="cur_va_label11111" minWidth="100.0" text="Page Number" />
+                                                         <AnchorPane fx:id="vAddr11111">
+                                                            <children>
+                                                               <Label fx:id="cur_va_value11111" text="00000" />
+                                                            </children>
+                                                         </AnchorPane>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets bottom="2.0" top="2.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                </children>
+                                             </VBox>
+                                          </children>
+                                       </AnchorPane>
+                                    </children>
+                                 </VBox>
+                              </children>
+                           </HBox>
+                                </children>
+                            </AnchorPane>
+                            <AnchorPane fx:id="anchor_processes" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="300.0">
+                                <children>
+                                    <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="20.0" style="&#10;" text="Processes" textAlignment="CENTER" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        <font>
+                                            <Font size="18.0" fx:id="x2212" />
+                                        </font>
+                                        <textFill>
+                                            <Color blue="0.624" green="0.624" red="0.624" fx:id="x2213" />
+                                        </textFill></Label>
+                                    <VBox layoutX="75.0" layoutY="84.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0" />
+                                </children>
+                            </AnchorPane>
+                        </children>
+                    </HBox>
                 </children>
             </AnchorPane>
-            <HBox id="HBox" alignment="CENTER_LEFT" maxHeight="50.0" spacing="5.0" VBox.vgrow="NEVER">
+            <HBox id="HBox" alignment="CENTER_LEFT" maxHeight="50.0" prefHeight="30.0" spacing="5.0" VBox.vgrow="NEVER">
                 <children>
-                    <AnchorPane prefHeight="15.0" prefWidth="1018.0">
+                    <Label fx:id="authors" maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="© R. Permentier; N. Braeckman">
+                        <font>
+                            <Font size="11.0" fx:id="x3" />
+                        </font>
+                        <textFill>
+                            <Color blue="0.625" green="0.625" red="0.625" fx:id="x4" />
+                        </textFill>
+                        <padding>
+                            <Insets right="5.0" />
+                        </padding>
+                    </Label>
+                    <AnchorPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                         <children>
-                            <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" prefWidth="175.0" text="© R. Permentier; N. Braeckman" AnchorPane.leftAnchor="0.0">
-                                <font>
-                                    <Font size="11.0" fx:id="x3" />
-                                </font>
-                                <textFill>
-                                    <Color red="0.625" green="0.625" blue="0.625" fx:id="x4" />
-                                </textFill>
-                            </Label>
-                            <ProgressBar fx:id="progressBar" layoutX="187.0" prefHeight="15.0" prefWidth="681.0" progress="0.0" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="85.0" />
-                            <Label alignment="CENTER_RIGHT" maxWidth="-1.0" onMouseClicked="#openGithub" prefWidth="85.0" text="Source code" textAlignment="RIGHT" AnchorPane.rightAnchor="0.0">
-                                <font>
-                                    <Font size="11.0" fx:id="x24" />
-                                </font>
-                                <textFill>
-                                    <Color red="0.625" green="0.625" blue="0.625" fx:id="x25" />
-                                </textFill>
-                            </Label>
+                            <ProgressBar fx:id="progressBar" progress="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+                                <padding>
+                                    <Insets left="5.0" right="5.0" />
+                                </padding>
+                            </ProgressBar>
                         </children>
                     </AnchorPane>
+                    <Label fx:id="source_code" alignment="CENTER_RIGHT" maxWidth="-1.0" onMouseClicked="#openGithub" text="Source code" textAlignment="RIGHT">
+                        <font>
+                            <Font size="11.0" fx:id="x24" />
+                        </font>
+                        <textFill>
+                            <Color blue="0.625" green="0.625" red="0.625" fx:id="x25" />
+                        </textFill>
+                        <padding>
+                            <Insets left="5.0" />
+                        </padding>
+                    </Label>
                 </children>
                 <padding>
                     <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />

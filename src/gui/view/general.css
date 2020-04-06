@@ -1,0 +1,51 @@
+.button {
+-fx-background-radius: 10px;
+}
+.Label{
+-fx-font-family: Verdana;
+	
+}
+
+/* FRAMES */
+.Frame{
+-fx-background-radius: 10px;
+-fx-background-color: green;
+-fx-padding: 5px;
+
+}
+
+
+/* CARDS */
+.card{
+-fx-background-radius: 10px;
+-fx-background-color: gray;
+-fx-padding: 5px;
+
+}
+
+/* INSTUCTION CARDS*/
+.pID{
+-fx-background-color: darksalmon  ;
+-fx-background-radius: 5px;
+}
+.vAddr{
+-fx-background-color: goldenrod    ;
+-fx-background-radius: 5px;
+}
+.op{
+-fx-background-color: firebrick ;
+-fx-background-radius: 5px;
+}
+.rAddr{
+-fx-background-color: greenyellow    ;
+-fx-background-radius: 5px;
+}
+.frameNr{
+	-fx-background-color: darkturquoise   ;
+-fx-background-radius: 5px;
+}
+.offset{
+	-fx-background-color: darkturquoise   ;
+-fx-background-radius: 5px;
+	
+}
