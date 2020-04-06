@@ -13,6 +13,8 @@ public class Ram {
 
     private int framesPerProcess;
     private int processCounter;
+    private int totalWrites;
+    private int totalReads;
 
     //In Ram max 4 times same process
     //Each process has exactly the same amount of frames:
@@ -24,6 +26,8 @@ public class Ram {
     public Ram() {
         processCounter = 0;
         processes = new ArrayList<>();
+        totalReads =0;
+        totalWrites=0;
     }
 
     public void addProcess(Process process) {
@@ -144,10 +148,15 @@ public class Ram {
         Process currentProcess = getProcess(processID);
         if (currentPage != null) {
             currentProcess.updatePageTable(currentPage.getPageNumber(), 0, false, false);
+            currentProcess.increaseWriteCount();
+            totalWrites++;
         }
         currentProcess.updatePageTable(newPageNumber, currentFrameNumber, true, false);
+        currentProcess.increaseReadCount();
+        totalReads++;
         frames[currentFrameNumber] = currentProcess.getPage(newPageNumber);
     }
+
 
     @Override
     public String toString() {
@@ -156,6 +165,8 @@ public class Ram {
                 ", processes=" + processes +
                 ", framesPerProcess=" + framesPerProcess +
                 ", processCounter=" + processCounter +
+                ", totalWrites=" + totalWrites +
+                ", totalReads=" + totalReads +
                 '}';
     }
 }

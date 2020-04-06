@@ -7,12 +7,16 @@ public class Process {
 
     private int processID;
     private int lastAccessTime;
+    private int writeCount;
+    private int readCount;
 
     // Each process has 1 pagetable
     private List<Entry> pageTable;
 
     public Process(int processID) {
         this.processID = processID;
+        writeCount = 0;
+        readCount = 0;
         pageTable = initPageTable();
     }
 
@@ -54,11 +58,11 @@ public class Process {
         return pageTable.get(pageNumber).getFrameNumber();
     }
 
-    public Page getPage(int pageNumber){
+    public Page getPage(int pageNumber) {
         return pageTable.get(pageNumber).getPage();
     }
 
-    public int getPageNumber(int pageNumber){
+    public int getPageNumber(int pageNumber) {
         return pageTable.get(pageNumber).getPage().getPageNumber();
     }
 
@@ -74,15 +78,23 @@ public class Process {
         return lruPage;
     }
 
-    public boolean isPageInRam(int pageNumber){
+    public void increaseWriteCount() {
+        writeCount++;
+    }
+
+    public void increaseReadCount() {
+        readCount++;
+    }
+
+    public boolean isPageInRam(int pageNumber) {
         return pageTable.get(pageNumber).isPresent();
     }
 
-    public void setModified(int pageNumber, boolean modified){
+    public void setModified(int pageNumber, boolean modified) {
         pageTable.get(pageNumber).setModified(modified);
     }
 
-    public void setLastAccesTime(int pageNumber, int time){
+    public void setLastAccesTime(int pageNumber, int time) {
         pageTable.get(pageNumber).setLastAccessTime(time);
     }
 
@@ -115,6 +127,8 @@ public class Process {
         return "\n Process{" +
                 "processID=" + processID +
                 ", lastAccessTime=" + lastAccessTime +
+                ", writeCount=" + writeCount +
+                ", readCount=" + readCount +
                 ", pageTable=" + pageTable +
                 '}';
     }
