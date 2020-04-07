@@ -1,5 +1,6 @@
 package main;
 
+import gui.controller.FileChooserController;
 import gui.controller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,32 +15,64 @@ public class MainNew extends Application {
 
     private Stage primaryStage;
     private MainModel mainModel;
-    private String title;
+    private static final String mainTitle = "PAGINATION EMULATOR";
+    private static final String fileChooserTitle = "FILE CHOOSER";
+    private static final String mainViewLocation = "/gui/view/MainView.fxml";
+    private static final String fileChooserLocation = "/gui/view/FileChooser.fxml";
+    private static final String cssLocation = "/gui/view/general.css";
+
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        mainModel = new MainModel();
+        this.mainModel = new MainModel();
         this.primaryStage = primaryStage;
         showMain();
+        //showFileChooser();
         mainModel.refresh();
-        this.title = "PAGINATION EMULATOR";
+    }
+
+
+    public static void main(String args[]) {
+        launch(args);
     }
 
 
     private void showMain() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/gui/view/MainView.fxml"));
+        fxmlLoader.setLocation(getClass().getResource(mainViewLocation));
         Parent root = fxmlLoader.load();
-        MainController controller = fxmlLoader.getController();
+        MainController mainController = fxmlLoader.getController();
 
         Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle(title);
-        primaryStage.resizableProperty().set(false);
+        scene.getStylesheets().add(cssLocation);
+    primaryStage.setScene(scene);
+        primaryStage.setTitle(mainTitle);
+        //primaryStage.resizableProperty().set(false);
         primaryStage.show();
 
-        controller.setModel(mainModel);
-        mainModel.addObserver(controller);
+        mainController.setModel(mainModel);
+        mainModel.addObserver(mainController);
 
+    }
+
+    private void showFileChooser() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource(fileChooserLocation));
+        Parent root = fxmlLoader.load();
+        FileChooserController fileChooserController = fxmlLoader.getController();
+
+        Stage stage = new Stage();
+
+        stage.setTitle(fileChooserTitle);
+        stage.initOwner(primaryStage);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setX(800);
+        stage.setY(300);
+        stage.show();
+
+        fileChooserController.setModel(mainModel);
+        mainModel.addObserver(fileChooserController);
     }
 }

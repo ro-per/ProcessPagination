@@ -47,5 +47,8 @@
 .offset{
 	-fx-background-color: darkturquoise   ;
 -fx-background-radius: 5px;
-	
+}
+.pageNr{
+	-fx-background-color: DARKORANGE   ;
+-fx-background-radius: 5px;
 }

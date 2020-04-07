@@ -8,6 +8,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -15,18 +16,13 @@ public class MainModel extends Observable {
     //************************** ATTRIBUTES **************************
 
     private int clock;
-    private Ram ram;
-    private Process currentProcess;
     private String filename;
-    private InstructionReader instructionReader;
-    private List<Instruction> instructionList;
+    private List<Integer> frame_pid = new ArrayList<Integer>();
 
 
     //************************** CONSTRUCTORS **************************
     public MainModel() throws ParserConfigurationException, SAXException, IOException {
-        ram = new Ram();
-        instructionReader = InstructionReader.getInstance();
-        filename = InstructionReader.INSTR_30_4;
+
         init();
     }
 
@@ -38,53 +34,17 @@ public class MainModel extends Observable {
 
     public void init() throws IOException, SAXException, ParserConfigurationException {
         clock = 0;
-        currentProcess = null;
-        if (filename != null) {
-            instructionList = instructionReader.readInstructions(filename);
-            refresh();
-        } else {
-            System.out.println("Ooops, filename is not correct");
+        for (int i = 0; i < 6; i++) {
+            frame_pid.add(0);
         }
+        refresh();
     }
-
-    public void stepInstruction(){
-        if(clock < instructionList.size()){
-            Instruction instruction = instructionList.get(clock);
-            switch (instruction.getOperation()){
-                case"Start":
-                    currentProcess = new Process(instruction.getProcessID());
-                    // give process process table
-                    // initialise ram
-                    break;
-                case "Write":
-                    //
-                    //
-                    break;
-                case "Read":
-                    //
-                    //
-                    break;
-                case "Terminate":
-                    //
-                    //
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
 
     //************************** CLOCK COUNTERS **************************
     public void countClockUp() {
         this.clock++;
-        stepInstruction();
-        refresh();
-    }
-
-    public void countClockDown() {
-        if (clock > -1) {
-            this.clock--;
+        for (int i = 0; i < 6; i++) {
+            frame_pid.add(i,1);
         }
         refresh();
     }
@@ -104,5 +64,9 @@ public class MainModel extends Observable {
         this.filename = filename;
         init();
         refresh();
+    }
+
+    public int getFramePid(int i) {
+        return frame_pid.get(i);
     }
 }
