@@ -20,6 +20,7 @@ public class MainNew extends Application {
     private static final String mainViewLocation = "/gui/view/MainView.fxml";
     private static final String fileChooserLocation = "/gui/view/FileChooser.fxml";
     private static final String cssLocation = "/gui/view/general.css";
+    public static int FRAMENUMBER=6;
 
 
 

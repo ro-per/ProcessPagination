@@ -1,9 +1,5 @@
 package gui.model;
 
-import entities.Instruction;
-import entities.InstructionReader;
-import entities.Process;
-import entities.Ram;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -12,61 +8,116 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import static main.MainNew.FRAMENUMBER;
+
 public class MainModel extends Observable {
-    //************************** ATTRIBUTES **************************
 
-    private int clock;
+    /* ******************** ATTRIBUTES ******************** */
+
+    private int CLK;
     private String filename;
-    private List<Integer> frame_pid = new ArrayList<Integer>();
 
 
-    //************************** CONSTRUCTORS **************************
+    private List<Integer> framePidList = new ArrayList<>();
+    private List<Integer> framePnrList = new ArrayList<>();
+
+
+    /* ******************** CONSTRUCTORS ******************** */
     public MainModel() throws ParserConfigurationException, SAXException, IOException {
-
         init();
     }
 
-    //************************** METHODS **************************
+    /* ******************** INIT ******************** */
+    public void init() throws IOException, SAXException, ParserConfigurationException {
+        //ANCHOR_LEFT
+        CLK = 0;
+        //ANCHOR_FRAMES
+        initFrameIDs();
+        initFramePNRs();
+        //REFRESH
+        refresh();
+    }
+
+    public void initFrameIDs() {
+        framePidList.clear();
+        for (int i = 0; i < FRAMENUMBER; i++) {
+            framePidList.add(0);
+        }
+    }
+
+    public void initFramePNRs() {
+        framePnrList.clear();
+        for (int i = 0; i < FRAMENUMBER; i++) {
+            framePnrList.add(0);
+        }
+    }
+    /* ******************** REFRESH ******************** */
+
     public void refresh() {
         setChanged();
         notifyObservers();
     }
 
-    public void init() throws IOException, SAXException, ParserConfigurationException {
-        clock = 0;
-        for (int i = 0; i < 6; i++) {
-            frame_pid.add(0);
-        }
+    /* ******************** COUNTERS ******************** */
+    public void countCLK() {
+        this.CLK++;
         refresh();
     }
 
-    //************************** CLOCK COUNTERS **************************
-    public void countClockUp() {
-        this.clock++;
-        for (int i = 0; i < 6; i++) {
-            frame_pid.add(i,1);
-        }
-        refresh();
+    /* ******************** GETTERS ******************** */
+    public int getCLK() {
+        return CLK;
     }
 
-    //************************** GETTERS **************************
-    public int getClock() {
-        return clock;
+    public int getFramePidSingle(int i) {
+        return framePidList.get(i);
     }
 
-    //************************** SETTERS **************************
-    public void setClock(int clock) {
-        this.clock = clock;
-        refresh();
+    public List<Integer> getFramePidList() {
+        return framePidList;
     }
 
+    public int getFramePnrSingle(int i) {
+        return framePnrList.get(i);
+    }
+
+    public List<Integer> getFramePnrList() {
+        return framePnrList;
+    }
+
+    /* ******************** SETTERS ******************** */
+    //MENU
     public void setFilename(String filename) throws ParserConfigurationException, SAXException, IOException {
         this.filename = filename;
         init();
         refresh();
     }
 
-    public int getFramePid(int i) {
-        return frame_pid.get(i);
+    //ANCHOR_LEFT
+    public void setCLK(int clock) {
+        this.CLK = clock;
+        refresh();
     }
+    //ANCHOR_PAGES
+
+    //ANCHOR_FRAMES
+    public void setFramePIDs() {
+        for (int i = 0; i < FRAMENUMBER; i++) {
+            int temp = framePidList.get(i);
+            temp++;
+            framePidList.set(i, temp);
+        }
+        refresh();
+    }
+
+    public void setFramePNRs() {
+        for (int i = 0; i < FRAMENUMBER; i++) {
+            int temp = framePnrList.get(i);
+            temp++;
+            framePnrList.set(i, temp);
+        }
+        refresh();
+    }
+    //ANCHOR_PROCESSES
+
 }
