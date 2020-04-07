@@ -18,6 +18,11 @@ public class MainModel extends Observable {
     private String filename;
 
 
+
+    private List<String> opColorList = new ArrayList<>();
+    private String opACTIVE="-fx-background-color: CHARTREUSE;";
+    private String opINACTIVE="-fx-background-color: firebrick;";
+
     private List<Integer> framePidList = new ArrayList<>();
     private List<Integer> framePnrList = new ArrayList<>();
 
@@ -31,11 +36,20 @@ public class MainModel extends Observable {
     public void init() throws IOException, SAXException, ParserConfigurationException {
         //ANCHOR_LEFT
         CLK = 0;
+
+        initOpColors();
+
         //ANCHOR_FRAMES
         initFrameIDs();
         initFramePNRs();
         //REFRESH
         refresh();
+    }
+    public void initOpColors(){
+        opColorList.clear();
+        for (int i = 0; i < 8; i++) {
+            opColorList.add(opINACTIVE);
+        }
     }
 
     public void initFrameIDs() {
@@ -84,6 +98,9 @@ public class MainModel extends Observable {
     public List<Integer> getFramePnrList() {
         return framePnrList;
     }
+    public String getOpColorSingle(int i) {
+        return opColorList.get(i);
+    }
 
     /* ******************** SETTERS ******************** */
     //MENU
@@ -96,6 +113,14 @@ public class MainModel extends Observable {
     //ANCHOR_LEFT
     public void setCLK(int clock) {
         this.CLK = clock;
+        refresh();
+    }
+    public void setCurOpColorACTIVE(int i) {
+        opColorList.set(i,opACTIVE);
+        refresh();
+    }
+    public void setCurOpColorINACTIVE(int i) {
+        opColorList.set(i,opINACTIVE);
         refresh();
     }
     //ANCHOR_PAGES

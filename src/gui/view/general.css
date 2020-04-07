@@ -33,7 +33,7 @@
 -fx-background-radius: 5px;
 }
 .op{
--fx-background-color: firebrick ;
+-fx-background-color: blue ;
 -fx-background-radius: 5px;
 }
 .rAddr{
@@ -41,7 +41,7 @@
 -fx-background-radius: 5px;
 }
 .frameNr{
-	-fx-background-color: darkturquoise   ;
+-fx-background-color: darkturquoise   ;
 -fx-background-radius: 5px;
 }
 .offset{

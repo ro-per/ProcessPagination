@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import gui.model.MainModel;
+import javafx.scene.layout.AnchorPane;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -21,6 +22,27 @@ public class MainController implements Observer {
     /* ******************** ANCHOR_LEFT ******************** */
     @FXML
     private Label clkValue;
+    //OPERATIONS
+    private String opGREEN="-fx-background-color: CHARTREUSE;";
+    private String opRED="-fx-background-color: firebrick;";
+
+    private List<AnchorPane> opList = new ArrayList<>();
+    @FXML
+    private AnchorPane curOpStart;
+    @FXML
+    private AnchorPane curOpRead;
+    @FXML
+    private AnchorPane curOpWrite;
+    @FXML
+    private AnchorPane curOpTerminate;
+    @FXML
+    private AnchorPane prevOpStartPane;
+    @FXML
+    private AnchorPane prevOpReadPane;
+    @FXML
+    private AnchorPane prevOpWritePane;
+    @FXML
+    private AnchorPane prevOpTerminatePane;
 
     /* ******************** ANCHOR_FRAMES ******************** */
     // PROCESS ID'S
@@ -37,7 +59,6 @@ public class MainController implements Observer {
     private Label frame4Pid;
     @FXML
     private Label frame5Pid;
-
     @FXML
     private Label frame6Pid;
     @FXML
@@ -65,7 +86,6 @@ public class MainController implements Observer {
     private Label frame4Pnr;
     @FXML
     private Label frame5Pnr;
-
     @FXML
     private Label frame6Pnr;
     @FXML
@@ -84,6 +104,7 @@ public class MainController implements Observer {
     public void update(Observable o, Object arg) {
         clkValue.setText(String.valueOf(model.getCLK()));
         updateFrames();
+        updateOpColors();
 
     }
 
@@ -93,8 +114,13 @@ public class MainController implements Observer {
 
     //ANCHOR_FRAMES
     void updateFrames() {
+        updateOpColors();
         updateFramePIDs();
         updateFramePNRs();
+    }
+    void updateOpColors(){
+        for (int i = 0; i < 8; i++)
+            this.opList.get(i).setStyle(model.getOpColorSingle(i));
     }
 
     void updateFramePIDs() {
@@ -123,6 +149,13 @@ public class MainController implements Observer {
         model.setFramePIDs();
         model.setFramePNRs();
     }
+
+    @FXML
+    void run(ActionEvent e) {
+        model.setCurOpColorACTIVE(1);
+        model.setCurOpColorACTIVE(5);
+    }
+
     //ANCHOR_PAGES
 
     //ANCHOR_FRAMES
@@ -141,21 +174,38 @@ public class MainController implements Observer {
     /* ******************** SETTERS ******************** */
     public void setModel(MainModel model) {
         this.model = model;
-        setFrames();
+        initFrames();
+        initOpColors();
 
     }
 
     //ANCHOR_LEFT
+    public void initOpColors(){
+        initCurOpColors();
+        initPrevOpColors();
+    }
+    public void initCurOpColors(){
+        opList.add(curOpStart);
+        opList.add(curOpRead);
+        opList.add(curOpWrite);
+        opList.add(curOpTerminate);
+    }
+    public void initPrevOpColors(){
+        opList.add(prevOpStartPane);
+        opList.add(prevOpReadPane);
+        opList.add(prevOpWritePane);
+        opList.add(prevOpTerminatePane);
+    }
 
     //ANCHOR_PAGES
 
     //ANCHOR_FRAMES
-    public void setFrames() {
-        setFramePIDs();
-        setFramePNRs();
+    public void initFrames() {
+        initFramePIDs();
+        initFramePNRs();
     }
 
-    private void setFramePIDs() {
+    private void initFramePIDs() {
         framePidList.add(frame0Pid);
         framePidList.add(frame1Pid);
         framePidList.add(frame2Pid);
@@ -170,7 +220,7 @@ public class MainController implements Observer {
         framePidList.add(frame11Pid);
     }
 
-    private void setFramePNRs() {
+    private void initFramePNRs() {
         framePnrList.add(frame0Pnr);
         framePnrList.add(frame1Pnr);
         framePnrList.add(frame2Pnr);
