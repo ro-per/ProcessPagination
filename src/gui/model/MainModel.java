@@ -4,67 +4,40 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
-
-import static main.MainNew.FRAMENUMBER;
 
 public class MainModel extends Observable {
 
     /* ******************** ATTRIBUTES ******************** */
 
-    private int CLK;
-    private String filename;
+    private int clk;
+    private String file;
 
-
-
-    private List<String> opColorList = new ArrayList<>();
-    private String opACTIVE="-fx-background-color: CHARTREUSE;";
-    private String opINACTIVE="-fx-background-color: firebrick;";
-
-    private List<Integer> framePidList = new ArrayList<>();
-    private List<Integer> framePnrList = new ArrayList<>();
-
+    private Frames frames = new Frames();
+    private CurrentInstruction cOP = new CurrentInstruction();
+    private PreviousInstruction pOP = new PreviousInstruction();
 
     /* ******************** CONSTRUCTORS ******************** */
     public MainModel() throws ParserConfigurationException, SAXException, IOException {
-        init();
+        resetModel();
     }
 
     /* ******************** INIT ******************** */
-    public void init() throws IOException, SAXException, ParserConfigurationException {
+    public void resetModel() {
+        initMain();
+        frames.init();
+        cOP.init();
+        pOP.init();
+        refresh();
+    }
+    public void initMain() {
         //ANCHOR_LEFT
-        CLK = 0;
-
-        initOpColors();
-
-        //ANCHOR_FRAMES
-        initFrameIDs();
-        initFramePNRs();
+        clk = 0;
         //REFRESH
         refresh();
     }
-    public void initOpColors(){
-        opColorList.clear();
-        for (int i = 0; i < 8; i++) {
-            opColorList.add(opINACTIVE);
-        }
-    }
 
-    public void initFrameIDs() {
-        framePidList.clear();
-        for (int i = 0; i < FRAMENUMBER; i++) {
-            framePidList.add(0);
-        }
-    }
 
-    public void initFramePNRs() {
-        framePnrList.clear();
-        for (int i = 0; i < FRAMENUMBER; i++) {
-            framePnrList.add(0);
-        }
-    }
     /* ******************** REFRESH ******************** */
 
     public void refresh() {
@@ -74,75 +47,48 @@ public class MainModel extends Observable {
 
     /* ******************** COUNTERS ******************** */
     public void countCLK() {
-        this.CLK++;
+        this.clk++;
         refresh();
     }
 
     /* ******************** GETTERS ******************** */
-    public int getCLK() {
-        return CLK;
+    public int getClk() {
+        return clk;
     }
-
-    public int getFramePidSingle(int i) {
-        return framePidList.get(i);
+    public String getCopColors(int i) {
+        return cOP.getOpColor(i);
     }
-
-    public List<Integer> getFramePidList() {
-        return framePidList;
+    public String getPopColors(int i) {
+        return pOP.getOpColor(i);
     }
-
-    public int getFramePnrSingle(int i) {
-        return framePnrList.get(i);
+    public int getFramePid(int i) {
+        return frames.getFramePidSingle(i);
     }
-
-    public List<Integer> getFramePnrList() {
-        return framePnrList;
-    }
-    public String getOpColorSingle(int i) {
-        return opColorList.get(i);
+    public int getFramePnr(int i){
+        return frames.getFramePnrSingle(i);
     }
 
     /* ******************** SETTERS ******************** */
-    //MENU
-    public void setFilename(String filename) throws ParserConfigurationException, SAXException, IOException {
-        this.filename = filename;
-        init();
+    public void setFile(String file) throws ParserConfigurationException, SAXException, IOException {
+        this.file = file;
+        initMain();
         refresh();
     }
-
-    //ANCHOR_LEFT
-    public void setCLK(int clock) {
-        this.CLK = clock;
+    public void setClk(int clock) {
+        this.clk = clock;
         refresh();
     }
-    public void setCurOpColorACTIVE(int i) {
-        opColorList.set(i,opACTIVE);
-        refresh();
-    }
-    public void setCurOpColorINACTIVE(int i) {
-        opColorList.set(i,opINACTIVE);
-        refresh();
-    }
-    //ANCHOR_PAGES
-
-    //ANCHOR_FRAMES
     public void setFramePIDs() {
-        for (int i = 0; i < FRAMENUMBER; i++) {
-            int temp = framePidList.get(i);
-            temp++;
-            framePidList.set(i, temp);
-        }
-        refresh();
+        frames.countPIDs();
     }
-
     public void setFramePNRs() {
-        for (int i = 0; i < FRAMENUMBER; i++) {
-            int temp = framePnrList.get(i);
-            temp++;
-            framePnrList.set(i, temp);
-        }
-        refresh();
+        frames.countPNRs();
     }
-    //ANCHOR_PROCESSES
-
+    public void setOpColors(char c, int i) {
+        if (c=='C'){
+            cOP.setOpColor(i);
+        }else{
+            pOP.setOpColor(i);
+        }
+    }
 }
