@@ -65,7 +65,7 @@
                            </HBox>
                                     <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                                         <children>
-                                            <RadioButton fx:id="set_20_3" mnemonicParsing="false" text="20_3">
+                                            <RadioButton fx:id="set_30_3" mnemonicParsing="false" text="30_3">
                                                 <HBox.margin>
                                                     <Insets left="5.0" right="5.0" />
                                                 </HBox.margin>

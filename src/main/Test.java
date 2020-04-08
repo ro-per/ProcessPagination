@@ -20,7 +20,6 @@ public class Test {
         init("30_3");
         //init("20000_4");
         //init("20000_20");
-
         run();
     }
 
@@ -37,12 +36,12 @@ public class Test {
             String operation = currentInstruction.getOperation();
             switch (operation){
                 case "Read":
-                    System.out.println("Reading process " + currentInstruction.getProcessID() + " with virtual address "+ currentInstruction.getVirtualAddress());
+                    System.out.println("Reading process " + currentInstruction.getProcessID() + " with virtual address: "+ currentInstruction.getVirtualAddress() +" and page number: " + currentInstruction.getPageNumber());
                     ram.read(currentInstruction.getProcessID(),currentInstruction.getPageNumber(),timer);
                     System.out.println("Readed "+ ram);
                     break;
                 case "Write":
-                    System.out.println("Writing to process " + currentInstruction.getProcessID() + " with virtual address "+ currentInstruction.getVirtualAddress());
+                    System.out.println("Writing to process " + currentInstruction.getProcessID() + " with virtual address: "+ currentInstruction.getVirtualAddress()+ " and page number: " + currentInstruction.getPageNumber());
                     ram.write(currentInstruction.getProcessID(),currentInstruction.getPageNumber(),timer);
                     System.out.println("Writed " + ram);
                     break;

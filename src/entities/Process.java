@@ -6,11 +6,12 @@ import java.util.List;
 public class Process {
 
     private int processID;
-    private int lastAccessTime;
+    private int processLastAccessTime;
     private int writeCount;
     private int readCount;
+    private static final int PAGE_AMOUNT = 16;
 
-    // Each process has 1 pagetable
+    // Each process has 1 page table
     private List<Entry> pageTable;
 
     public Process(int processID) {
@@ -21,18 +22,18 @@ public class Process {
     }
 
     private List<Entry> initPageTable() {
-        List<Entry> temp = new ArrayList<>();
-        for (int i = 0; i < 16; i++) {
-            temp.add(new Entry(new Page(processID, i)));
+        List<Entry> tempPageTable = new ArrayList<>();
+        for (int i = 0; i < PAGE_AMOUNT; i++) {
+            tempPageTable.add(new Entry(new Page(processID, i)));
         }
-        return temp;
+        return tempPageTable;
     }
 
     public void updatePageTable(int pageNumber, int frameNumber, boolean isPresent, boolean isModified) {
-        Entry temp = pageTable.get(pageNumber);
-        temp.setFrameNumber(frameNumber);
-        temp.setModified(isModified);
-        temp.setPresent(isPresent);
+        Entry entry = pageTable.get(pageNumber);
+        entry.setFrameNumber(frameNumber);
+        entry.setModified(isModified);
+        entry.setPresent(isPresent);
     }
 
     public Page getNonPresentPage() {
@@ -45,13 +46,13 @@ public class Process {
     }
 
     public int getAmountOfPresentPages() {
-        int temp = 0;
+        int count = 0;
         for (Entry entry : pageTable) {
             if (entry.isPresent()) {
-                temp++;
+                ++count;
             }
         }
-        return temp;
+        return count;
     }
 
     public int getFrameNumber(int pageNumber) {
@@ -67,11 +68,11 @@ public class Process {
     }
 
     public Page getLruPage() {
-        int min = Integer.MAX_VALUE;
+        int minimumAccessTime = Integer.MAX_VALUE;
         Page lruPage = null;
         for (Entry entry : pageTable) {
-            if (entry.isPresent() && entry.getLastAccessTime() < min) {
-                min = entry.getLastAccessTime();
+            if (entry.isPresent() && entry.getLastAccessTime() < minimumAccessTime) {
+                minimumAccessTime = entry.getLastAccessTime();
                 lruPage = entry.getPage();
             }
         }
@@ -94,16 +95,16 @@ public class Process {
         pageTable.get(pageNumber).setModified(modified);
     }
 
-    public void setLastAccesTime(int pageNumber, int time) {
+    public void setPageLastAccessTime(int pageNumber, int time) {
         pageTable.get(pageNumber).setLastAccessTime(time);
     }
 
-    public int getLastAccessTime() {
-        return lastAccessTime;
+    public int getProcessLastAccessTime() {
+        return processLastAccessTime;
     }
 
-    public void setLastAccessTime(int lastAccessTime) {
-        this.lastAccessTime = lastAccessTime;
+    public void setProcessLastAccessTime(int processLastAccessTime) {
+        this.processLastAccessTime = processLastAccessTime;
     }
 
     public int getProcessID() {
@@ -126,7 +127,7 @@ public class Process {
     public String toString() {
         return "\n Process{" +
                 "processID=" + processID +
-                ", lastAccessTime=" + lastAccessTime +
+                ", lastAccessTime=" + processLastAccessTime +
                 ", writeCount=" + writeCount +
                 ", readCount=" + readCount +
                 ", pageTable=" + pageTable +

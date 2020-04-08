@@ -6,15 +6,16 @@ import java.util.List;
 
 public class Ram {
 
-    //Ram has max. 12 frames or 12 pages
-    private Page[] frames = new Page[12];
-    //Present Processes
-    private List<Process> processes;
-
     private int framesPerProcess;
     private int processCounter;
     private int totalWrites;
     private int totalReads;
+    private static final int AMOUNT_OF_DIFFERENT_PROCESSES = 4;
+
+    //Ram has max. 12 frames or 12 pages
+    private Page[] frames = new Page[12];
+    //Present Processes
+    private List<Process> processes;
 
     //In Ram max 4 times same process
     //Each process has exactly the same amount of frames:
@@ -31,18 +32,18 @@ public class Ram {
     }
 
     public void addProcess(Process process) {
-        if (processes.size() >= 4) {
-            removeLastUsedProcess();
+        if (processes.size() >= AMOUNT_OF_DIFFERENT_PROCESSES) {
+            removeLruProcess();
         }
         processes.add(process);
     }
 
-    public void removeLastUsedProcess() {
+    public void removeLruProcess() {
         int min = Integer.MAX_VALUE;
         Process tempProcess = null;
         for (Process process : processes) {
-            if (process.getLastAccessTime() < min) {
-                min = process.getLastAccessTime();
+            if (process.getProcessLastAccessTime() < min) {
+                min = process.getProcessLastAccessTime();
                 tempProcess = process;
             }
         }
@@ -64,7 +65,6 @@ public class Ram {
         Process process = getProcess(processID);
         removeProcess(process);
     }
-
 
     public void removePage(Page page) {
         Process process = getProcess(page.getProcessID());
@@ -92,13 +92,8 @@ public class Ram {
 
     public void updateFrames(int processID, Page page, int index) {
         Process process = getProcess(processID);
-        boolean isEmptyFrame = false;
-        while (!isEmptyFrame) {
-            if (frames[index] == null) {
-                isEmptyFrame = true;
-            } else {
-                index++;
-            }
+        while (frames[index] != null) {
+            index++;
         }
         frames[index] = page;
         process.updatePageTable(page.getPageNumber(), index, true, false);
@@ -106,10 +101,7 @@ public class Ram {
 
     public void write(int processID, int pageNumber, int time) {
         Process currentProcess = getProcess(processID);
-        if (currentProcess == null) {
-            currentProcess = new Process(processID);
-            addProcess(currentProcess);
-        }
+
         if (currentProcess.isPageInRam(pageNumber)) {
             currentProcess.setModified(pageNumber, true);
         } else {
@@ -117,26 +109,22 @@ public class Ram {
             int currentFrameNumber = currentProcess.getFrameNumber(page.getPageNumber());
             swapPage(currentFrameNumber, pageNumber, processID);
         }
-        currentProcess.setLastAccesTime(pageNumber, time);
-        currentProcess.setLastAccessTime(time);
+        currentProcess.setPageLastAccessTime(pageNumber, time);
+        currentProcess.setProcessLastAccessTime(time);
     }
 
     public void read(int processID, int pageNumber, int time) {
         Process currentProcess = getProcess(processID);
-        if (currentProcess == null) {
-            currentProcess = new Process(processID);
-            addProcess(currentProcess);
-        }
+
         if (!currentProcess.isPageInRam(pageNumber)) {
             Page page = currentProcess.getLruPage();
             int currentFrameNumber = currentProcess.getFrameNumber(page.getPageNumber());
             swapPage(currentFrameNumber, pageNumber, processID);
             currentProcess.updatePageTable(currentProcess.getPageNumber(pageNumber), currentFrameNumber, true, false);
         }
-        currentProcess.setLastAccesTime(pageNumber, time);
-        currentProcess.setLastAccessTime(time);
+        currentProcess.setPageLastAccessTime(pageNumber, time);
+        currentProcess.setProcessLastAccessTime(time);
     }
-
 
     public Process getProcess(int processID) {
         for (Process process : processes) {

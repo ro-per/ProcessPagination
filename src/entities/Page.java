@@ -1,6 +1,7 @@
 package entities;
 
 public class Page {
+
     private int processID;
     private int pageNumber;
 

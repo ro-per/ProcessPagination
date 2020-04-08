@@ -35,7 +35,6 @@ public class Instruction {
         return Integer.parseInt(binaryPageNumber, 2);
     }
 
-
     public int getProcessID() {
         return processID;
     }
