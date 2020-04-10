@@ -17,16 +17,15 @@ public class Test {
     private static int timer;
 
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
-        init("30_3");
+        //init("30_3");
         //init("20000_4");
-        //init("20000_20");
+        init("20000_20");
         run();
     }
 
     public static void init(String amount) throws IOException, SAXException, ParserConfigurationException {
          ram = new Ram();
-         InstructionReader instructionReader = InstructionReader.getInstance();
-         instructionList = instructionReader.readInstructions(amount);
+         instructionList = InstructionReader.getInstance().readInstructions(amount);
          timer = 0;
     }
 
@@ -49,13 +48,11 @@ public class Test {
                     System.out.println("Starting process " + currentInstruction.getProcessID());
                     Process currentProcess = new Process(currentInstruction.getProcessID());
                     ram.addProcess(currentProcess);
-                    ram.adjustFrames();
                     System.out.println("Started: " + ram);
                     break;
                 case "Terminate":
                     System.out.println("Terminating process " + currentInstruction.getProcessID());
                     ram.removeProcess(currentInstruction.getProcessID());
-                    ram.adjustFrames();
                     System.out.println("Terminated:" + ram);
                     break;
                 default:

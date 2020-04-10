@@ -31,14 +31,7 @@ public class Ram {
         totalWrites = 0;
     }
 
-    public void addProcess(Process process) {
-        if (processes.size() >= AMOUNT_OF_DIFFERENT_PROCESSES) {
-            removeLruProcess();
-        }
-        processes.add(process);
-    }
-
-    public void removeLruProcess() {
+    private void removeLruProcess() {
         int min = Integer.MAX_VALUE;
         Process tempProcess = null;
         for (Process process : processes) {
@@ -50,7 +43,7 @@ public class Ram {
         removeProcess(tempProcess);
     }
 
-    public void removeProcess(Process process) {
+    private void removeProcess(Process process) {
         if (process != null) {
             for (Page frame : frames) {
                 if (frame.getProcessID() == process.getProcessID()) {
@@ -61,19 +54,15 @@ public class Ram {
         }
     }
 
-    public void removeProcess(int processID) {
-        Process process = getProcess(processID);
-        removeProcess(process);
-    }
 
-    public void removePage(Page page) {
+    private void removePage(Page page) {
         Process process = getProcess(page.getProcessID());
         int frameNumber = process.getFrameNumber(page.getPageNumber());
         process.updatePageTable(page.getPageNumber(), frameNumber, false, false);
         frames[frameNumber] = null;
     }
 
-    public void adjustFrames() {
+    private void adjustFrames() {
         if (!processes.isEmpty()) {
             framesPerProcess = frames.length / processes.size();
             for (Process process : processes) {
@@ -90,13 +79,36 @@ public class Ram {
         }
     }
 
-    public void updateFrames(int processID, Page page, int index) {
+    private void updateFrames(int processID, Page page, int index) {
         Process process = getProcess(processID);
         while (frames[index] != null) {
             index++;
         }
         frames[index] = page;
         process.updatePageTable(page.getPageNumber(), index, true, false);
+    }
+
+    private Process getProcess(int processID) {
+        for (Process process : processes) {
+            if (process.getProcessID() == processID) {
+                return process;
+            }
+        }
+        return null;
+    }
+
+    private void swapPage(int currentFrameNumber, int newPageNumber, int processID) {
+        Page currentPage = frames[currentFrameNumber];
+        Process currentProcess = getProcess(processID);
+        if (currentPage != null) {
+            currentProcess.updatePageTable(currentPage.getPageNumber(), 0, false, false);
+            currentProcess.increaseWriteCount();
+            totalWrites++;
+        }
+        currentProcess.updatePageTable(newPageNumber, currentFrameNumber, true, false);
+        currentProcess.increaseReadCount();
+        totalReads++;
+        frames[currentFrameNumber] = currentProcess.getPage(newPageNumber);
     }
 
     public void write(int processID, int pageNumber, int time) {
@@ -126,27 +138,18 @@ public class Ram {
         currentProcess.setProcessLastAccessTime(time);
     }
 
-    public Process getProcess(int processID) {
-        for (Process process : processes) {
-            if (process.getProcessID() == processID) {
-                return process;
-            }
-        }
-        return null;
+    public void removeProcess(int processID) {
+        Process process = getProcess(processID);
+        removeProcess(process);
+        adjustFrames();
     }
 
-    public void swapPage(int currentFrameNumber, int newPageNumber, int processID) {
-        Page currentPage = frames[currentFrameNumber];
-        Process currentProcess = getProcess(processID);
-        if (currentPage != null) {
-            currentProcess.updatePageTable(currentPage.getPageNumber(), 0, false, false);
-            currentProcess.increaseWriteCount();
-            totalWrites++;
+    public void addProcess(Process process) {
+        if (processes.size() >= AMOUNT_OF_DIFFERENT_PROCESSES) {
+            removeLruProcess();
         }
-        currentProcess.updatePageTable(newPageNumber, currentFrameNumber, true, false);
-        currentProcess.increaseReadCount();
-        totalReads++;
-        frames[currentFrameNumber] = currentProcess.getPage(newPageNumber);
+        processes.add(process);
+        adjustFrames();
     }
 
 
