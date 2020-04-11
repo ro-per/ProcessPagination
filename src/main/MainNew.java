@@ -2,12 +2,12 @@ package main;
 
 import gui.controller.FileChooserController;
 import gui.controller.MainController;
+import gui.model.MainModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import gui.model.MainModel;
 
 import java.io.IOException;
 
@@ -20,8 +20,7 @@ public class MainNew extends Application {
     private static final String mainViewLocation = "/gui/view/MainView.fxml";
     private static final String fileChooserLocation = "/gui/view/FileChooser.fxml";
     private static final String cssLocation = "/gui/view/general.css";
-    public static int FRAMENUMBER=12;
-
+    public static int FRAMENUMBER = 12;
 
 
     @Override
@@ -47,7 +46,7 @@ public class MainNew extends Application {
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add(cssLocation);
-    primaryStage.setScene(scene);
+        primaryStage.setScene(scene);
         primaryStage.setTitle(mainTitle);
         //primaryStage.resizableProperty().set(false);
         primaryStage.show();

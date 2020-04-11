@@ -1,5 +1,7 @@
 package entities;
 
+import utils.BinaryConverter;
+
 public class Instruction {
 
     private int processID;
@@ -8,30 +10,18 @@ public class Instruction {
 
     public Instruction() {
         processID = 0;
-        operation = null;
         virtualAddress = 0;
     }
 
-    private String convertToBinary(int address) {
-        String binaryAddress = Integer.toBinaryString(address);
-        int zeroes = 16 - binaryAddress.length();
-        StringBuilder binaryBuilder = new StringBuilder();
-        for (int i = 0; i < zeroes; i++) {
-            binaryBuilder.append("0");
-        }
-        binaryBuilder.append(binaryAddress);
-        return binaryBuilder.toString();
-    }
-
     public int getOffset() {
-        String binary = convertToBinary(virtualAddress);
-        String binaryOffset = binary.substring(binary.length() - 12);
+        String binary = BinaryConverter.convertToBinary(virtualAddress, PageTable.PAGE_TABLE_LENGTH);
+        String binaryOffset = binary.substring(binary.length() - Ram.AMOUNT_OF_FRAMES);
         return Integer.parseInt(binaryOffset, 2);
     }
 
     public int getPageNumber() {
-        String binary = convertToBinary(virtualAddress);
-        String binaryPageNumber = binary.substring(0, binary.length() - 12);
+        String binary = BinaryConverter.convertToBinary(virtualAddress, PageTable.PAGE_TABLE_LENGTH);
+        String binaryPageNumber = binary.substring(0, binary.length() - Ram.AMOUNT_OF_FRAMES);
         return Integer.parseInt(binaryPageNumber, 2);
     }
 

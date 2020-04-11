@@ -1,9 +1,7 @@
 package main;
 
-import entities.Instruction;
-import entities.InstructionReader;
 import entities.Process;
-import entities.Ram;
+import entities.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,32 +15,32 @@ public class Test {
     private static int timer;
 
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
-        //init("30_3");
+        init("30_3");
         //init("20000_4");
-        init("20000_20");
+        //init("20000_20");
         run();
     }
 
     public static void init(String amount) throws IOException, SAXException, ParserConfigurationException {
-         ram = new Ram();
-         instructionList = InstructionReader.getInstance().readInstructions(amount);
-         timer = 0;
+        ram = new Ram(new LruStrategy());
+        instructionList = InstructionReader.getInstance().readInstructions(amount);
+        timer = 0;
     }
 
-    public static void run(){
-        while (timer < instructionList.size()){
+    public static void run() {
+        while (timer < instructionList.size()) {
             Instruction currentInstruction = instructionList.get(timer);
             String operation = currentInstruction.getOperation();
-            switch (operation){
+            switch (operation) {
                 case "Read":
-                    System.out.println("Reading process " + currentInstruction.getProcessID() + " with virtual address: "+ currentInstruction.getVirtualAddress() +" and page number: " + currentInstruction.getPageNumber());
-                    ram.read(currentInstruction.getProcessID(),currentInstruction.getPageNumber(),timer);
-                    System.out.println("Readed "+ ram);
+                    System.out.println("Reading process " + currentInstruction.getProcessID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber());
+                    ram.read(currentInstruction.getProcessID(), currentInstruction.getPageNumber(), timer);
+                    System.out.println("Read " + ram);
                     break;
                 case "Write":
-                    System.out.println("Writing to process " + currentInstruction.getProcessID() + " with virtual address: "+ currentInstruction.getVirtualAddress()+ " and page number: " + currentInstruction.getPageNumber());
-                    ram.write(currentInstruction.getProcessID(),currentInstruction.getPageNumber(),timer);
-                    System.out.println("Writed " + ram);
+                    System.out.println("Writing to process " + currentInstruction.getProcessID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber());
+                    ram.write(currentInstruction.getProcessID(), currentInstruction.getPageNumber(), timer);
+                    System.out.println("Wrote " + ram);
                     break;
                 case "Start":
                     System.out.println("Starting process " + currentInstruction.getProcessID());

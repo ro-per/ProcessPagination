@@ -1,82 +1,44 @@
 package entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Process {
 
     private int processID;
     private int processLastAccessTime;
     private int writeCount;
     private int readCount;
-    private static final int PAGE_AMOUNT = 16;
 
     // Each process has 1 page table
-    private List<Entry> pageTable;
+    private PageTable pageTable;
 
     public Process(int processID) {
         this.processID = processID;
+        pageTable = new PageTable(processID);
         writeCount = 0;
         readCount = 0;
-        pageTable = initPageTable();
-    }
-
-    private List<Entry> initPageTable() {
-        List<Entry> tempPageTable = new ArrayList<>();
-        for (int i = 0; i < PAGE_AMOUNT; i++) {
-            tempPageTable.add(new Entry(new Page(processID, i)));
-        }
-        return tempPageTable;
     }
 
     public void updatePageTable(int pageNumber, int frameNumber, boolean isPresent, boolean isModified) {
-        Entry entry = pageTable.get(pageNumber);
-        entry.setFrameNumber(frameNumber);
-        entry.setModified(isModified);
-        entry.setPresent(isPresent);
+        pageTable.updatePageTable(pageNumber, frameNumber, isPresent, isModified);
     }
 
     public Page getNonPresentPage() {
-        for (Entry entry : pageTable) {
-            if (!entry.isPresent()) {
-                return entry.getPage();
-            }
-        }
-        return null;
+        return pageTable.getNonPresentedPage();
     }
 
     public int getAmountOfPresentPages() {
-        int count = 0;
-        for (Entry entry : pageTable) {
-            if (entry.isPresent()) {
-                ++count;
-            }
-        }
-        return count;
+        return pageTable.getAmountOfPresentPages();
     }
 
     public int getFrameNumber(int pageNumber) {
-        return pageTable.get(pageNumber).getFrameNumber();
+        return pageTable.getFrameNumber(pageNumber);
     }
 
     public Page getPage(int pageNumber) {
-        return pageTable.get(pageNumber).getPage();
+        return pageTable.getPage(pageNumber);
     }
 
     public int getPageNumber(int pageNumber) {
-        return pageTable.get(pageNumber).getPage().getPageNumber();
-    }
-
-    public Page getLruPage() {
-        int minimumAccessTime = Integer.MAX_VALUE;
-        Page lruPage = null;
-        for (Entry entry : pageTable) {
-            if (entry.isPresent() && entry.getLastAccessTime() < minimumAccessTime) {
-                minimumAccessTime = entry.getLastAccessTime();
-                lruPage = entry.getPage();
-            }
-        }
-        return lruPage;
+        return pageTable.getPageNumber(pageNumber);
     }
 
     public void increaseWriteCount() {
@@ -88,15 +50,15 @@ public class Process {
     }
 
     public boolean isPageInRam(int pageNumber) {
-        return pageTable.get(pageNumber).isPresent();
+        return pageTable.isPageInRam(pageNumber);
     }
 
     public void setModified(int pageNumber, boolean modified) {
-        pageTable.get(pageNumber).setModified(modified);
+        pageTable.setModified(pageNumber, modified);
     }
 
     public void setPageLastAccessTime(int pageNumber, int time) {
-        pageTable.get(pageNumber).setLastAccessTime(time);
+        pageTable.setPageLastAccessTime(pageNumber, time);
     }
 
     public int getProcessLastAccessTime() {
@@ -111,16 +73,8 @@ public class Process {
         return processID;
     }
 
-    public void setProcessID(int processID) {
-        this.processID = processID;
-    }
-
-    public List<Entry> getPageTable() {
+    public PageTable getPageTable() {
         return pageTable;
-    }
-
-    public void setPageTable(List<Entry> pageTable) {
-        this.pageTable = pageTable;
     }
 
     @Override
