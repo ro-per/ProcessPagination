@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-import static main.MainNew.FRAMENUMBER;
+import static main.MainNew.FRAME_NUMBER;
 
 public class Frames extends Observable {
 
@@ -19,7 +19,7 @@ public class Frames extends Observable {
     /* ******************** INIT ******************** */
     public void initFrameIDs() {
         framePidList.clear();
-        for (int i = 0; i < FRAMENUMBER; i++) {
+        for (int i = 0; i < FRAME_NUMBER; i++) {
             framePidList.add(0);
         }
         refresh();
@@ -27,7 +27,7 @@ public class Frames extends Observable {
 
     public void initFramePNRs() {
         framePnrList.clear();
-        for (int i = 0; i < FRAMENUMBER; i++) {
+        for (int i = 0; i < FRAME_NUMBER; i++) {
             framePnrList.add(0);
         }
         refresh();
@@ -57,7 +57,7 @@ public class Frames extends Observable {
     }
     /* ******************** SETTERS ******************** */
     public void countPIDs() {
-        for (int i = 0; i < FRAMENUMBER; i++) {
+        for (int i = 0; i < FRAME_NUMBER; i++) {
             int temp = framePidList.get(i);
             temp++;
             framePidList.set(i, temp);
@@ -66,7 +66,7 @@ public class Frames extends Observable {
     }
 
     public void countPNRs() {
-        for (int i = 0; i < FRAMENUMBER; i++) {
+        for (int i = 0; i < FRAME_NUMBER; i++) {
             int temp = framePnrList.get(i);
             temp++;
             framePnrList.set(i, temp);

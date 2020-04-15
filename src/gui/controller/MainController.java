@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import gui.model.MainModel;
+import javafx.scene.control.RadioButton;
 import javafx.scene.layout.AnchorPane;
 import org.xml.sax.SAXException;
 
@@ -14,18 +15,15 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import static main.MainNew.FRAMENUMBER;
+import static main.MainNew.FRAME_NUMBER;
 
 public class MainController implements Observer {
-
+    /* __________________________________________ MODEL VARIABELEN __________________________________________ */
     private MainModel model;
-    /* ******************** CLK ******************** */
     @FXML
     private Label clkValue;
-
-    /* ******************** FRAMES - IDs ******************** */
+    /* FRAMES - IDs*/
     private List<Label> framePidList = new ArrayList<>();
-
     @FXML
     private Label frame0Pid;
     @FXML
@@ -50,8 +48,7 @@ public class MainController implements Observer {
     private Label frame10Pid;
     @FXML
     private Label frame11Pid;
-
-    /* ******************** FRAMES - PNRs ******************** */
+    /* FRAMES - PNRs */
     private List<Label> framePnrList = new ArrayList<>();
     @FXML
     private Label frame0Pnr;
@@ -78,10 +75,9 @@ public class MainController implements Observer {
     @FXML
     private Label frame11Pnr;
 
-    /* ******************** INSTRUCTION OPERATIONs ******************** */
+    /* INSTRUCTION OPERATIONs */
     private String opGREEN = "-fx-background-color: CHARTREUSE;";
     private String opRED = "-fx-background-color: firebrick;";
-
     private List<AnchorPane> opList = new ArrayList<>();
     @FXML
     private AnchorPane curOpStart;
@@ -99,7 +95,15 @@ public class MainController implements Observer {
     private AnchorPane prevOpWritePane;
     @FXML
     private AnchorPane prevOpTerminatePane;
+    /* RADIO BUTTONS */
+    @FXML
+    private RadioButton set_30_3;
+    @FXML
+    private RadioButton set_20k_4;
+    @FXML
+    private RadioButton set_20k_20;
 
+    /* __________________________________________ METHODEN __________________________________________ */
 
     /* ******************** UPDATE ******************** */
     @Override
@@ -107,6 +111,11 @@ public class MainController implements Observer {
         clkValue.setText(String.valueOf(model.getClk()));
         updateInstructionCards();
         updateFrames();
+        updateRadioButtons();
+    }
+
+    void updateRadioButtons() {
+        model.refreshRadioButtons();
     }
 
     void updateInstructionCards() {
@@ -126,20 +135,17 @@ public class MainController implements Observer {
     }
 
     void updateFramePIDs() {
-        for (int i = 0; i < FRAMENUMBER; i++)
+        for (int i = 0; i < FRAME_NUMBER; i++)
             this.framePidList.get(i).setText(String.valueOf(model.getFramePid(i)));
     }
 
     void updateFramePNRs() {
-        for (int i = 0; i < FRAMENUMBER; i++)
+        for (int i = 0; i < FRAME_NUMBER; i++)
             this.framePnrList.get(i).setText(String.valueOf(model.getFramePnr(i)));
     }
-    //ANCHOR_PROCESSES
 
     /* ******************** ACTIONS ******************** */
-    //MENU
 
-    //ANCHOR_LEFT
     @FXML
     void reset(ActionEvent e) throws ParserConfigurationException, SAXException, IOException {
         model.resetModel();
@@ -153,19 +159,15 @@ public class MainController implements Observer {
     }
 
     @FXML
-    void run(ActionEvent e) {
+    void run(ActionEvent e) throws ParserConfigurationException, SAXException, IOException {
         model.setOpColors('C', 3);
         model.setOpColors('P', 2);
 
+        model.initProgram();
+        model.runProgram();
     }
+
     /* ******************** GETTERS ******************** */
-    //ANCHOR_LEFT
-
-    //ANCHOR_PAGES
-
-    //ANCHOR_FRAMES
-
-    //ANCHOR_PROCESSES
 
     /* ******************** SETTERS ******************** */
     public void setModel(MainModel model) {
@@ -175,7 +177,6 @@ public class MainController implements Observer {
 
     }
 
-    //ANCHOR_LEFT
     public void initOpColors() {
         initCurOpColors();
         initPrevOpColors();
@@ -195,9 +196,6 @@ public class MainController implements Observer {
         opList.add(prevOpTerminatePane);
     }
 
-    //ANCHOR_PAGES
-
-    //ANCHOR_FRAMES
     public void initFrames() {
         initFramePIDs();
         initFramePNRs();
@@ -233,5 +231,4 @@ public class MainController implements Observer {
         framePnrList.add(frame11Pnr);
 
     }
-    //ANCHOR_PROCESSES
 }
