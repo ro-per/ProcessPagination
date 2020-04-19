@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MainNew extends Application {
+public class Main extends Application {
     private static final String MAIN_TITLE = "PAGINATION EMULATOR";
     private static final String GUI_MAIN_VIEW_FXML = "/gui/view/MainView.fxml";
     private static final String GUI_VIEW_GENERAL_CSS = "/gui/view/general.css";

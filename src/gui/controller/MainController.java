@@ -15,97 +15,45 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import static main.MainNew.FRAME_NUMBER;
+import static main.Main.FRAME_NUMBER;
 
 public class MainController implements Observer {
     /* __________________________________________ MODEL VARIABELEN __________________________________________ */
     private MainModel model;
+    //CLOCK
     @FXML
     private Label clkValue;
-    /* FRAMES - IDs*/
-    private List<Label> framePidList = new ArrayList<>();
-    @FXML
-    private Label frame0Pid;
-    @FXML
-    private Label frame1Pid;
-    @FXML
-    private Label frame2Pid;
-    @FXML
-    private Label frame3Pid;
-    @FXML
-    private Label frame4Pid;
-    @FXML
-    private Label frame5Pid;
-    @FXML
-    private Label frame6Pid;
-    @FXML
-    private Label frame7Pid;
-    @FXML
-    private Label frame8Pid;
-    @FXML
-    private Label frame9Pid;
-    @FXML
-    private Label frame10Pid;
-    @FXML
-    private Label frame11Pid;
-    /* FRAMES - PNRs */
-    private List<Label> framePnrList = new ArrayList<>();
-    @FXML
-    private Label frame0Pnr;
-    @FXML
-    private Label frame1Pnr;
-    @FXML
-    private Label frame2Pnr;
-    @FXML
-    private Label frame3Pnr;
-    @FXML
-    private Label frame4Pnr;
-    @FXML
-    private Label frame5Pnr;
-    @FXML
-    private Label frame6Pnr;
-    @FXML
-    private Label frame7Pnr;
-    @FXML
-    private Label frame8Pnr;
-    @FXML
-    private Label frame9Pnr;
-    @FXML
-    private Label frame10Pnr;
-    @FXML
-    private Label frame11Pnr;
 
-    /* INSTRUCTION OPERATIONs */
-    private String opGREEN = "-fx-background-color: CHARTREUSE;";
-    private String opRED = "-fx-background-color: firebrick;";
+    // RADIO BUTTONS
+    @FXML
+    private RadioButton set_30_3, set_20k_4, set_20k_20;
+
+    // INSTRUCTION CARDS
     private List<AnchorPane> opList = new ArrayList<>();
     @FXML
-    private AnchorPane curOpStart;
+    private AnchorPane curOpStart, curOpRead, curOpWrite, curOpTerminate;
     @FXML
-    private AnchorPane curOpRead;
-    @FXML
-    private AnchorPane curOpWrite;
-    @FXML
-    private AnchorPane curOpTerminate;
-    @FXML
-    private AnchorPane prevOpStartPane;
-    @FXML
-    private AnchorPane prevOpReadPane;
-    @FXML
-    private AnchorPane prevOpWritePane;
-    @FXML
-    private AnchorPane prevOpTerminatePane;
-    /* RADIO BUTTONS */
-    @FXML
-    private RadioButton set_30_3;
-    @FXML
-    private RadioButton set_20k_4;
-    @FXML
-    private RadioButton set_20k_20;
+    private AnchorPane prevOpStartPane, prevOpReadPane, prevOpWritePane, prevOpTerminatePane;
 
-    /* __________________________________________ METHODEN __________________________________________ */
+    // FRAMES - IDs
+    private List<Label> framePidList = new ArrayList<>();
+    @FXML
+    private Label frame0Pid, frame1Pid, frame2Pid, frame3Pid, frame4Pid, frame5Pid;
+    @FXML
+    private Label frame6Pid, frame7Pid, frame8Pid, frame9Pid, frame10Pid, frame11Pid;
 
-    /* ******************** UPDATE ******************** */
+    // FRAMES - PNRs
+    private List<Label> framePnrList = new ArrayList<>();
+    @FXML
+    private Label frame0Pnr, frame1Pnr, frame2Pnr, frame3Pnr, frame4Pnr, frame5Pnr;
+    @FXML
+    private Label frame6Pnr, frame7Pnr, frame8Pnr, frame9Pnr, frame10Pnr, frame11Pnr;
+
+
+
+
+    // __________________________________________ METHODS __________________________________________
+    // _________________________ UPDATE _________________________
     @Override
     public void update(Observable o, Object arg) {
         clkValue.setText(String.valueOf(model.getClk()));
@@ -144,11 +92,10 @@ public class MainController implements Observer {
             this.framePnrList.get(i).setText(String.valueOf(model.getFramePnr(i)));
     }
 
-    /* ******************** ACTIONS ******************** */
-
+    // _________________________ BUTTON-ACTIONS _________________________
     @FXML
     void reset(ActionEvent e) throws ParserConfigurationException, SAXException, IOException {
-        model.resetModel();
+        model.initModel();
     }
 
     @FXML
@@ -167,9 +114,9 @@ public class MainController implements Observer {
         model.runProgram();
     }
 
-    /* ******************** GETTERS ******************** */
+    // _________________________ GETTERS _________________________
 
-    /* ******************** SETTERS ******************** */
+    // _________________________ SETTERS _________________________
     public void setModel(MainModel model) {
         this.model = model;
         initFrames();

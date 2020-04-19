@@ -16,13 +16,11 @@ import java.util.Observable;
 
 public class MainModel extends Observable {
 
-    /* TESTKLASSE VARIABELEN */
     private static Ram ram;
     private static List<Instruction> instructionList;
     private static int timer;
 
     /* ******************** ATTRIBUTES ******************** */
-
     private int clk;
     private String xmlFile;
 
@@ -31,50 +29,43 @@ public class MainModel extends Observable {
     private PreviousInstruction pOP = new PreviousInstruction();
 
     private ToggleGroup fileChooser = new ToggleGroup();
-    RadioButton button1;
-    RadioButton button2;
-    RadioButton button3;
-    RadioButton selectedButton;
-
+    RadioButton file1, file2, file3, fileSelected;
 
     /* ******************** CONSTRUCTORS ******************** */
     public MainModel() throws ParserConfigurationException, SAXException, IOException {
-        resetModel();
+        initModel();
     }
 
     /* ******************** INIT ******************** */
-    public void resetModel() {
-        initMain();
-        frames.init();
-        cOP.init();
-        pOP.init();
-
-        refresh();
-    }
-
-    public void initMain() {
+    public void initModel() {
         //ANCHOR_LEFT
         clk = 0;
         initRadioButtons();
-        //REFRESH
+
+        //INSTRUCTION CARDS
+        cOP.init();
+        pOP.init();
+        //FRAMES
+        frames.init();
+
         refresh();
     }
 
     public void initRadioButtons() {
-        button1 = new RadioButton("30_3");
-        button1.setToggleGroup(fileChooser);
-        button1.setSelected(true);
+        file1 = new RadioButton("30_3");
+        file1.setToggleGroup(fileChooser);
+        file1.setSelected(true);
 
-        button2 = new RadioButton("20000_4");
-        button2.setToggleGroup(fileChooser);
+        file2 = new RadioButton("20000_4");
+        file2.setToggleGroup(fileChooser);
 
-        button3 = new RadioButton("20000_20");
-        button3.setToggleGroup(fileChooser);
+        file3 = new RadioButton("20000_20");
+        file3.setToggleGroup(fileChooser);
     }
 
     public void initProgram() throws IOException, SAXException, ParserConfigurationException {
         refreshRadioButtons();
-        xmlFile=selectedButton.getText();
+        xmlFile = fileSelected.getText();
         ram = new Ram(new LruStrategy());
         instructionList = InstructionReader.getInstance().readInstructions(xmlFile);
         timer = 0;
@@ -152,7 +143,6 @@ public class MainModel extends Observable {
     /* ******************** SETTERS ******************** */
     public void setXmlFile(String xmlFile) throws ParserConfigurationException, SAXException, IOException {
         this.xmlFile = xmlFile;
-        initMain();
         refresh();
     }
 
@@ -184,7 +174,7 @@ public class MainModel extends Observable {
     }
 
     public void refreshRadioButtons() {
-        selectedButton= (RadioButton)fileChooser.getSelectedToggle();
+        fileSelected = (RadioButton) fileChooser.getSelectedToggle();
 
     }
 }

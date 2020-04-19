@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-import static main.MainNew.FRAME_NUMBER;
+import static main.Main.FRAME_NUMBER;
 
 public class Frames extends Observable {
 
