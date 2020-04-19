@@ -11,13 +11,16 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main extends Application {
+    public static final int FRAME_NUMBER = 12;
     private static final String MAIN_TITLE = "PAGINATION EMULATOR";
     private static final String GUI_MAIN_VIEW_FXML = "/gui/view/MainView.fxml";
     private static final String GUI_VIEW_GENERAL_CSS = "/gui/view/general.css";
-    public static int FRAME_NUMBER = 12;
-
     private Stage primaryStage;
     private MainModel mainModel;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -25,10 +28,6 @@ public class Main extends Application {
         this.primaryStage = primaryStage;
         showMain();
         mainModel.refresh();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 
     private void showMain() throws IOException {

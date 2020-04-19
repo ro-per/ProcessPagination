@@ -1,11 +1,11 @@
 package entities;
 
 public class Entry {
+    private final Page page;
     private boolean isModified;
     private boolean isPresent;
     private int lastAccessTime;
     private int frameNumber;
-    private final Page page;
 
     public Entry() {
         isModified = false;

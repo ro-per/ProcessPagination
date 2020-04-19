@@ -26,9 +26,8 @@ public class MainController implements Observer {
     private Label clkValue;
 
     // RADIO BUTTONS
-    private ToggleGroup fileChooser;
     @FXML
-    private RadioButton set_30_3, set_20k_4, set_20k_20;
+    private RadioButton radio303, radio20k4, radio20k20;
 
     // INSTRUCTION CARDS
     private List<AnchorPane> opList = new ArrayList<>();
@@ -60,7 +59,6 @@ public class MainController implements Observer {
         updateInstructionCards();
         updateFrames();
     }
-
 
     // INSTRUCTION CARDS
     void updateInstructionCards() {
@@ -107,16 +105,14 @@ public class MainController implements Observer {
 
         model.setOpColors('C', 3);
         model.setOpColors('P', 2);
+
+
     }
 
     @FXML
     void run(ActionEvent e) throws ParserConfigurationException, SAXException, IOException {
-
-        RadioButton temp = (RadioButton) fileChooser.getSelectedToggle();
-        String set = temp.getText();
-
-        model.initProgram(set);
-        model.runProgram(set);
+        model.initProgram();
+        model.runProgram();
     }
 
     // _________________________ GETTERS _________________________
@@ -130,17 +126,34 @@ public class MainController implements Observer {
     }
 
 
-    //FILECHOOSER
+    //FILE CHOOSER
     public void initFileChooser() {
-        fileChooser = new ToggleGroup();
-        //init selection state
-        set_30_3.setSelected(true);
-        set_20k_4.setSelected(false);
-        set_20k_20.setSelected(false);
+        ToggleGroup fileChooser = new ToggleGroup();
         //add to toggle group
-        set_30_3.setToggleGroup(fileChooser);
-        set_20k_4.setToggleGroup(fileChooser);
-        set_20k_20.setToggleGroup(fileChooser);
+        radio303.setToggleGroup(fileChooser);
+        radio20k4.setToggleGroup(fileChooser);
+        radio20k20.setToggleGroup(fileChooser);
+        initSelectionState();
+
+        //ACTION LISTENER
+        fileChooser.selectedToggleProperty().addListener((observableValue, oldToggle, newToggle) -> {
+            if (fileChooser.getSelectedToggle() != null) {
+                model.initModel();
+                RadioButton temp = (RadioButton) fileChooser.getSelectedToggle();
+                String set = temp.getText();
+                model.setXmlSet(set);
+                System.out.println(set);
+
+            } else {
+                initSelectionState();
+            }
+        });
+    }
+
+    public void initSelectionState() {
+        radio303.setSelected(true);
+        radio20k4.setSelected(false);
+        radio20k20.setSelected(false);
     }
 
     //INSTRUCTION CARDS

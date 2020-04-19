@@ -6,13 +6,12 @@ import java.util.List;
 
 public class Ram {
 
+    public static final int AMOUNT_OF_FRAMES = 12;
     private int framesPerProcess;
     private int processCounter;
     private int totalWrites;
     private int totalReads;
     private int amountOfDifferentProcesses;
-    public static final int AMOUNT_OF_FRAMES = 12;
-
     //Ram has max. 12 frames or maximum 12 pages
     private Page[] presentPages = new Page[AMOUNT_OF_FRAMES];
 

@@ -16,7 +16,8 @@ public class Frames extends Observable {
         initFramePNRs();
         refresh();
     }
-    /* ******************** INIT ******************** */
+
+    // _________________________ INIT _________________________
     public void initFrameIDs() {
         framePidList.clear();
         for (int i = 0; i < FRAME_NUMBER; i++) {
@@ -33,13 +34,13 @@ public class Frames extends Observable {
         refresh();
     }
 
-    /* ******************** REFRESH ******************** */
+    // _________________________ REFRESG _________________________
     public void refresh() {
         setChanged();
         notifyObservers();
     }
 
-    /* ******************** GETTERS ******************** */
+    // _________________________ GETTERS _________________________
     public int getFramePidSingle(int i) {
         return framePidList.get(i);
     }
@@ -55,7 +56,8 @@ public class Frames extends Observable {
     public List<Integer> getFramePnrList() {
         return framePnrList;
     }
-    /* ******************** SETTERS ******************** */
+
+    // _________________________ SETTERS _________________________
     public void countPIDs() {
         for (int i = 0; i < FRAME_NUMBER; i++) {
             int temp = framePidList.get(i);

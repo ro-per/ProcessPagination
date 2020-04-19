@@ -17,14 +17,14 @@ public class MainModel extends Observable {
 
     // _________________________ ATTRIBUTES _________________________
     private int clk;
-    private String xmlFile;
+    private String xmlSet;
 
     private Frames frames = new Frames();
     private CurrentInstruction cOP = new CurrentInstruction();
     private PreviousInstruction pOP = new PreviousInstruction();
 
     // _________________________ CONSTRUCTORS _________________________
-    public MainModel() throws ParserConfigurationException, SAXException, IOException {
+    public MainModel() {
         initModel();
     }
 
@@ -41,17 +41,18 @@ public class MainModel extends Observable {
 
         //REFRESH THE MODEL
         refresh();
+
     }
 
-    public void initProgram(String xmlFile) throws IOException, SAXException, ParserConfigurationException {
+    public void initProgram() throws IOException, SAXException, ParserConfigurationException {
         ram = new Ram(new LruStrategy());
-        instructionList = InstructionReader.getInstance().readInstructions(xmlFile);
+        instructionList = InstructionReader.getInstance().readInstructions(this.xmlSet);
         timer = 0;
 
     }
 
     // _________________________ RUN _________________________
-    public static void runProgram(String set) {
+    public void runProgram() {
         while (timer < instructionList.size()) {
             Instruction currentInstruction = instructionList.get(timer);
             String operation = currentInstruction.getOperation();
@@ -82,9 +83,42 @@ public class MainModel extends Observable {
             }
             timer++;
         }
-        System.out.println("_-_-_-_-" + set + "-_-_-_-_");
+        System.out.println("_-_-_-_-" + this.xmlSet + "-_-_-_-_");
     }
 
+    public void stepProgram() {
+        while (timer < instructionList.size()) {
+            Instruction currentInstruction = instructionList.get(timer);
+            String operation = currentInstruction.getOperation();
+            switch (operation) {
+                case "Read":
+                    System.out.println("Reading process " + currentInstruction.getProcessID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber());
+                    ram.read(currentInstruction.getProcessID(), currentInstruction.getPageNumber(), timer);
+                    System.out.println("Read " + ram);
+                    break;
+                case "Write":
+                    System.out.println("Writing to process " + currentInstruction.getProcessID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber());
+                    ram.write(currentInstruction.getProcessID(), currentInstruction.getPageNumber(), timer);
+                    System.out.println("Wrote " + ram);
+                    break;
+                case "Start":
+                    System.out.println("Starting process " + currentInstruction.getProcessID());
+                    entities.Process currentProcess = new Process(currentInstruction.getProcessID());
+                    ram.addProcess(currentProcess);
+                    System.out.println("Started: " + ram);
+                    break;
+                case "Terminate":
+                    System.out.println("Terminating process " + currentInstruction.getProcessID());
+                    ram.removeProcess(currentInstruction.getProcessID());
+                    System.out.println("Terminated:" + ram);
+                    break;
+                default:
+                    break;
+            }
+            timer++;
+        }
+        System.out.println("_-_-_-_-" + this.xmlSet + "-_-_-_-_");
+    }
 
     // _________________________ REFRESH _________________________
     public void refresh() {
@@ -95,6 +129,11 @@ public class MainModel extends Observable {
     // _________________________ GETTERS _________________________
     public int getClk() {
         return clk;
+    }
+
+    public void setClk(int clock) {
+        this.clk = clock;
+        refresh();
     }
 
     public String getCopColors(int i) {
@@ -119,9 +158,8 @@ public class MainModel extends Observable {
         refresh();
     }
 
-    public void setClk(int clock) {
-        this.clk = clock;
-        refresh();
+    public void setXmlSet(String xmlSet) {
+        this.xmlSet = xmlSet;
     }
 
     public void setFramePIDs() {

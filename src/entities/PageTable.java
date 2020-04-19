@@ -5,8 +5,8 @@ import java.util.List;
 
 public class PageTable {
 
-    private List<Entry> entries;
     public static final int PAGE_TABLE_LENGTH = 16;
+    private List<Entry> entries;
 
     public PageTable(int processId) {
         entries = initPageTable(processId);

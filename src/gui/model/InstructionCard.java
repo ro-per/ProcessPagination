@@ -6,36 +6,34 @@ import java.util.Observable;
 
 public class InstructionCard extends Observable {
 
-
+    private static final String OP_ACTIVE = "-fx-background-color: CHARTREUSE;";
+    private static final String OP_INACTIVE = "-fx-background-color: WHITE;";
+    private static final int OP_AMOUNT = 4;
     private List<String> opColorList = new ArrayList<>();
-    private String opACTIVE = "-fx-background-color: CHARTREUSE;";
-    private String opINACTIVE = "-fx-background-color: WHITE;";
-    private static final int OPAMOUNT=4;
 
-
-    /* ******************** INIT ******************** */
+    // _________________________ INIT _________________________
     public void init() {
         opColorList.clear();
-        for (int i = 0; i < OPAMOUNT; i++) {
-            opColorList.add(opINACTIVE);
+        for (int i = 0; i < OP_AMOUNT; i++) {
+            opColorList.add(OP_INACTIVE);
         }
     }
 
-    /* ******************** REFRESH ******************** */
+    // _________________________ REFRESH _________________________
     public void refresh() {
         setChanged();
         notifyObservers();
     }
 
-    /* ******************** GETTERS ******************** */
+    // _________________________ GETTERS _________________________
     public String getOpColor(int i) {
         return opColorList.get(i);
     }
 
-    /* ******************** SETTERS ******************** */
+    // _________________________ SETTERS _________________________
     public void setOpColor(int i) {
         init();
-        opColorList.set(i,opACTIVE);
+        opColorList.set(i, OP_ACTIVE);
         refresh();
     }
 
