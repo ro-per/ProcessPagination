@@ -16,8 +16,6 @@ public class Test {
 
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
         init("30_3");
-        //init("20000_4");
-        //init("20000_20");
         run();
     }
 

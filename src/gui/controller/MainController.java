@@ -1,17 +1,14 @@
 package gui.controller;
 
-import javafx.beans.value.ObservableValue;
+import gui.model.MainModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import gui.model.MainModel;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import org.xml.sax.SAXException;
 
-import javax.swing.event.ChangeListener;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;

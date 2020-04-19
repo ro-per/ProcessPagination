@@ -1,12 +1,7 @@
 package gui.model;
 
-import entities.Instruction;
-import entities.InstructionReader;
-import entities.LruStrategy;
 import entities.Process;
-import entities.Ram;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import entities.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -87,17 +82,15 @@ public class MainModel extends Observable {
             }
             timer++;
         }
-        System.out.println("_-_-_-_-" + set+ "_-_-_-_-");
+        System.out.println("_-_-_-_-" + set + "-_-_-_-_");
     }
 
 
     // _________________________ REFRESH _________________________
-
     public void refresh() {
         setChanged();
         notifyObservers();
     }
-
 
     // _________________________ GETTERS _________________________
     public int getClk() {
@@ -147,9 +140,4 @@ public class MainModel extends Observable {
         }
         refresh();
     }
-/*
-    public void refreshFileChooser() {
-        fileSelected = (RadioButton) fileChooser.getSelectedToggle();
-    }
-    */
 }
