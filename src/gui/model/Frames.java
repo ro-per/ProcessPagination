@@ -1,5 +1,7 @@
 package gui.model;
 
+import entities.Page;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -34,7 +36,7 @@ public class Frames extends Observable {
         refresh();
     }
 
-    // _________________________ REFRESG _________________________
+    // _________________________ REFRESH _________________________
     public void refresh() {
         setChanged();
         notifyObservers();
@@ -72,6 +74,24 @@ public class Frames extends Observable {
             int temp = framePnrList.get(i);
             temp++;
             framePnrList.set(i, temp);
+        }
+        refresh();
+    }
+
+    public void setFrames(Page[] frames) {
+        for (int i = 0; i < FRAME_NUMBER; i++) {
+            int pid;
+            int pnr;
+            try {
+                pid = frames[i].getPID();
+                pnr = frames[i].getPNR();
+            }catch(NullPointerException ne){
+                pid=0;
+                pnr=0;
+            }
+            framePidList.set(i, pid);
+            framePnrList.set(i, pnr);
+
         }
         refresh();
     }

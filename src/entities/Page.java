@@ -10,19 +10,19 @@ public class Page {
         this.pageNumber = pageNumber;
     }
 
-    public int getProcessID() {
+    public int getPID() {
         return processID;
     }
 
-    public void setProcessID(int processID) {
+    public void setPID(int processID) {
         this.processID = processID;
     }
 
-    public int getPageNumber() {
+    public int getPNR() {
         return pageNumber;
     }
 
-    public void setPageNumber(int pageNumber) {
+    public void setPNR(int pageNumber) {
         this.pageNumber = pageNumber;
     }
 

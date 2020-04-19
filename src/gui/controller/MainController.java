@@ -3,6 +3,7 @@ package gui.controller;
 import gui.model.MainModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -28,6 +29,10 @@ public class MainController implements Observer {
     // RADIO BUTTONS
     @FXML
     private RadioButton radio303, radio20k4, radio20k20;
+
+    //ACTION BUTTONS
+    @FXML
+    private Button button_reset, button_run, button_next;
 
     // INSTRUCTION CARDS
     private List<AnchorPane> opList = new ArrayList<>();
@@ -58,6 +63,14 @@ public class MainController implements Observer {
         clkValue.setText(String.valueOf(model.getClk()));
         updateInstructionCards();
         updateFrames();
+        updateActionButtons();
+    }
+
+    public void updateActionButtons() {
+        button_reset.setDisable(model.getButtonsDisabled(0));
+        button_run.setDisable(model.getButtonsDisabled(1));
+        button_next.setDisable(model.getButtonsDisabled(2));
+
     }
 
     // INSTRUCTION CARDS
@@ -91,27 +104,27 @@ public class MainController implements Observer {
     // _________________________ BUTTON-ACTIONS _________________________
     @FXML
     void reset(ActionEvent e) {
+        System.out.println("++++++++++++ RESET ++++++++++++");
         model.initModel();
         initFileChooser();
         initOpColors();
         initFrames();
+        model.setButtonsDisabled(true);
     }
 
     @FXML
     void next(ActionEvent e) {
+        System.out.println("++++++++++++ NEXT ++++++++++++");
         model.countCLK();
-        model.setFramePIDs();
-        model.setFramePNRs();
-
         model.setOpColors('C', 3);
         model.setOpColors('P', 2);
-
-
+        model.stepProgram();
     }
 
     @FXML
-    void run(ActionEvent e) throws ParserConfigurationException, SAXException, IOException {
-        model.initProgram();
+    void run(ActionEvent e) {
+        System.out.println("++++++++++++ RUN ++++++++++++");
+
         model.runProgram();
     }
 
@@ -120,11 +133,11 @@ public class MainController implements Observer {
     // _________________________ SETTERS _________________________
     public void setModel(MainModel model) {
         this.model = model;
+        model.setButtonsDisabled(true);
         initFileChooser();
         initOpColors();
         initFrames();
     }
-
 
     //FILE CHOOSER
     public void initFileChooser() {
@@ -133,27 +146,36 @@ public class MainController implements Observer {
         radio303.setToggleGroup(fileChooser);
         radio20k4.setToggleGroup(fileChooser);
         radio20k20.setToggleGroup(fileChooser);
-        initSelectionState();
+
+        radio303.setSelected(false);
+        radio20k4.setSelected(false);
+        radio20k20.setSelected(false);
 
         //ACTION LISTENER
         fileChooser.selectedToggleProperty().addListener((observableValue, oldToggle, newToggle) -> {
             if (fileChooser.getSelectedToggle() != null) {
                 model.initModel();
+
                 RadioButton temp = (RadioButton) fileChooser.getSelectedToggle();
                 String set = temp.getText();
                 model.setXmlSet(set);
+
                 System.out.println(set);
+                model.setButtonsDisabled(false);
+
+                try {
+                    model.initProgram();
+                } catch (IOException | SAXException | ParserConfigurationException e) {
+                    e.printStackTrace();
+                }
+
 
             } else {
-                initSelectionState();
+                radio303.setSelected(true);
+                radio20k4.setSelected(false);
+                radio20k20.setSelected(false);
             }
         });
-    }
-
-    public void initSelectionState() {
-        radio303.setSelected(true);
-        radio20k4.setSelected(false);
-        radio20k20.setSelected(false);
     }
 
     //INSTRUCTION CARDS

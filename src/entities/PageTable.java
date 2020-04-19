@@ -55,7 +55,7 @@ public class PageTable {
     }
 
     public int getPageNumber(int pageNumber) {
-        return entries.get(pageNumber).getPage().getPageNumber();
+        return entries.get(pageNumber).getPage().getPNR();
     }
 
     public boolean isPageInRam(int pageNumber) {

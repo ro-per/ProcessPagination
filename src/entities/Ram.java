@@ -39,7 +39,7 @@ public class Ram {
     private void removeProcess(Process process) {
         if (process != null) {
             for (Page frame : presentPages) {
-                if (frame.getProcessID() == process.getProcessID()) {
+                if (frame.getPID() == process.getProcessID()) {
                     removePage(frame);
                 }
             }
@@ -49,10 +49,10 @@ public class Ram {
 
 
     private void removePage(Page page) {
-        Process process = getProcess(page.getProcessID());
+        Process process = getProcess(page.getPID());
         int frameNumber;
-        frameNumber = process.getFrameNumber(page.getPageNumber());
-        process.updatePageTable(page.getPageNumber(), frameNumber, false, false);
+        frameNumber = process.getFrameNumber(page.getPNR());
+        process.updatePageTable(page.getPNR(), frameNumber, false, false);
         presentPages[frameNumber] = null;
     }
 
@@ -79,7 +79,7 @@ public class Ram {
             index++;
         }
         presentPages[index] = page;
-        process.updatePageTable(page.getPageNumber(), index, true, false);
+        process.updatePageTable(page.getPNR(), index, true, false);
     }
 
     private Process getProcess(int processID) {
@@ -95,7 +95,7 @@ public class Ram {
         Page currentPage = presentPages[currentFrameNumber];
         Process currentProcess = getProcess(processID);
         if (currentPage != null) {
-            currentProcess.updatePageTable(currentPage.getPageNumber(), 0, false, false);
+            currentProcess.updatePageTable(currentPage.getPNR(), 0, false, false);
             currentProcess.increaseWriteCount();
             totalWrites++;
         }
@@ -112,7 +112,7 @@ public class Ram {
             currentProcess.setModified(pageNumber, true);
         } else {
             Page page = strategy.getPage(currentProcess);
-            int currentFrameNumber = currentProcess.getFrameNumber(page.getPageNumber());
+            int currentFrameNumber = currentProcess.getFrameNumber(page.getPNR());
             swapPage(currentFrameNumber, pageNumber, processID);
         }
         currentProcess.setPageLastAccessTime(pageNumber, time);
@@ -124,7 +124,7 @@ public class Ram {
 
         if (!currentProcess.isPageInRam(pageNumber)) {
             Page page = strategy.getPage(currentProcess);
-            int currentFrameNumber = currentProcess.getFrameNumber(page.getPageNumber());
+            int currentFrameNumber = currentProcess.getFrameNumber(page.getPNR());
             swapPage(currentFrameNumber, pageNumber, processID);
             currentProcess.updatePageTable(currentProcess.getPageNumber(pageNumber), currentFrameNumber, true, false);
         }
@@ -154,6 +154,10 @@ public class Ram {
         if (amountOfDifferentProcesses > 0) {
             this.amountOfDifferentProcesses = amountOfDifferentProcesses;
         }
+    }
+
+    public Page [] getFrames(){
+        return presentPages;
     }
 
     @Override
