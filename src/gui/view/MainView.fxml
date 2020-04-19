@@ -70,12 +70,12 @@
                                                     <Insets left="5.0" right="5.0" />
                                                 </HBox.margin>
                                             </RadioButton>
-                                            <RadioButton fx:id="set_20k_4" mnemonicParsing="false" text="20k_4">
+                                            <RadioButton fx:id="set_20k_4" mnemonicParsing="false" text="20000_4">
                                                 <HBox.margin>
                                                     <Insets left="5.0" right="5.0" />
                                                 </HBox.margin>
                                             </RadioButton>
-                                            <RadioButton fx:id="set_20k_20" mnemonicParsing="false" text="20k_20">
+                                            <RadioButton fx:id="set_20k_20" mnemonicParsing="false" text="20000_20">
                                                 <HBox.margin>
                                                     <Insets left="5.0" right="5.0" />
                                                 </HBox.margin>

@@ -1,13 +1,17 @@
 package gui.controller;
 
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import gui.model.MainModel;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import org.xml.sax.SAXException;
 
+import javax.swing.event.ChangeListener;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +29,7 @@ public class MainController implements Observer {
     private Label clkValue;
 
     // RADIO BUTTONS
+    private ToggleGroup fileChooser;
     @FXML
     private RadioButton set_30_3, set_20k_4, set_20k_20;
 
@@ -50,8 +55,6 @@ public class MainController implements Observer {
     private Label frame6Pnr, frame7Pnr, frame8Pnr, frame9Pnr, frame10Pnr, frame11Pnr;
 
 
-
-
     // __________________________________________ METHODS __________________________________________
     // _________________________ UPDATE _________________________
     @Override
@@ -59,13 +62,10 @@ public class MainController implements Observer {
         clkValue.setText(String.valueOf(model.getClk()));
         updateInstructionCards();
         updateFrames();
-        updateRadioButtons();
     }
 
-    void updateRadioButtons() {
-        model.refreshRadioButtons();
-    }
 
+    // INSTRUCTION CARDS
     void updateInstructionCards() {
         updateOpColors();
     }
@@ -77,6 +77,7 @@ public class MainController implements Observer {
             this.opList.get(i + 4).setStyle(model.getPopColors(i));
     }
 
+    //FRAMES
     void updateFrames() {
         updateFramePIDs();
         updateFramePNRs();
@@ -94,8 +95,11 @@ public class MainController implements Observer {
 
     // _________________________ BUTTON-ACTIONS _________________________
     @FXML
-    void reset(ActionEvent e) throws ParserConfigurationException, SAXException, IOException {
+    void reset(ActionEvent e) {
         model.initModel();
+        initFileChooser();
+        initOpColors();
+        initFrames();
     }
 
     @FXML
@@ -103,15 +107,19 @@ public class MainController implements Observer {
         model.countCLK();
         model.setFramePIDs();
         model.setFramePNRs();
+
+        model.setOpColors('C', 3);
+        model.setOpColors('P', 2);
     }
 
     @FXML
     void run(ActionEvent e) throws ParserConfigurationException, SAXException, IOException {
-        model.setOpColors('C', 3);
-        model.setOpColors('P', 2);
 
-        model.initProgram();
-        model.runProgram();
+        RadioButton temp = (RadioButton) fileChooser.getSelectedToggle();
+        String set = temp.getText();
+
+        model.initProgram(set);
+        model.runProgram(set);
     }
 
     // _________________________ GETTERS _________________________
@@ -119,11 +127,26 @@ public class MainController implements Observer {
     // _________________________ SETTERS _________________________
     public void setModel(MainModel model) {
         this.model = model;
-        initFrames();
+        initFileChooser();
         initOpColors();
-
+        initFrames();
     }
 
+
+    //FILECHOOSER
+    public void initFileChooser() {
+        fileChooser = new ToggleGroup();
+        //init selection state
+        set_30_3.setSelected(true);
+        set_20k_4.setSelected(false);
+        set_20k_20.setSelected(false);
+        //add to toggle group
+        set_30_3.setToggleGroup(fileChooser);
+        set_20k_4.setToggleGroup(fileChooser);
+        set_20k_20.setToggleGroup(fileChooser);
+    }
+
+    //INSTRUCTION CARDS
     public void initOpColors() {
         initCurOpColors();
         initPrevOpColors();
@@ -143,6 +166,7 @@ public class MainController implements Observer {
         opList.add(prevOpTerminatePane);
     }
 
+    //FRAMES
     public void initFrames() {
         initFramePIDs();
         initFramePNRs();
@@ -178,4 +202,6 @@ public class MainController implements Observer {
         framePnrList.add(frame11Pnr);
 
     }
+
+
 }

@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.Observable;
 
 public class MainModel extends Observable {
-
+    // _________________________ MODELS _________________________
     private static Ram ram;
     private static List<Instruction> instructionList;
     private static int timer;
 
-    /* ******************** ATTRIBUTES ******************** */
+    // _________________________ ATTRIBUTES _________________________
     private int clk;
     private String xmlFile;
 
@@ -28,19 +28,15 @@ public class MainModel extends Observable {
     private CurrentInstruction cOP = new CurrentInstruction();
     private PreviousInstruction pOP = new PreviousInstruction();
 
-    private ToggleGroup fileChooser = new ToggleGroup();
-    RadioButton file1, file2, file3, fileSelected;
-
-    /* ******************** CONSTRUCTORS ******************** */
+    // _________________________ CONSTRUCTORS _________________________
     public MainModel() throws ParserConfigurationException, SAXException, IOException {
         initModel();
     }
 
-    /* ******************** INIT ******************** */
+    // _________________________ INIT _________________________
     public void initModel() {
         //ANCHOR_LEFT
         clk = 0;
-        initRadioButtons();
 
         //INSTRUCTION CARDS
         cOP.init();
@@ -48,31 +44,19 @@ public class MainModel extends Observable {
         //FRAMES
         frames.init();
 
+        //REFRESH THE MODEL
         refresh();
     }
 
-    public void initRadioButtons() {
-        file1 = new RadioButton("30_3");
-        file1.setToggleGroup(fileChooser);
-        file1.setSelected(true);
-
-        file2 = new RadioButton("20000_4");
-        file2.setToggleGroup(fileChooser);
-
-        file3 = new RadioButton("20000_20");
-        file3.setToggleGroup(fileChooser);
-    }
-
-    public void initProgram() throws IOException, SAXException, ParserConfigurationException {
-        refreshRadioButtons();
-        xmlFile = fileSelected.getText();
+    public void initProgram(String xmlFile) throws IOException, SAXException, ParserConfigurationException {
         ram = new Ram(new LruStrategy());
         instructionList = InstructionReader.getInstance().readInstructions(xmlFile);
         timer = 0;
 
     }
 
-    public static void runProgram() {
+    // _________________________ RUN _________________________
+    public static void runProgram(String set) {
         while (timer < instructionList.size()) {
             Instruction currentInstruction = instructionList.get(timer);
             String operation = currentInstruction.getOperation();
@@ -103,23 +87,19 @@ public class MainModel extends Observable {
             }
             timer++;
         }
+        System.out.println("_-_-_-_-" + set+ "_-_-_-_-");
     }
 
 
-    /* ******************** REFRESH ******************** */
+    // _________________________ REFRESH _________________________
 
     public void refresh() {
         setChanged();
         notifyObservers();
     }
 
-    /* ******************** COUNTERS ******************** */
-    public void countCLK() {
-        this.clk++;
-        refresh();
-    }
 
-    /* ******************** GETTERS ******************** */
+    // _________________________ GETTERS _________________________
     public int getClk() {
         return clk;
     }
@@ -140,9 +120,9 @@ public class MainModel extends Observable {
         return frames.getFramePnrSingle(i);
     }
 
-    /* ******************** SETTERS ******************** */
-    public void setXmlFile(String xmlFile) throws ParserConfigurationException, SAXException, IOException {
-        this.xmlFile = xmlFile;
+    // _________________________ SETTERS _________________________
+    public void countCLK() {
+        this.clk++;
         refresh();
     }
 
@@ -165,16 +145,11 @@ public class MainModel extends Observable {
         } else {
             pOP.setOpColor(i);
         }
+        refresh();
     }
-
-
-    public void setRadioButtons(RadioButton set_30_3, RadioButton set_20k_4, RadioButton set_20k_20) {
-
-
-    }
-
-    public void refreshRadioButtons() {
+/*
+    public void refreshFileChooser() {
         fileSelected = (RadioButton) fileChooser.getSelectedToggle();
-
     }
+    */
 }
