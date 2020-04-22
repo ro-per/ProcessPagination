@@ -23,7 +23,7 @@ public class Frames extends Observable {
     public void initFrameIDs() {
         framePidList.clear();
         for (int i = 0; i < FRAME_NUMBER; i++) {
-            framePidList.add(0);
+            framePidList.add(-1);
         }
         refresh();
     }
@@ -31,7 +31,7 @@ public class Frames extends Observable {
     public void initFramePNRs() {
         framePnrList.clear();
         for (int i = 0; i < FRAME_NUMBER; i++) {
-            framePnrList.add(0);
+            framePnrList.add(-1);
         }
         refresh();
     }
@@ -86,8 +86,8 @@ public class Frames extends Observable {
                 pid = frames[i].getPID();
                 pnr = frames[i].getPNR();
             }catch(NullPointerException ne){
-                pid=0;
-                pnr=0;
+                pid=-1;
+                pnr=-1;
             }
             framePidList.set(i, pid);
             framePnrList.set(i, pnr);

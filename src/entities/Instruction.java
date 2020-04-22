@@ -5,7 +5,8 @@ import utils.BinaryConverter;
 public class Instruction {
 
     private int processID;
-    private String operation;
+    private String opString;
+    private int opInt; //NIET VERWIJDEREN
     private int virtualAddress;
 
     public Instruction() {
@@ -25,7 +26,7 @@ public class Instruction {
         return Integer.parseInt(binaryPageNumber, 2);
     }
 
-    public int getProcessID() {
+    public int getPID() {
         return processID;
     }
 
@@ -33,12 +34,33 @@ public class Instruction {
         this.processID = processID;
     }
 
-    public String getOperation() {
-        return operation;
+    public String getOpString() {
+        return opString;
+    }
+    public int getOpInt(){
+        return this.opInt;
     }
 
     public void setOperation(String operation) {
-        this.operation = operation;
+        this.opString = operation;
+        switch (operation) {
+            case "Start":
+                this.opInt = 0;
+                break;
+            case "Read":
+                this.opInt = 1;
+
+                break;
+            case "Write":
+                this.opInt = 2;
+
+                break;
+            case "Terminate":
+                this.opInt = 3;
+                break;
+            default:
+                break;
+        }
     }
 
     public int getVirtualAddress() {
@@ -53,7 +75,7 @@ public class Instruction {
     public String toString() {
         return "Instruction{" +
                 "processID=" + processID +
-                ", operation='" + operation + '\'' +
+                ", operation='" + opString + '\'' +
                 ", virtualAddress=" + virtualAddress +
                 '}';
     }

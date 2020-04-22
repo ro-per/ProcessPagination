@@ -9,7 +9,7 @@
 /* FRAMES */
 .Frame{
 -fx-background-radius: 10px;
--fx-background-color: green;
+-fx-background-color: grey;
 -fx-padding: 5px;
 
 }
@@ -25,11 +25,11 @@
 
 /* INSTUCTION CARDS*/
 .pID{
--fx-background-color: darksalmon  ;
+-fx-background-color: white  ;
 -fx-background-radius: 5px;
 }
 .vAddr{
--fx-background-color: goldenrod    ;
+-fx-background-color: white    ;
 -fx-background-radius: 5px;
 }
 .op{
@@ -49,6 +49,6 @@
 -fx-background-radius: 5px;
 }
 .pageNr{
-	-fx-background-color: DARKORANGE   ;
+	-fx-background-color: white   ;
 -fx-background-radius: 5px;
 }

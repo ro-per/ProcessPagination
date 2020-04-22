@@ -28,27 +28,27 @@ public class Test {
     public static void run() {
         while (timer < instructionList.size()) {
             Instruction currentInstruction = instructionList.get(timer);
-            String operation = currentInstruction.getOperation();
+            String operation = currentInstruction.getOpString();
             switch (operation) {
                 case "Read":
-                    System.out.println("Reading process " + currentInstruction.getProcessID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber());
-                    ram.read(currentInstruction.getProcessID(), currentInstruction.getPageNumber(), timer);
+                    System.out.println("Reading process " + currentInstruction.getPID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber());
+                    ram.read(currentInstruction.getPID(), currentInstruction.getPageNumber(), timer);
                     System.out.println("Read " + ram);
                     break;
                 case "Write":
-                    System.out.println("Writing to process " + currentInstruction.getProcessID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber());
-                    ram.write(currentInstruction.getProcessID(), currentInstruction.getPageNumber(), timer);
+                    System.out.println("Writing to process " + currentInstruction.getPID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber());
+                    ram.write(currentInstruction.getPID(), currentInstruction.getPageNumber(), timer);
                     System.out.println("Wrote " + ram);
                     break;
                 case "Start":
-                    System.out.println("Starting process " + currentInstruction.getProcessID());
-                    Process currentProcess = new Process(currentInstruction.getProcessID());
+                    System.out.println("Starting process " + currentInstruction.getPID());
+                    Process currentProcess = new Process(currentInstruction.getPID());
                     ram.addProcess(currentProcess);
                     System.out.println("Started: " + ram);
                     break;
                 case "Terminate":
-                    System.out.println("Terminating process " + currentInstruction.getProcessID());
-                    ram.removeProcess(currentInstruction.getProcessID());
+                    System.out.println("Terminating process " + currentInstruction.getPID());
+                    ram.removeProcess(currentInstruction.getPID());
                     System.out.println("Terminated:" + ram);
                     break;
                 default:

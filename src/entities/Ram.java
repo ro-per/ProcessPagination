@@ -156,19 +156,20 @@ public class Ram {
         }
     }
 
-    public Page [] getFrames(){
+    public Page[] getFrames() {
         return presentPages;
     }
 
     @Override
     public String toString() {
-        return "Ram{" +
-                "frames=" + Arrays.toString(presentPages) +
-                ", processes=" + processes +
-                ", framesPerProcess=" + framesPerProcess +
-                ", processCounter=" + processCounter +
-                ", totalWrites=" + totalWrites +
-                ", totalReads=" + totalReads +
-                '}';
+        return "\n" +
+                "-------- Ram --------" +
+                "\n ----FRAMES---- \n" + Arrays.toString(presentPages) +
+                "\n ----PROCESSES---- \n" + processes +
+                "\n ----FRAMES/PROCESS---- \n" + framesPerProcess +
+                "\n ----PROCESS COUNTER---- \n" + processCounter +
+                "\n ----TOTAL WRITES---- \n" + totalWrites +
+                "\n ----TOTAL READS---- \n" + totalReads +
+                "\n ---------------------";
     }
 }

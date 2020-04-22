@@ -37,6 +37,8 @@ public class MainController implements Observer {
     // INSTRUCTION CARDS
     private List<AnchorPane> opList = new ArrayList<>();
     @FXML
+    private Label curPid, curvaddr;
+    @FXML
     private AnchorPane curOpStart, curOpRead, curOpWrite, curOpTerminate;
     @FXML
     private AnchorPane prevOpStartPane, prevOpReadPane, prevOpWritePane, prevOpTerminatePane;
@@ -75,14 +77,21 @@ public class MainController implements Observer {
 
     // INSTRUCTION CARDS
     void updateInstructionCards() {
-        updateOpColors();
+        updateCurrentInstructionCard();
+        updatePreviousInstructionCard();
     }
 
-    void updateOpColors() {
+    private void updateCurrentInstructionCard() {
+        //UPDATE OP
+        this.curPid.setText(model.getCurPid());
+        //UPDATE vADDR
+        this.curvaddr.setText(model.getcurvaddr());
+        //UPDATE OP-COLOR
         for (int i = 0; i < 4; i++)
             this.opList.get(i).setStyle(model.getCopColors(i));
-        for (int i = 0; i < 4; i++)
-            this.opList.get(i + 4).setStyle(model.getPopColors(i));
+    }
+    private void updatePreviousInstructionCard() {
+
     }
 
     //FRAMES
@@ -115,16 +124,12 @@ public class MainController implements Observer {
     @FXML
     void next(ActionEvent e) {
         System.out.println("++++++++++++ NEXT ++++++++++++");
-        model.countCLK();
-        model.setOpColors('C', 3);
-        model.setOpColors('P', 2);
         model.stepProgram();
     }
 
     @FXML
     void run(ActionEvent e) {
         System.out.println("++++++++++++ RUN ++++++++++++");
-
         model.runProgram();
     }
 

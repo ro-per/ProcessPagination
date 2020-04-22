@@ -20,8 +20,8 @@ public class InstructionReaderTest {
         String operation = "Start";
         List<Instruction> list = InstructionReader.getInstance().readInstructions(InstructionReader.INSTR_30_4);
         Instruction instruction = list.get(0);
-        assertEquals(instruction.getProcessID(), processID);
-        assertEquals(instruction.getOperation(), operation);
+        assertEquals(instruction.getPID(), processID);
+        assertEquals(instruction.getOpString(), operation);
         assertEquals(instruction.getVirtualAddress(), virtualAddress);
     }
 }

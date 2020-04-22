@@ -1,5 +1,7 @@
 package gui.model;
 
+import javafx.scene.control.Label;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -10,6 +12,8 @@ public class InstructionCard extends Observable {
     private static final String OP_INACTIVE = "-fx-background-color: WHITE;";
     private static final int OP_AMOUNT = 4;
     private List<String> opColorList = new ArrayList<>();
+    private int pid;
+    private int vaddr;
 
     // _________________________ INIT _________________________
     public void init() {
@@ -37,4 +41,21 @@ public class InstructionCard extends Observable {
         refresh();
     }
 
+    public void setPID(int pid) {
+        this.pid=pid;
+        refresh();
+    }
+
+    public int getPID() {
+        return this.pid;
+    }
+
+    public void setvaddr(int vaddr){
+        this.vaddr=vaddr;
+        refresh();
+    }
+
+    public int getvaddr() {
+        return this.vaddr;
+    }
 }

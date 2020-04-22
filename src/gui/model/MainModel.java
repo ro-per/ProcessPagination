@@ -2,8 +2,6 @@ package gui.model;
 
 import entities.Process;
 import entities.*;
-import gui.controller.MainController;
-import javafx.scene.control.Button;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -12,19 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-import static main.Main.FRAME_NUMBER;
-
 public class MainModel extends Observable {
+    private static final int BUTTON_NUMBER = 3;
     // _________________________ MODELS _________________________
     private static Ram ram;
     private static List<Instruction> instructionList;
     private static int timer;
-
     // _________________________ ATTRIBUTES _________________________
     private int clk;
     private String xmlSet;
-    private static final int BUTTON_NUMBER = 3;
-
     private Frames frames = new Frames();
     private CurrentInstruction cOP = new CurrentInstruction();
     private PreviousInstruction pOP = new PreviousInstruction();
@@ -50,8 +44,6 @@ public class MainModel extends Observable {
         initActionButtons();
 
 
-
-
         //REFRESH THE MODEL
         refresh();
 
@@ -71,40 +63,58 @@ public class MainModel extends Observable {
 
     }
 
+    // _________________________ DETERMINE OPERATION _________________________
+    public void determineOperation(Instruction currentInstruction){
+        String operation = currentInstruction.getOpString();
+        switch (operation) {
+            case "Read":
+                read(currentInstruction);
+                break;
+            case "Write":
+                write(currentInstruction);
+                break;
+            case "Start":
+                start(currentInstruction);
+                break;
+            case "Terminate":
+                terminate(currentInstruction);
+                break;
+            default:
+                break;
+        }
+    }
+    public void read(Instruction currentInstruction){
+        System.out.println("Reading process " + currentInstruction.getPID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber());
+        ram.read(currentInstruction.getPID(), currentInstruction.getPageNumber(), timer);
+        System.out.println("*READ*" + ram);
+    }
+    public void write(Instruction currentInstruction){
+        System.out.println("Writing to process " + currentInstruction.getPID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber());
+        ram.write(currentInstruction.getPID(), currentInstruction.getPageNumber(), timer);
+        System.out.println("*WROTE*" + ram);
+    }
+    public void start(Instruction currentInstruction){
+        System.out.println("Starting process " + currentInstruction.getPID());
+        entities.Process currentProcess = new Process(currentInstruction.getPID());
+        ram.addProcess(currentProcess);
+        System.out.println("*STARTED*" + ram);
+    }
+    public void terminate(Instruction currentInstruction){
+        System.out.println("Terminating process " + currentInstruction.getPID());
+        ram.removeProcess(currentInstruction.getPID());
+        System.out.println("*TERMINATED*" + ram);
+    }
+
     // _________________________ RUN _________________________
+
     public void runProgram() {
         while (timer < instructionList.size()) {
             Instruction currentInstruction = instructionList.get(timer);
-            String operation = currentInstruction.getOperation();
-            switch (operation) {
-                case "Read":
-                    System.out.println("Reading process " + currentInstruction.getProcessID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber());
-                    ram.read(currentInstruction.getProcessID(), currentInstruction.getPageNumber(), timer);
-                    System.out.println("Read " + ram);
-                    break;
-                case "Write":
-                    System.out.println("Writing to process " + currentInstruction.getProcessID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber());
-                    ram.write(currentInstruction.getProcessID(), currentInstruction.getPageNumber(), timer);
-                    System.out.println("Wrote " + ram);
-                    break;
-                case "Start":
-                    System.out.println("Starting process " + currentInstruction.getProcessID());
-                    entities.Process currentProcess = new Process(currentInstruction.getProcessID());
-                    ram.addProcess(currentProcess);
-                    System.out.println("Started: " + ram);
-                    break;
-                case "Terminate":
-                    System.out.println("Terminating process " + currentInstruction.getProcessID());
-                    ram.removeProcess(currentInstruction.getProcessID());
-                    System.out.println("Terminated:" + ram);
-                    break;
-                default:
-                    break;
-            }
+            determineOperation(currentInstruction);
             timer++;
         }
         setButtonsDisabled(true);
-        System.out.println("_-_-_-_-" + this.xmlSet + "-_-_-_-_");
+        System.out.println("Terminated" + this.xmlSet + ".xml set");
     }
 
     public void stepProgram() {
@@ -112,51 +122,15 @@ public class MainModel extends Observable {
         System.out.println(instructionList.size());
         if (timer < instructionList.size()) {
             Instruction currentInstruction = instructionList.get(timer);
-            String operation = currentInstruction.getOperation();
-            switch (operation) {
-                case "Read":
-                    System.out.println("Reading process " + currentInstruction.getProcessID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber());
-                    ram.read(currentInstruction.getProcessID(), currentInstruction.getPageNumber(), timer);
-                    System.out.println("Read " + ram);
-
-                    setEverything(ram.getFrames(), 1);
-
-                    break;
-                case "Write":
-                    System.out.println("Writing to process " + currentInstruction.getProcessID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber());
-                    ram.write(currentInstruction.getProcessID(), currentInstruction.getPageNumber(), timer);
-                    System.out.println("Wrote " + ram);
-
-
-                    setEverything(ram.getFrames(), 2);
-
-                    break;
-                case "Start":
-                    System.out.println("Starting process " + currentInstruction.getProcessID());
-                    entities.Process currentProcess = new Process(currentInstruction.getProcessID());
-                    ram.addProcess(currentProcess);
-                    System.out.println("Started: " + ram);
-
-                    setEverything(ram.getFrames(), 0);
-
-                    break;
-                case "Terminate":
-                    System.out.println("Terminating process " + currentInstruction.getProcessID());
-                    ram.removeProcess(currentInstruction.getProcessID());
-                    System.out.println("Terminated:" + ram);
-
-
-                    setEverything(ram.getFrames(), 3);
-
-                    break;
-                default:
-                    break;
-            }
+            determineOperation(currentInstruction);
             timer++;
+
+            setViewComplete(ram, currentInstruction);
+            countCLK();
         } else {
             setButtonsDisabled(true);
         }
-        System.out.println("_-_-_-_-" + this.xmlSet + "-_-_-_-_");
+        System.out.println("Terminated" + this.xmlSet + ".xml set");
     }
 
     // _________________________ REFRESH _________________________
@@ -195,11 +169,37 @@ public class MainModel extends Observable {
         return actionButtons.get(i);
     }
 
-    // _________________________ SETTERS _________________________
-    public void setEverything(Page[] frames, int currentOP) {
-        setFrames(frames);
-        setOpColors('C', currentOP);
+    public String getCurPid() {
+        return String.valueOf(this.cOP.getPID());
     }
+    public String getcurvaddr() {
+        return String.valueOf(this.cOP.getvaddr());
+    }
+    // _________________________ SETTERS _________________________
+
+    private void setViewComplete(Ram ram, Instruction currentInstruction) {
+        //INSRTUCTION CARDS
+        //current instruction
+        this.cOP.setPID(currentInstruction.getPID());
+        this.cOP.setvaddr(currentInstruction.getVirtualAddress());
+        this.cOP.setOpColor(currentInstruction.getOpInt());
+        //previous instruction
+        //this.pOP.setOpColor(pOP);
+
+        //PAGE TABLE
+
+        //FRAMES
+        this.frames.setFrames(ram.getFrames());
+        //PROCESSES
+
+
+        refresh();
+    }
+
+    public void setPageTable() {
+
+    }
+
 
     public void countCLK() {
         this.clk++;
@@ -210,26 +210,13 @@ public class MainModel extends Observable {
         this.xmlSet = xmlSet;
     }
 
-    public void setFrames(Page[] frames) {
-        this.frames.setFrames(frames);
-    }
-
-
-    public void setOpColors(char c, int i) {
-        if (c == 'C') {
-            cOP.setOpColor(i);
-        } else {
-            pOP.setOpColor(i);
-        }
-        refresh();
-    }
-
     public void setButtonsDisabled(Boolean bool) {
         for (int i = 0; i < BUTTON_NUMBER; i++) {
-            actionButtons.set(i,bool);
+            actionButtons.set(i, bool);
         }
         refresh();
     }
+
 
 
 }
