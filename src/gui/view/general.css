@@ -37,15 +37,15 @@
 -fx-background-radius: 5px;
 }
 .rAddr{
--fx-background-color: greenyellow    ;
+-fx-background-color: white    ;
 -fx-background-radius: 5px;
 }
 .frameNr{
--fx-background-color: darkturquoise   ;
+-fx-background-color: white   ;
 -fx-background-radius: 5px;
 }
 .offset{
-	-fx-background-color: darkturquoise   ;
+	-fx-background-color: white   ;
 -fx-background-radius: 5px;
 }
 .pageNr{

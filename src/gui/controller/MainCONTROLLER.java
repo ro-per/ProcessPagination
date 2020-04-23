@@ -1,6 +1,6 @@
 package gui.controller;
 
-import gui.model.MainModel;
+import gui.model.MainMODEL;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,50 +19,56 @@ import java.util.Observer;
 
 import static main.Main.FRAME_NUMBER;
 
-public class MainController implements Observer {
-    /* __________________________________________ MODEL VARIABELEN __________________________________________ */
-    private MainModel model;
+public class MainCONTROLLER implements Observer {
+    /* __________________________________________ MODEL VARIABLES __________________________________________ */
+    private MainMODEL model;
+    /* __________________________________________ VIEW VARIABLES __________________________________________ */
+    // _________________________ KOLOM 1 _________________________
     //CLOCK
     @FXML
     private Label clkValue;
-
     // RADIO BUTTONS
     @FXML
     private RadioButton radio303, radio20k4, radio20k20;
-
     //ACTION BUTTONS
     @FXML
     private Button button_reset, button_run, button_next;
-
-    // INSTRUCTION CARDS
-    private List<AnchorPane> opList = new ArrayList<>();
-    @FXML
-    private Label curPid, curvaddr;
+    // CURRENT INSTRUCTION CARD
+    private List<AnchorPane> curOperationColorList = new ArrayList<>();
     @FXML
     private AnchorPane curOpStart, curOpRead, curOpWrite, curOpTerminate;
     @FXML
-    private AnchorPane prevOpStartPane, prevOpReadPane, prevOpWritePane, prevOpTerminatePane;
+    private Label curPid, curVaddr;
 
+    // PREVIOUS INSTRUCTION CARD
+    private List<AnchorPane> prevOperationColorList = new ArrayList<>();
+    @FXML
+    private AnchorPane prevOpStartPane, prevOpReadPane, prevOpWritePane, prevOpTerminatePane;
+    @FXML
+    private Label prevPid, prevVaddr, prevPaddr, prevFrameNr, prevOffset;
+    // _________________________ KOLOM 2 _________________________
+
+    // _________________________ KOLOM 3 _________________________
     // FRAMES - IDs
     private List<Label> framePidList = new ArrayList<>();
     @FXML
     private Label frame0Pid, frame1Pid, frame2Pid, frame3Pid, frame4Pid, frame5Pid;
     @FXML
     private Label frame6Pid, frame7Pid, frame8Pid, frame9Pid, frame10Pid, frame11Pid;
-
     // FRAMES - PNRs
     private List<Label> framePnrList = new ArrayList<>();
     @FXML
     private Label frame0Pnr, frame1Pnr, frame2Pnr, frame3Pnr, frame4Pnr, frame5Pnr;
     @FXML
     private Label frame6Pnr, frame7Pnr, frame8Pnr, frame9Pnr, frame10Pnr, frame11Pnr;
+    // _________________________ KOLOM 4 _________________________
 
 
     // __________________________________________ METHODS __________________________________________
     // _________________________ UPDATE _________________________
     @Override
     public void update(Observable o, Object arg) {
-        clkValue.setText(String.valueOf(model.getClk()));
+        clkValue.setText(String.valueOf(model.getClock()));
         updateInstructionCards();
         updateFrames();
         updateActionButtons();
@@ -77,20 +83,25 @@ public class MainController implements Observer {
 
     // INSTRUCTION CARDS
     void updateInstructionCards() {
-        updateCurrentInstructionCard();
+        updateCurrentInstructionVIEW();
         updatePreviousInstructionCard();
     }
 
-    private void updateCurrentInstructionCard() {
-        //UPDATE OP
+    private void updateCurrentInstructionVIEW() {
         this.curPid.setText(model.getCurPid());
-        //UPDATE vADDR
-        this.curvaddr.setText(model.getcurvaddr());
-        //UPDATE OP-COLOR
+        this.curVaddr.setText(model.getCurVaddr());
         for (int i = 0; i < 4; i++)
-            this.opList.get(i).setStyle(model.getCopColors(i));
+            this.curOperationColorList.get(i).setStyle(model.getCopColors(i));
     }
+
     private void updatePreviousInstructionCard() {
+        this.prevPid.setText(model.getPrevPid());
+        this.prevVaddr.setText(model.getPrevVaddr());
+        for (int i = 0; i < 4; i++)
+            this.prevOperationColorList.get(i).setStyle(model.getPopColors(i));
+        this.prevPaddr.setText(model.getPrevPaddr());
+        this.prevFrameNr.setText(model.getPrevFrameNr());
+        this.prevOffset.setText((model.getPrevOffset()));
 
     }
 
@@ -115,10 +126,10 @@ public class MainController implements Observer {
     void reset(ActionEvent e) {
         System.out.println("++++++++++++ RESET ++++++++++++");
         model.initModel();
-        initFileChooser();
-        initOpColors();
-        initFrames();
-        model.setButtonsDisabled(true);
+        setFileChooser();
+        setOpColors();
+        setFrames();
+        model.setRadioButtonsDisabled(true);
     }
 
     @FXML
@@ -133,48 +144,39 @@ public class MainController implements Observer {
         model.runProgram();
     }
 
-    // _________________________ GETTERS _________________________
-
     // _________________________ SETTERS _________________________
-    public void setModel(MainModel model) {
+    public void setModel(MainMODEL model) {
         this.model = model;
-        model.setButtonsDisabled(true);
-        initFileChooser();
-        initOpColors();
-        initFrames();
+        model.setRadioButtonsDisabled(true);
+        setFileChooser();
+        setOpColors();
+        setFrames();
     }
 
     //FILE CHOOSER
-    public void initFileChooser() {
+    public void setFileChooser() {
         ToggleGroup fileChooser = new ToggleGroup();
         //add to toggle group
         radio303.setToggleGroup(fileChooser);
         radio20k4.setToggleGroup(fileChooser);
         radio20k20.setToggleGroup(fileChooser);
-
         radio303.setSelected(false);
         radio20k4.setSelected(false);
         radio20k20.setSelected(false);
-
         //ACTION LISTENER
         fileChooser.selectedToggleProperty().addListener((observableValue, oldToggle, newToggle) -> {
             if (fileChooser.getSelectedToggle() != null) {
                 model.initModel();
-
                 RadioButton temp = (RadioButton) fileChooser.getSelectedToggle();
                 String set = temp.getText();
-                model.setXmlSet(set);
-
-                System.out.println(set);
-                model.setButtonsDisabled(false);
-
+                model.setXmlFile(set);
+                System.out.println(set); //TODO
+                model.setRadioButtonsDisabled(false);
                 try {
-                    model.initProgram();
+                    model.initExecution();
                 } catch (IOException | SAXException | ParserConfigurationException e) {
                     e.printStackTrace();
                 }
-
-
             } else {
                 radio303.setSelected(true);
                 radio20k4.setSelected(false);
@@ -184,27 +186,27 @@ public class MainController implements Observer {
     }
 
     //INSTRUCTION CARDS
-    public void initOpColors() {
+    public void setOpColors() {
         initCurOpColors();
         initPrevOpColors();
     }
 
     public void initCurOpColors() {
-        opList.add(curOpStart);
-        opList.add(curOpRead);
-        opList.add(curOpWrite);
-        opList.add(curOpTerminate);
+        curOperationColorList.add(curOpStart);
+        curOperationColorList.add(curOpRead);
+        curOperationColorList.add(curOpWrite);
+        curOperationColorList.add(curOpTerminate);
     }
 
     public void initPrevOpColors() {
-        opList.add(prevOpStartPane);
-        opList.add(prevOpReadPane);
-        opList.add(prevOpWritePane);
-        opList.add(prevOpTerminatePane);
+        prevOperationColorList.add(prevOpStartPane);
+        prevOperationColorList.add(prevOpReadPane);
+        prevOperationColorList.add(prevOpWritePane);
+        prevOperationColorList.add(prevOpTerminatePane);
     }
 
     //FRAMES
-    public void initFrames() {
+    public void setFrames() {
         initFramePIDs();
         initFramePNRs();
     }
@@ -239,6 +241,4 @@ public class MainController implements Observer {
         framePnrList.add(frame11Pnr);
 
     }
-
-
 }

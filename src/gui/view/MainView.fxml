@@ -6,7 +6,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="1600.0" stylesheets="@general.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.MainController">
+<AnchorPane prefHeight="500.0" prefWidth="1600.0" stylesheets="@general.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.MainCONTROLLER">
     <VBox maxHeight="0.0" maxWidth="0.0" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
         <children>
             <MenuBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
@@ -127,7 +127,7 @@
                                                                     <Label fx:id="cur_va_label" minWidth="100.0" styleClass="Label" text="Virtual Address" />
                                                                     <AnchorPane fx:id="cur_vAddr" styleClass="vAddr">
                                                                         <children>
-                                                                            <Label fx:id="curvaddr" text="00000" />
+                                                                            <Label fx:id="curVaddr" text="00000" />
                                                                         </children>
                                                                     </AnchorPane>
                                                                 </children>
@@ -212,7 +212,7 @@
                                                                     <Label fx:id="prev_pid_label" minWidth="100.0" styleClass="Label" text="pID: " />
                                                                     <AnchorPane fx:id="prev_pid_pane" styleClass="pID">
                                                                         <children>
-                                                                            <Label fx:id="prev_pid_value" text="000" />
+                                                                            <Label fx:id="prevPid" text="000" />
                                                                         </children>
                                                                     </AnchorPane>
                                                                 </children>
@@ -225,7 +225,7 @@
                                                                     <Label fx:id="cur_va_label1" minWidth="100.0" styleClass="Label" text="Virtual Address" />
                                                                     <AnchorPane fx:id="prev_vAddr1_pane" styleClass="vAddr">
                                                                         <children>
-                                                                            <Label fx:id="prev_vAddr_value" text="00000" />
+                                                                            <Label fx:id="prevVaddr" text="00000" />
                                                                         </children>
                                                                     </AnchorPane>
                                                                 </children>
@@ -294,7 +294,7 @@
                                                                     <Label fx:id="prev_rAddr_label" minWidth="100.0" styleClass="Label" text="Physical Address" />
                                                                     <AnchorPane fx:id="prev_rAddr_pane" styleClass="rAddr">
                                                                         <children>
-                                                                            <Label fx:id="prev_rAddr_value" text="00000" />
+                                                                            <Label fx:id="prevPaddr" text="00000" />
                                                                         </children>
                                                                     </AnchorPane>
                                                                 </children>
@@ -304,13 +304,13 @@
                                                                     <Label fx:id="prev_frameNr_label" minWidth="100.0" styleClass="Label" text="Frame Number" />
                                                                     <AnchorPane fx:id="prev_frameNr_pane" styleClass="frameNr">
                                                                         <children>
-                                                                            <Label fx:id="prev_frameNr_value" text="00000" />
+                                                                            <Label fx:id="prevFrameNr" text="00000" />
                                                                         </children>
                                                                     </AnchorPane>
                                                                     <Label fx:id="prev_frameOffset_label" minWidth="100.0" styleClass="Label" text="Offset" />
                                                                     <AnchorPane fx:id="prev_frameOffset_pane" styleClass="offset">
                                                                         <children>
-                                                                            <Label fx:id="prev_frameOffset_value" text="00000" />
+                                                                            <Label fx:id="prevOffset" text="00000" />
                                                                         </children>
                                                                     </AnchorPane>
                                                                 </children>

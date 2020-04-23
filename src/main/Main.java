@@ -1,7 +1,7 @@
 package main;
 
-import gui.controller.MainController;
-import gui.model.MainModel;
+import gui.controller.MainCONTROLLER;
+import gui.model.MainMODEL;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,7 +16,7 @@ public class Main extends Application {
     private static final String GUI_MAIN_VIEW_FXML = "/gui/view/MainView.fxml";
     private static final String GUI_VIEW_GENERAL_CSS = "/gui/view/general.css";
     private Stage primaryStage;
-    private MainModel mainModel;
+    private MainMODEL mainModel;
 
     public static void main(String[] args) {
         launch(args);
@@ -24,7 +24,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        this.mainModel = new MainModel();
+        this.mainModel = new MainMODEL();
         this.primaryStage = primaryStage;
         showMain();
         mainModel.refresh();
@@ -34,7 +34,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource(GUI_MAIN_VIEW_FXML));
         Parent root = fxmlLoader.load();
-        MainController mainController = fxmlLoader.getController();
+        MainCONTROLLER mainController = fxmlLoader.getController();
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add(GUI_VIEW_GENERAL_CSS);
