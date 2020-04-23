@@ -20,9 +20,9 @@ import java.util.Observer;
 import static main.Main.FRAME_NUMBER;
 
 public class MainCONTROLLER implements Observer {
-    /* __________________________________________ MODEL VARIABLES __________________________________________ */
+    /* ------------------------------------------ MODEL ATTRIBUTES ------------------------------------------ */
     private MainMODEL model;
-    /* __________________________________________ VIEW VARIABLES __________________________________________ */
+    /* ------------------------------------------ VIEW ATTRIBUTES ------------------------------------------ */
     // _________________________ KOLOM 1 _________________________
     //CLOCK
     @FXML
@@ -64,7 +64,7 @@ public class MainCONTROLLER implements Observer {
     // _________________________ KOLOM 4 _________________________
 
 
-    // __________________________________________ METHODS __________________________________________
+    /* ------------------------------------------ METHODS ------------------------------------------ */
     // _________________________ UPDATE _________________________
     @Override
     public void update(Observable o, Object arg) {
@@ -121,7 +121,7 @@ public class MainCONTROLLER implements Observer {
             this.framePnrList.get(i).setText(String.valueOf(model.getFramePnr(i)));
     }
 
-    // _________________________ BUTTON-ACTIONS _________________________
+    /* ------------------------------------------ BUTTON ACTIONS ------------------------------------------ */
     @FXML
     void reset(ActionEvent e) {
         System.out.println("++++++++++++ RESET ++++++++++++");
@@ -144,7 +144,7 @@ public class MainCONTROLLER implements Observer {
         model.runProgram();
     }
 
-    // _________________________ SETTERS _________________________
+    /* ------------------------------------------ SETTERS ------------------------------------------ */
     public void setModel(MainMODEL model) {
         this.model = model;
         model.setRadioButtonsDisabled(true);
