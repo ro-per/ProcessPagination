@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static main.Main.AMOUNT_OF_FRAMES;
+
 public class Ram {
 
-    public static final int AMOUNT_OF_FRAMES = 12;
     private int framesPerProcess;
     private int processCounter;
     private int totalWrites;
@@ -168,7 +169,7 @@ public class Ram {
         }
     }
 
-    public Page[] getFrames() {
+    public Page[] getPresentPages() {
         return presentPages;
     }
 

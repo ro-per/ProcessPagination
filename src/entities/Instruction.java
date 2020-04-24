@@ -2,14 +2,17 @@ package entities;
 
 import utils.BinaryConverter;
 
+import static main.Main.AMOUNT_OF_FRAMES;
+
 public class Instruction {
     /* ------------------------------------------ ATTRIBUTES ------------------------------------------ */
-
     private int processID;
     private int virtualAddress;
     private String opString;
     private int opInt; //DUBBELE OPSLAG VOOR VISUALISATIE
     private int offset;
+    private int physicalAddress;
+    private int frameNumber;
 
     /* ------------------------------------------ CONSTRUCTORS ------------------------------------------ */
 
@@ -22,6 +25,8 @@ public class Instruction {
         this.processID = pid;
         this.virtualAddress = vaddr;
         setOperation(op);
+        this.physicalAddress = paddr;
+        this.frameNumber = fnr;
         this.offset = offset;
     }
     /* ------------------------------------------ GETTERS AND SETTERS ------------------------------------------ */
@@ -75,14 +80,29 @@ public class Instruction {
                 break;
         }
     }
+
     // _________________________ PHYSICAL ADDRESS _________________________
+    public void setPhysicalAddress(int physicalAddress) {
+        this.physicalAddress = physicalAddress;
+    }
+
+    public int getPhysicalAddress() {
+        return physicalAddress;
+    }
 
     // _________________________ FRAME NUMBER _________________________
+    public void setFrameNumber(int frameNumber) {
+        this.frameNumber = frameNumber;
+    }
+
+    public int getFrameNumber() {
+        return this.frameNumber;
+    }
 
     // _________________________ OFFSET _________________________
     public void setOffset() {
         String binary = BinaryConverter.convertToBinary(virtualAddress, PageTable.PAGE_TABLE_LENGTH);
-        String binaryOffset = binary.substring(binary.length() - Ram.AMOUNT_OF_FRAMES);
+        String binaryOffset = binary.substring(binary.length() - AMOUNT_OF_FRAMES);
         this.offset = Integer.parseInt(binaryOffset, 2);
     }
 
@@ -95,7 +115,7 @@ public class Instruction {
     // _________________________ PAGE NUMBER _________________________
     public int getPageNumber() {
         String binary = BinaryConverter.convertToBinary(virtualAddress, PageTable.PAGE_TABLE_LENGTH);
-        String binaryPageNumber = binary.substring(0, binary.length() - Ram.AMOUNT_OF_FRAMES);
+        String binaryPageNumber = binary.substring(0, binary.length() - AMOUNT_OF_FRAMES);
         return Integer.parseInt(binaryPageNumber, 2);
     }
 
@@ -108,4 +128,6 @@ public class Instruction {
                 ", virtualAddress=" + virtualAddress +
                 '}';
     }
+
+
 }

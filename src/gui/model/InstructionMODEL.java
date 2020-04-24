@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class InstrCardMODEL extends Observable {
+public class InstructionMODEL extends Observable {
     /* ------------------------------------------ ATTRIBUTES ------------------------------------------ */
     private static final String OP_ACTIVE = "-fx-background-color: CHARTREUSE;";
     private static final String OP_INACTIVE = "-fx-background-color: WHITE;";
@@ -17,7 +17,7 @@ public class InstrCardMODEL extends Observable {
     private int offset;
 
     /* ------------------------------------------ CONSTRUCTORS ------------------------------------------ */
-    public InstrCardMODEL() {
+    public InstructionMODEL() {
         initOperationColors();
         this.processID = -1;
         this.virtualAddress = -1;
@@ -78,14 +78,23 @@ public class InstrCardMODEL extends Observable {
     public int getPhysicalAddress() {
         return this.physicalAddress;
     }
-
+    public void setPhysicalAddress(int physicalAddress) {
+        this.physicalAddress=physicalAddress;
+    }
     // _________________________ FRAME NUMBER _________________________
     public int getFrameNumber() {
         return this.frameNumber;
     }
 
+    public void setFrameNumber(int frameNumber) {
+        this.frameNumber=frameNumber;
+    }
     // _________________________ OFFSET _________________________
     public int getOffset() {
         return this.offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset=offset;
     }
 }

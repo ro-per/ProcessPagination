@@ -9,18 +9,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.concurrent.TimeUnit;
 
 public class MainMODEL extends Observable {
     private static final int RADIOBUTTON_NUMBER = 3;
     /* ------------------------------------------ ATTRIBUTES ------------------------------------------ */
+    // _________________________ ENTITIES _________________________
     private static Ram ram;
     private static List<Instruction> instructionList;
     private static int timer;
+    private Instruction currentInstruction, previousInstruction;
+    // _________________________ MODEL VARIABLES _________________________
     private int clock;
     private List<Boolean> radioButtons = new ArrayList<>();
     private String xmlFile;
-    private InstrCardMODEL curInstrCARD = new InstrCardMODEL();
-    private InstrCardMODEL prevInstrCARD = new InstrCardMODEL();
+    private InstructionMODEL curInstrCARD = new InstructionMODEL();
+    private InstructionMODEL prevInstrCARD = new InstructionMODEL();
     private FramesMODEL frames = new FramesMODEL();
 
     /* ------------------------------------------ CONSTRUCTORS ------------------------------------------ */
@@ -31,12 +35,13 @@ public class MainMODEL extends Observable {
     /* ------------------------------------------ INIT ------------------------------------------ */
     public void initModel() {
         //ANCHOR_LEFT
-        clock = 0;
+        this.clock = 0;
         initRadioButtons();
         initInstrCards();
+
         //FRAMES
-        //frames.init();
         frames=new FramesMODEL();
+
         //REFRESH THE MODEL
         refresh();
     }
@@ -49,12 +54,14 @@ public class MainMODEL extends Observable {
     }
 
     public void initInstrCards(){
-        curInstrCARD =new InstrCardMODEL();
-        prevInstrCARD = new InstrCardMODEL();
+        curInstrCARD =new InstructionMODEL();
+        prevInstrCARD = new InstructionMODEL();
 
         //curInstr.init();
         //prevInstr.init();
     }
+    /* ------------------------------------------ PROGRAM EXECUTION ------------------------------------------ */
+    // _________________________ RUN _________________________
 
     public void initExecution() throws IOException, SAXException, ParserConfigurationException {
         ram = new Ram(new LruStrategy());
@@ -62,34 +69,42 @@ public class MainMODEL extends Observable {
         timer = 0;
 
     }
-    /* ------------------------------------------ PROGRAM EXECUTION ------------------------------------------ */
-    // _________________________ RUN _________________________
 
     public void runProgram() {
         while (timer < instructionList.size()) {
-            Instruction currentInstruction = instructionList.get(timer);
-            executeOperation(currentInstruction);
+            currentInstruction = instructionList.get(timer);
+            executeCurrentInstruction();
             timer++;
         }
         setRadioButtonsDisabled(true);
         System.out.println("Terminated" + this.xmlFile + ".xml set");//TODO
     }
+    public void stepAutoProgram() throws InterruptedException {
+        while (timer < instructionList.size()) {
+            currentInstruction = instructionList.get(timer);
+            executeCurrentInstruction();
+            timer++;
+            TimeUnit.SECONDS.sleep(1);
+        }
+        setRadioButtonsDisabled(true);
+        System.out.println("Terminated" + this.xmlFile + ".xml set");//TODO
+    }
 
-    public void stepProgram() {
+    public void stepManualProgram() {
         System.out.print("[timer="+timer+"|"); //TODO
         System.out.println("listSize="+instructionList.size()+"]"); //TODO
         if (timer < instructionList.size()) {
             //CURRENT INSTRUCTION
-            Instruction currentInstruction = instructionList.get(timer);
-            executeOperation(currentInstruction);
+            currentInstruction = instructionList.get(timer);
+            executeCurrentInstruction();
             //PREVIOUS INSTRUCTION
-            Instruction previousInstruction = new Instruction(0,0,"none",0,0,0);
+            previousInstruction = new Instruction(0,0,"none",0,0,0);
             if (timer > 0) {
                 previousInstruction = instructionList.get(timer - 1);
             }
 
             timer++;
-            updateMODEL(ram, currentInstruction, previousInstruction);
+            updateMODEL(/*ram, currentInstruction, previousInstruction*/);
             countCLK();
         } else {
             setRadioButtonsDisabled(true);
@@ -97,47 +112,55 @@ public class MainMODEL extends Observable {
         System.out.println("Terminated" + this.xmlFile + ".xml set");//TODO
     }
     // _________________________ EXECUTE OPERATION _________________________
-    public void executeOperation(Instruction currentInstruction) {
+    public void executeCurrentInstruction() {
         String operation = currentInstruction.getOpString();
         switch (operation) {
             case "Read":
-                read(currentInstruction);
+                read(/*currentInstruction*/);
+                setInstrParam();
                 break;
             case "Write":
-                write(currentInstruction);
+                write(/*currentInstruction*/);
+                setInstrParam();
+
                 break;
             case "Start":
-                start(currentInstruction);
+                start(/*currentInstruction*/);
                 break;
             case "Terminate":
-                terminate(currentInstruction);
+                terminate(/*currentInstruction*/);
                 break;
             default:
                 System.out.println("INSTRUCTIE "+operation+" IS GEEN GELDIGE INSTRUCTIE"); //TODO
                 break;
         }
     }
+    private void setInstrParam() {
+        currentInstruction.setPhysicalAddress(ram.getPhysicalAddress());
+        currentInstruction.setFrameNumber(ram.getFrameNumber());
+    }
 
-    public void read(Instruction currentInstruction) {
+
+    public void read(/*Instruction currentInstruction*/) {
         System.out.println("Reading process " + currentInstruction.getPID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber()); //TODO
         ram.read(currentInstruction.getPID(), currentInstruction.getPageNumber(), timer, currentInstruction.getOffset());
         System.out.println("*READ*" + ram); //TODO
     }
 
-    public void write(Instruction currentInstruction) {
+    public void write(/*Instruction currentInstruction*/) {
         System.out.println("Writing to process " + currentInstruction.getPID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber());//TODO
         ram.write(currentInstruction.getPID(), currentInstruction.getPageNumber(), timer, currentInstruction.getOffset());
         System.out.println("*WROTE*" + ram);//TODO
     }
 
-    public void start(Instruction currentInstruction) {
+    public void start(/*Instruction currentInstruction*/) {
         System.out.println("Starting process " + currentInstruction.getPID());//TODO
         entities.Process currentProcess = new Process(currentInstruction.getPID());
         ram.addProcess(currentProcess);
         System.out.println("*STARTED*" + ram);//TODO
     }
 
-    public void terminate(Instruction currentInstruction) {
+    public void terminate(/*Instruction currentInstruction*/) {
         System.out.println("Terminating process " + currentInstruction.getPID());//TODO
         ram.removeProcess(currentInstruction.getPID());
         System.out.println("*TERMINATED*" + ram);//TODO
@@ -151,7 +174,7 @@ public class MainMODEL extends Observable {
         notifyObservers();
     }
     /* ------------------------------------------ UPDATE ------------------------------------------ */
-    private void updateMODEL(Ram ram, Instruction currentInstruction, Instruction previousInstruction) {
+    private void updateMODEL(/*Ram ram, Instruction currentInstruction, Instruction previousInstruction*/) {
         //INSRTUCTION CARDS
         //current instruction
         this.curInstrCARD.setProcessID(currentInstruction.getPID());
@@ -162,10 +185,14 @@ public class MainMODEL extends Observable {
         this.prevInstrCARD.setVirtualAddress(previousInstruction.getVirtualAddress());
         this.prevInstrCARD.setOpColor(previousInstruction.getOpInt());
 
+        this.prevInstrCARD.setPhysicalAddress(previousInstruction.getPhysicalAddress());
+        this.prevInstrCARD.setFrameNumber(previousInstruction.getFrameNumber());
+        this.prevInstrCARD.setOffset(previousInstruction.getOffset());
+
         //PAGE TABLE
 
         //FRAMES
-        this.frames.setFrames(ram.getFrames());
+        this.frames.setFrames(ram.getPresentPages());
         //PROCESSES
 
 
@@ -213,6 +240,7 @@ public class MainMODEL extends Observable {
     public String getPopColors(int i) {
         return prevInstrCARD.getOperationColor(i);
     }
+
     public String getPrevPaddr() {
         return String.valueOf(this.prevInstrCARD.getPhysicalAddress());
     }

@@ -1,13 +1,15 @@
 package gui.controller;
 
 import gui.model.MainMODEL;
+import gui.model.PageTableENTRY;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import main.Main;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,10 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.TimeUnit;
 
-import static main.Main.FRAME_NUMBER;
+import static main.Main.AMOUNT_OF_FRAMES;
 
 public class MainCONTROLLER implements Observer {
+    private static final int PAGE_TABLE_COLUMN_WIDTH = 100;
     /* ------------------------------------------ MODEL ATTRIBUTES ------------------------------------------ */
     private MainMODEL model;
     /* ------------------------------------------ VIEW ATTRIBUTES ------------------------------------------ */
@@ -39,7 +43,6 @@ public class MainCONTROLLER implements Observer {
     private AnchorPane curOpStart, curOpRead, curOpWrite, curOpTerminate;
     @FXML
     private Label curPid, curVaddr;
-
     // PREVIOUS INSTRUCTION CARD
     private List<AnchorPane> prevOperationColorList = new ArrayList<>();
     @FXML
@@ -47,7 +50,11 @@ public class MainCONTROLLER implements Observer {
     @FXML
     private Label prevPid, prevVaddr, prevPaddr, prevFrameNr, prevOffset;
     // _________________________ KOLOM 2 _________________________
-
+    @FXML
+    private AnchorPane pageTablePane;
+    TableView<PageTableENTRY> table;
+    private ObservableList<PageTableENTRY> data =
+            FXCollections.observableArrayList();
     // _________________________ KOLOM 3 _________________________
     // FRAMES - IDs
     private List<Label> framePidList = new ArrayList<>();
@@ -72,6 +79,21 @@ public class MainCONTROLLER implements Observer {
         updateInstructionCards();
         updateFrames();
         updateActionButtons();
+        updatePageTable();
+    }
+
+    public void updatePageTable() {
+        //                                                                                                                          TODO
+        data = FXCollections.observableArrayList();
+        table.refresh();
+        data.add(new PageTableENTRY(String.valueOf(model.getClock()), "B", "C", "D", "E"));
+
+        for (int i = 0; i < AMOUNT_OF_FRAMES; i++) {
+
+        }
+
+        table.setItems(data);
+
     }
 
     public void updateActionButtons() {
@@ -83,11 +105,11 @@ public class MainCONTROLLER implements Observer {
 
     // INSTRUCTION CARDS
     void updateInstructionCards() {
-        updateCurrentInstructionVIEW();
+        updateCurrentInstructionCard();
         updatePreviousInstructionCard();
     }
 
-    private void updateCurrentInstructionVIEW() {
+    private void updateCurrentInstructionCard() {
         this.curPid.setText(model.getCurPid());
         this.curVaddr.setText(model.getCurVaddr());
         for (int i = 0; i < 4; i++)
@@ -99,6 +121,7 @@ public class MainCONTROLLER implements Observer {
         this.prevVaddr.setText(model.getPrevVaddr());
         for (int i = 0; i < 4; i++)
             this.prevOperationColorList.get(i).setStyle(model.getPopColors(i));
+
         this.prevPaddr.setText(model.getPrevPaddr());
         this.prevFrameNr.setText(model.getPrevFrameNr());
         this.prevOffset.setText((model.getPrevOffset()));
@@ -112,12 +135,12 @@ public class MainCONTROLLER implements Observer {
     }
 
     void updateFramePIDs() {
-        for (int i = 0; i < FRAME_NUMBER; i++)
+        for (int i = 0; i < Main.AMOUNT_OF_FRAMES; i++)
             this.framePidList.get(i).setText(String.valueOf(model.getFramePid(i)));
     }
 
     void updateFramePNRs() {
-        for (int i = 0; i < FRAME_NUMBER; i++)
+        for (int i = 0; i < Main.AMOUNT_OF_FRAMES; i++)
             this.framePnrList.get(i).setText(String.valueOf(model.getFramePnr(i)));
     }
 
@@ -133,11 +156,16 @@ public class MainCONTROLLER implements Observer {
     }
 
     @FXML
-    void next(ActionEvent e) {
+    void stepManual(ActionEvent e) {
         System.out.println("++++++++++++ NEXT ++++++++++++");
-        model.stepProgram();
+        model.stepManualProgram();
     }
+    @FXML
+    void stepAuto(ActionEvent e) throws InterruptedException {
+        System.out.println("++++++++++++ NEXT ++++++++++++");
+        model.stepAutoProgram();
 
+    }
     @FXML
     void run(ActionEvent e) {
         System.out.println("++++++++++++ RUN ++++++++++++");
@@ -151,6 +179,7 @@ public class MainCONTROLLER implements Observer {
         setFileChooser();
         setOpColors();
         setFrames();
+        initPageTable();
     }
 
     //FILE CHOOSER
@@ -203,6 +232,48 @@ public class MainCONTROLLER implements Observer {
         prevOperationColorList.add(prevOpReadPane);
         prevOperationColorList.add(prevOpWritePane);
         prevOperationColorList.add(prevOpTerminatePane);
+    }
+
+    // PAGE TABLE
+    public void initPageTable() {
+        table = new TableView<PageTableENTRY>();
+
+        table.setEditable(true);
+
+        TableColumn pageCOL = new TableColumn("Page");
+        pageCOL.setMinWidth(PAGE_TABLE_COLUMN_WIDTH);
+        pageCOL.setCellValueFactory(
+                new PropertyValueFactory<PageTableENTRY, String>("page"));
+        pageCOL.setSortable(false);
+
+        TableColumn presentBitCOL = new TableColumn("Present Bit");
+        presentBitCOL.setMinWidth(PAGE_TABLE_COLUMN_WIDTH);
+        presentBitCOL.setCellValueFactory(
+                new PropertyValueFactory<PageTableENTRY, String>("presentBit"));
+        presentBitCOL.setSortable(false);
+
+        TableColumn modifyBitCOL = new TableColumn("Modify Bit");
+        modifyBitCOL.setMinWidth(PAGE_TABLE_COLUMN_WIDTH);
+        modifyBitCOL.setCellValueFactory(
+                new PropertyValueFactory<PageTableENTRY, String>("modifyBit"));
+        modifyBitCOL.setSortable(false);
+
+        TableColumn lastTimeAccessedCOL = new TableColumn("Last Time Accessed");
+        lastTimeAccessedCOL.setMinWidth(PAGE_TABLE_COLUMN_WIDTH);
+        lastTimeAccessedCOL.setCellValueFactory(
+                new PropertyValueFactory<PageTableENTRY, String>("lastTimeAccessed"));
+        lastTimeAccessedCOL.setSortable(false);
+
+        TableColumn frameNumberCOL = new TableColumn("Frame Number");
+        frameNumberCOL.setMinWidth(PAGE_TABLE_COLUMN_WIDTH);
+        frameNumberCOL.setCellValueFactory(
+                new PropertyValueFactory<PageTableENTRY, String>("frameNumber"));
+        frameNumberCOL.setSortable(false);
+
+        table.getColumns().addAll(pageCOL, presentBitCOL, modifyBitCOL, lastTimeAccessedCOL, frameNumberCOL);
+
+        pageTablePane.getChildren().add(table);
+
     }
 
     //FRAMES

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-import static main.Main.FRAME_NUMBER;
+import static main.Main.AMOUNT_OF_FRAMES;
 
 public class FramesMODEL extends Observable {
     /* ------------------------------------------ ATTRIBUTES ------------------------------------------ */
@@ -23,7 +23,7 @@ public class FramesMODEL extends Observable {
     /* ------------------------------------------ INIT ------------------------------------------ */
     public void initFrameProcessIDs() {
         frameProcessIDs.clear();
-        for (int i = 0; i < FRAME_NUMBER; i++) {
+        for (int i = 0; i < AMOUNT_OF_FRAMES; i++) {
             frameProcessIDs.add(-1);
         }
         refresh();
@@ -31,7 +31,7 @@ public class FramesMODEL extends Observable {
 
     public void initFrameProcessNRs() {
         frameProcessNRs.clear();
-        for (int i = 0; i < FRAME_NUMBER; i++) {
+        for (int i = 0; i < AMOUNT_OF_FRAMES; i++) {
             frameProcessNRs.add(-1);
         }
         refresh();
@@ -53,7 +53,7 @@ public class FramesMODEL extends Observable {
     }
 
     public void setFrames(Page[] frames) {
-        for (int i = 0; i < FRAME_NUMBER; i++) {
+        for (int i = 0; i < AMOUNT_OF_FRAMES; i++) {
             int pid;
             int pnr;
             try {
