@@ -120,13 +120,13 @@ public class MainMODEL extends Observable {
 
     public void read(Instruction currentInstruction) {
         System.out.println("Reading process " + currentInstruction.getPID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber()); //TODO
-        ram.read(currentInstruction.getPID(), currentInstruction.getPageNumber(), timer);
+        ram.read(currentInstruction.getPID(), currentInstruction.getPageNumber(), timer, currentInstruction.getOffset());
         System.out.println("*READ*" + ram); //TODO
     }
 
     public void write(Instruction currentInstruction) {
         System.out.println("Writing to process " + currentInstruction.getPID() + " with virtual address: " + currentInstruction.getVirtualAddress() + " and page number: " + currentInstruction.getPageNumber());//TODO
-        ram.write(currentInstruction.getPID(), currentInstruction.getPageNumber(), timer);
+        ram.write(currentInstruction.getPID(), currentInstruction.getPageNumber(), timer, currentInstruction.getOffset());
         System.out.println("*WROTE*" + ram);//TODO
     }
 

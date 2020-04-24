@@ -9,9 +9,6 @@ public class Instruction {
     private int virtualAddress;
     private String opString;
     private int opInt; //DUBBELE OPSLAG VOOR VISUALISATIE
-
-    private int physicalAddress;
-    private int frameNumber;
     private int offset;
 
     /* ------------------------------------------ CONSTRUCTORS ------------------------------------------ */
@@ -25,8 +22,6 @@ public class Instruction {
         this.processID = pid;
         this.virtualAddress = vaddr;
         setOperation(op);
-        this.physicalAddress = paddr;
-        this.frameNumber = fnr;
         this.offset = offset;
     }
     /* ------------------------------------------ GETTERS AND SETTERS ------------------------------------------ */

@@ -1,5 +1,7 @@
 package entities;
 
+import utils.BinaryConverter;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +21,11 @@ public class Ram {
     private List<Process> processes;
 
     private ReplacementStrategy strategy;
+
+    private Process currentProcess;
+    private int offset;
+    private int frameNumber;
+    private int physicalAddress;
 
     //In Ram max 4 times same process
     //Each process has exactly the same amount of frames:
@@ -105,31 +112,35 @@ public class Ram {
         presentPages[currentFrameNumber] = currentProcess.getPage(newPageNumber);
     }
 
-    public void write(int processID, int pageNumber, int time) {
-        Process currentProcess = getProcess(processID);
-
+    public void write(int processID, int pageNumber, int time, int offset) {
+        currentProcess = getProcess(processID);
+        this.offset = offset;
         if (currentProcess.isPageInRam(pageNumber)) {
             currentProcess.setModified(pageNumber, true);
+            frameNumber = currentProcess.getFrameNumber(pageNumber);
         } else {
             Page page = strategy.getPage(currentProcess);
-            int currentFrameNumber = currentProcess.getFrameNumber(page.getPNR());
-            swapPage(currentFrameNumber, pageNumber, processID);
+            frameNumber = currentProcess.getFrameNumber(page.getPNR());
+            swapPage(frameNumber, pageNumber, processID);
         }
         currentProcess.setPageLastAccessTime(pageNumber, time);
         currentProcess.setProcessLastAccessTime(time);
+        physicalAddress = Integer.parseInt(BinaryConverter.convertToBinary(frameNumber,4)+BinaryConverter.convertToBinary(this.offset,12),2);
     }
 
-    public void read(int processID, int pageNumber, int time) {
-        Process currentProcess = getProcess(processID);
-
+    public void read(int processID, int pageNumber, int time, int offset) {
+        this.offset = offset;
+        currentProcess = getProcess(processID);
+        frameNumber = currentProcess.getFrameNumber(pageNumber);
         if (!currentProcess.isPageInRam(pageNumber)) {
             Page page = strategy.getPage(currentProcess);
-            int currentFrameNumber = currentProcess.getFrameNumber(page.getPNR());
-            swapPage(currentFrameNumber, pageNumber, processID);
-            currentProcess.updatePageTable(currentProcess.getPageNumber(pageNumber), currentFrameNumber, true, false);
+            frameNumber = currentProcess.getFrameNumber(page.getPNR());
+            swapPage(frameNumber, pageNumber, processID);
+            currentProcess.updatePageTable(currentProcess.getPageNumber(pageNumber), frameNumber, true, false);
         }
         currentProcess.setPageLastAccessTime(pageNumber, time);
         currentProcess.setProcessLastAccessTime(time);
+        physicalAddress = Integer.parseInt(BinaryConverter.convertToBinary(frameNumber,4)+BinaryConverter.convertToBinary(this.offset,12),2);
     }
 
     public void removeProcess(int processID) {
@@ -143,6 +154,7 @@ public class Ram {
             removeProcess(strategy.getProcess(processes));
         }
         processes.add(process);
+        currentProcess = process;
         adjustFrames();
     }
 
@@ -159,6 +171,20 @@ public class Ram {
     public Page[] getFrames() {
         return presentPages;
     }
+
+    public Process getCurrentProcess() {
+        return currentProcess;
+    }
+
+
+    public int getPhysicalAddress(){
+        return physicalAddress;
+    }
+
+    public int getFrameNumber(){
+        return this.frameNumber;
+    }
+
 
     @Override
     public String toString() {

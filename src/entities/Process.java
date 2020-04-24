@@ -1,5 +1,8 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Process {
 
     private int processID;
@@ -77,6 +80,14 @@ public class Process {
         return pageTable;
     }
 
+    public int getReadCount() {
+        return readCount;
+    }
+
+    public int getWriteCount() {
+        return writeCount;
+    }
+
     @Override
     public String toString() {
         return "\n Process{" +
@@ -87,4 +98,5 @@ public class Process {
                 ", pageTable=" + pageTable +
                 '}';
     }
+
 }
