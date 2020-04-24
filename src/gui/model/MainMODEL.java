@@ -10,15 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.concurrent.TimeUnit;
+import static main.Main.RADIOBUTTON_NUMBER;
+
 
 public class MainMODEL extends Observable {
-    private static final int RADIOBUTTON_NUMBER = 3;
     /* ------------------------------------------ ATTRIBUTES ------------------------------------------ */
     // _________________________ ENTITIES _________________________
     private static Ram ram;
     private static List<Instruction> instructionList;
     private static int timer;
     private Instruction currentInstruction, previousInstruction;
+    private PageTable pageTable=new PageTable();
     // _________________________ MODEL VARIABLES _________________________
     private int clock;
     private List<Boolean> radioButtons = new ArrayList<>();
@@ -26,6 +28,7 @@ public class MainMODEL extends Observable {
     private InstructionMODEL curInstrCARD = new InstructionMODEL();
     private InstructionMODEL prevInstrCARD = new InstructionMODEL();
     private FramesMODEL frames = new FramesMODEL();
+    private boolean end = false;
 
     /* ------------------------------------------ CONSTRUCTORS ------------------------------------------ */
     public MainMODEL() {
@@ -40,7 +43,7 @@ public class MainMODEL extends Observable {
         initInstrCards();
 
         //FRAMES
-        frames=new FramesMODEL();
+        frames = new FramesMODEL();
 
         //REFRESH THE MODEL
         refresh();
@@ -53,8 +56,8 @@ public class MainMODEL extends Observable {
         }
     }
 
-    public void initInstrCards(){
-        curInstrCARD =new InstructionMODEL();
+    public void initInstrCards() {
+        curInstrCARD = new InstructionMODEL();
         prevInstrCARD = new InstructionMODEL();
 
         //curInstr.init();
@@ -79,26 +82,16 @@ public class MainMODEL extends Observable {
         setRadioButtonsDisabled(true);
         System.out.println("Terminated" + this.xmlFile + ".xml set");//TODO
     }
-    public void stepAutoProgram() throws InterruptedException {
-        while (timer < instructionList.size()) {
-            currentInstruction = instructionList.get(timer);
-            executeCurrentInstruction();
-            timer++;
-            TimeUnit.SECONDS.sleep(1);
-        }
-        setRadioButtonsDisabled(true);
-        System.out.println("Terminated" + this.xmlFile + ".xml set");//TODO
-    }
 
     public void stepManualProgram() {
-        System.out.print("[timer="+timer+"|"); //TODO
-        System.out.println("listSize="+instructionList.size()+"]"); //TODO
+        System.out.print("[timer=" + timer + "|"); //TODO
+        System.out.println("listSize=" + instructionList.size() + "]"); //TODO
         if (timer < instructionList.size()) {
             //CURRENT INSTRUCTION
             currentInstruction = instructionList.get(timer);
             executeCurrentInstruction();
             //PREVIOUS INSTRUCTION
-            previousInstruction = new Instruction(0,0,"none",0,0,0);
+            previousInstruction = new Instruction(0, 0, "none", 0, 0, 0);
             if (timer > 0) {
                 previousInstruction = instructionList.get(timer - 1);
             }
@@ -108,9 +101,10 @@ public class MainMODEL extends Observable {
             countCLK();
         } else {
             setRadioButtonsDisabled(true);
+            end = true;
         }
-        System.out.println("Terminated" + this.xmlFile + ".xml set");//TODO
     }
+
     // _________________________ EXECUTE OPERATION _________________________
     public void executeCurrentInstruction() {
         String operation = currentInstruction.getOpString();
@@ -131,10 +125,11 @@ public class MainMODEL extends Observable {
                 terminate(/*currentInstruction*/);
                 break;
             default:
-                System.out.println("INSTRUCTIE "+operation+" IS GEEN GELDIGE INSTRUCTIE"); //TODO
+                System.out.println("INSTRUCTIE " + operation + " IS GEEN GELDIGE INSTRUCTIE"); //TODO
                 break;
         }
     }
+
     private void setInstrParam() {
         currentInstruction.setPhysicalAddress(ram.getPhysicalAddress());
         currentInstruction.setFrameNumber(ram.getFrameNumber());
@@ -167,12 +162,12 @@ public class MainMODEL extends Observable {
     }
 
 
-
     /* ------------------------------------------ REFRESH ------------------------------------------ */
     public void refresh() {
         setChanged();
         notifyObservers();
     }
+
     /* ------------------------------------------ UPDATE ------------------------------------------ */
     private void updateMODEL(/*Ram ram, Instruction currentInstruction, Instruction previousInstruction*/) {
         //INSRTUCTION CARDS
@@ -190,6 +185,7 @@ public class MainMODEL extends Observable {
         this.prevInstrCARD.setOffset(previousInstruction.getOffset());
 
         //PAGE TABLE
+        this.pageTable=ram.getCurrentProcess().getPageTable();;
 
         //FRAMES
         this.frames.setFrames(ram.getPresentPages());
@@ -198,6 +194,7 @@ public class MainMODEL extends Observable {
 
         refresh();
     }
+
     /* ------------------------------------------ GETTERS AND SETTERS ------------------------------------------ */
     // _________________________ CLOCK _________________________
     public int getClock() {
@@ -213,6 +210,7 @@ public class MainMODEL extends Observable {
     public int getFramePid(int i) {
         return frames.getFrameProcessID(i);
     }
+
     public int getFramePnr(int i) {
         return frames.getFrameProcessNR(i);
     }
@@ -221,22 +219,25 @@ public class MainMODEL extends Observable {
     public String getCurPid() {
         return String.valueOf(this.curInstrCARD.getProcessID());
     }
+
     public String getCurVaddr() {
         return String.valueOf(this.curInstrCARD.getVirtualAddress());
     }
+
     public String getCopColors(int i) {
         return curInstrCARD.getOperationColor(i);
     }
-
 
 
     // _________________________ PREVIOUS INSTRUCTION _________________________
     public String getPrevPid() {
         return String.valueOf(this.prevInstrCARD.getProcessID());
     }
+
     public String getPrevVaddr() {
         return String.valueOf(this.prevInstrCARD.getVirtualAddress());
     }
+
     public String getPopColors(int i) {
         return prevInstrCARD.getOperationColor(i);
     }
@@ -244,14 +245,14 @@ public class MainMODEL extends Observable {
     public String getPrevPaddr() {
         return String.valueOf(this.prevInstrCARD.getPhysicalAddress());
     }
+
     public String getPrevFrameNr() {
         return String.valueOf(this.prevInstrCARD.getFrameNumber());
     }
+
     public String getPrevOffset() {
         return String.valueOf(this.prevInstrCARD.getOffset());
     }
-
-
 
 
     public void setPageTable() {
@@ -275,6 +276,16 @@ public class MainMODEL extends Observable {
         refresh();
     }
 
+    public void setEnd(Boolean b) {
+        this.end = b;
+    }
+
+    public Boolean getEnd() {
+        return this.end;
+    }
+    public PageTable getPageTable(){
+        return this.pageTable;
+    }
 
 
 }

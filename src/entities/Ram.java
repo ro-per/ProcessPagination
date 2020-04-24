@@ -186,6 +186,10 @@ public class Ram {
         return this.frameNumber;
     }
 
+    public List<Process> getProcesses(){
+        return this.processes;
+    }
+
 
     @Override
     public String toString() {

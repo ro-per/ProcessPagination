@@ -5,6 +5,11 @@ public class Page {
     private int processID;
     private int pageNumber;
 
+    public Page(){
+        this.processID = -1;
+        this.pageNumber = -1;
+    }
+
     public Page(int processID, int pageNumber) {
         this.processID = processID;
         this.pageNumber = pageNumber;

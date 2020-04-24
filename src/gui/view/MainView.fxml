@@ -105,11 +105,6 @@
                                                     <Insets left="5.0" right="5.0" />
                                                 </HBox.margin>
                                             </Button>
-                                 <Button fx:id="buttonStepAuto" mnemonicParsing="false" onAction="#stepAuto" prefHeight="25.0" text="STEP Auto">
-                                    <padding>
-                                       <Insets left="5.0" right="5.0" />
-                                    </padding>
-                                 </Button>
                                         </children>
                                     </HBox>
                                     <VBox fx:id="cards" layoutX="75.0" layoutY="176.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="130.0">

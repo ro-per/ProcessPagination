@@ -1,5 +1,7 @@
 package gui.controller;
 
+import entities.Entry;
+import entities.PageTable;
 import gui.model.MainMODEL;
 import gui.model.PageTableENTRY;
 import javafx.collections.FXCollections;
@@ -18,14 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.TimeUnit;
 
-import static main.Main.AMOUNT_OF_FRAMES;
+import static main.Main.*;
+
 
 public class MainCONTROLLER implements Observer {
-    private static final int PAGE_TABLE_COLUMN_WIDTH = 100;
+
     /* ------------------------------------------ MODEL ATTRIBUTES ------------------------------------------ */
     private MainMODEL model;
+    private int x;
     /* ------------------------------------------ VIEW ATTRIBUTES ------------------------------------------ */
     // _________________________ KOLOM 1 _________________________
     //CLOCK
@@ -82,14 +85,29 @@ public class MainCONTROLLER implements Observer {
         updatePageTable();
     }
 
+    public void addEntryToPageTable(Entry e) {
+        String pid, pb, mb, lta, fn;
+        pid = String.valueOf(x);
+        pb = e.getIsPresentString();
+        mb = e.getIsModifiedString();
+        lta = String.valueOf(e.getLastAccessTime());
+        fn = String.valueOf(e.getFrameNumber());
+
+        data.add(new PageTableENTRY(pid, pb, mb, lta, fn));
+        x++;
+    }
+
     public void updatePageTable() {
-        //                                                                                                                          TODO
         data = FXCollections.observableArrayList();
         table.refresh();
-        data.add(new PageTableENTRY(String.valueOf(model.getClock()), "B", "C", "D", "E"));
 
-        for (int i = 0; i < AMOUNT_OF_FRAMES; i++) {
-
+        PageTable pt;
+        pt = model.getPageTable();
+        Entry e;
+        x=0;
+        for (int i = 0; i < PAGE_TABLE_LENGTH; i++) {
+            e = pt.getEntry(i);
+            addEntryToPageTable(e);
         }
 
         table.setItems(data);
@@ -160,12 +178,7 @@ public class MainCONTROLLER implements Observer {
         System.out.println("++++++++++++ NEXT ++++++++++++");
         model.stepManualProgram();
     }
-    @FXML
-    void stepAuto(ActionEvent e) throws InterruptedException {
-        System.out.println("++++++++++++ NEXT ++++++++++++");
-        model.stepAutoProgram();
 
-    }
     @FXML
     void run(ActionEvent e) {
         System.out.println("++++++++++++ RUN ++++++++++++");
@@ -271,7 +284,7 @@ public class MainCONTROLLER implements Observer {
         frameNumberCOL.setSortable(false);
 
         table.getColumns().addAll(pageCOL, presentBitCOL, modifyBitCOL, lastTimeAccessedCOL, frameNumberCOL);
-
+        table.setMinSize(5*PAGE_TABLE_COLUMN_WIDTH,PAGE_TABLE_HEIGHT);
         pageTablePane.getChildren().add(table);
 
     }

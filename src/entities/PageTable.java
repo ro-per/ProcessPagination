@@ -3,10 +3,19 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import static main.Main.PAGE_TABLE_LENGTH;
+
+
 public class PageTable {
 
-    public static final int PAGE_TABLE_LENGTH = 16;
     private List<Entry> entries;
+
+    public PageTable() {
+        entries = new ArrayList<>();
+        for (int i = 0; i < PAGE_TABLE_LENGTH; i++) {
+            entries.add(new Entry(new Page()));
+        }
+    }
 
     public PageTable(int processId) {
         entries = initPageTable(processId);
@@ -72,6 +81,10 @@ public class PageTable {
 
     public List<Entry> getEntries() {
         return entries;
+    }
+
+    public Entry getEntry(int i) {
+        return this.entries.get(i);
     }
 
     @Override

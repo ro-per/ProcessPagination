@@ -1,5 +1,6 @@
 package entities;
-
+import static main.Main.PAGE_TABLE_TRUE;
+import static main.Main.PAGE_TABLE_FALSE;
 public class Entry {
     private final Page page;
     private boolean isModified;
@@ -67,5 +68,20 @@ public class Entry {
                 ", frameNumber=" + frameNumber +
                 ", page=" + page +
                 '}';
+    }
+
+    public String getIsPresentString() {
+        if (isPresent) {
+            return PAGE_TABLE_TRUE;
+        } else {
+            return PAGE_TABLE_FALSE;
+        }
+    }
+    public String getIsModifiedString() {
+        if (isModified) {
+            return PAGE_TABLE_TRUE;
+        } else {
+            return PAGE_TABLE_FALSE;
+        }
     }
 }

@@ -3,6 +3,8 @@ package entities;
 import utils.BinaryConverter;
 
 import static main.Main.AMOUNT_OF_FRAMES;
+import static main.Main.PAGE_TABLE_LENGTH;
+
 
 public class Instruction {
     /* ------------------------------------------ ATTRIBUTES ------------------------------------------ */
@@ -101,7 +103,7 @@ public class Instruction {
 
     // _________________________ OFFSET _________________________
     public void setOffset() {
-        String binary = BinaryConverter.convertToBinary(virtualAddress, PageTable.PAGE_TABLE_LENGTH);
+        String binary = BinaryConverter.convertToBinary(virtualAddress, PAGE_TABLE_LENGTH);
         String binaryOffset = binary.substring(binary.length() - AMOUNT_OF_FRAMES);
         this.offset = Integer.parseInt(binaryOffset, 2);
     }
@@ -114,7 +116,7 @@ public class Instruction {
 
     // _________________________ PAGE NUMBER _________________________
     public int getPageNumber() {
-        String binary = BinaryConverter.convertToBinary(virtualAddress, PageTable.PAGE_TABLE_LENGTH);
+        String binary = BinaryConverter.convertToBinary(virtualAddress, PAGE_TABLE_LENGTH);
         String binaryPageNumber = binary.substring(0, binary.length() - AMOUNT_OF_FRAMES);
         return Integer.parseInt(binaryPageNumber, 2);
     }

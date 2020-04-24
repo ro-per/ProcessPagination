@@ -12,6 +12,15 @@ import java.io.IOException;
 
 public class Main extends Application {
     public static final int AMOUNT_OF_FRAMES = 12;
+    public static final int RADIOBUTTON_NUMBER = 3;
+    public static final int PAGE_TABLE_COLUMN_WIDTH = 100;
+    public static final int PAGE_TABLE_HEIGHT = 425;
+
+    public static final int PAGE_TABLE_LENGTH = 16;
+    public static final String PAGE_TABLE_TRUE = "V";
+    public static final String PAGE_TABLE_FALSE= "X";
+
+
 
     private static final String MAIN_TITLE = "PAGINATION EMULATOR";
     private static final String GUI_MAIN_VIEW_FXML = "/gui/view/MainView.fxml";
