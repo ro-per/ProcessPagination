@@ -170,7 +170,7 @@ public class MainMODEL extends Observable {
 
     public void terminate(/*Instruction currentInstruction*/) {
         System.out.println("Terminating process " + currentInstruction.getPID());//TODO
-        //ram.removeProcess(currentInstruction.getPID());
+        ram.removeProcess(currentInstruction.getPID());
         System.out.println("*TERMINATED*" + ram);//TODO
     }
 
