@@ -305,6 +305,6 @@ public class MainMODEL extends Observable {
 
 
     public List<Process> getProcesses() {
-        return ram.getProcesses();
+        return ram.getProcessHistory();
     }
 }

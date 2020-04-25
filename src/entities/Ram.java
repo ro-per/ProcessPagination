@@ -20,6 +20,7 @@ public class Ram {
 
     //Present Processes
     private List<Process> processes;
+    private List<Process> processHistory;
 
     private ReplacementStrategy strategy;
 
@@ -38,6 +39,7 @@ public class Ram {
     public Ram(ReplacementStrategy strategy) {
         processCounter = 0;
         processes = new ArrayList<>();
+        processHistory = new ArrayList<>();
         totalReads = 0;
         totalWrites = 0;
         amountOfDifferentProcesses = 4;
@@ -155,6 +157,7 @@ public class Ram {
             removeProcess(strategy.getProcess(processes));
         }
         processes.add(process);
+        processHistory.add(process);
         currentProcess = process;
         adjustFrames();
     }
@@ -188,6 +191,10 @@ public class Ram {
 
     public List<Process> getProcesses(){
         return this.processes;
+    }
+
+    public List<Process> getProcessHistory(){
+        return this.processHistory;
     }
 
 
