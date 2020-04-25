@@ -46,6 +46,7 @@ public class MainMODEL extends Observable {
         initRadioButtons();
         initInstrCards();
 
+
         //FRAMES
         frames = new FramesMODEL();
 
@@ -82,7 +83,11 @@ public class MainMODEL extends Observable {
             currentInstruction = instructionList.get(timer);
             executeCurrentInstruction();
             timer++;
+            countCLK();
+
         }
+        updateMODEL();
+        refresh();
         setRadioButtonsDisabled(true);
         System.out.println("Terminated" + this.xmlFile + ".xml set");//TODO
     }
@@ -101,7 +106,7 @@ public class MainMODEL extends Observable {
             }
 
             timer++;
-            updateMODEL(/*ram, currentInstruction, previousInstruction*/);
+            updateMODEL();
             countCLK();
         } else {
             setRadioButtonsDisabled(true);

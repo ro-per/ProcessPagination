@@ -3,6 +3,7 @@ package main;
 import gui.controller.MainCONTROLLER;
 import gui.model.MainMODEL;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -48,10 +49,12 @@ public class Main extends Application {
         MainCONTROLLER mainController = fxmlLoader.getController();
         Scene scene = new Scene(root);
 
+
+
         scene.getStylesheets().add(GUI_VIEW_GENERAL_CSS);
         primaryStage.setScene(scene);
         primaryStage.setTitle(MAIN_TITLE);
-        primaryStage.resizableProperty().set(false);
+//        primaryStage.resizableProperty().set(false);
         primaryStage.show();
 
         mainController.setModel(mainModel);

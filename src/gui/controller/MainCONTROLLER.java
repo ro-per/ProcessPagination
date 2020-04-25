@@ -1,10 +1,7 @@
 package gui.controller;
 
 import entities.PageTableEntry;
-import entities.PageTable;
 import entities.Process;
-import entities.ReadWriteTable;
-import entities.ReadWriteTableEntry;
 import gui.model.MainMODEL;
 import gui.model.PageTableENTRY;
 import gui.model.RWTableENRTY;
@@ -30,6 +27,8 @@ import static main.Main.*;
 
 public class MainCONTROLLER implements Observer {
 
+    TableView<PageTableENTRY> pageTableView;
+    TableView<RWTableENRTY> readWriteTableView;
     /* ------------------------------------------ MODEL ATTRIBUTES ------------------------------------------ */
     private MainMODEL model;
     private int x, y;
@@ -59,7 +58,6 @@ public class MainCONTROLLER implements Observer {
     // _________________________ KOLOM 2 _________________________
     @FXML
     private AnchorPane pageTablePane;
-    TableView<PageTableENTRY> pageTableView;
     private ObservableList<PageTableENTRY> pageTableENTRIES =
             FXCollections.observableArrayList();
     // _________________________ KOLOM 3 _________________________
@@ -78,8 +76,6 @@ public class MainCONTROLLER implements Observer {
     // _________________________ KOLOM 4 _________________________
     @FXML
     private AnchorPane readWriteTablePane;
-    TableView<RWTableENRTY> readWriteTableView;
-
     private ObservableList<RWTableENRTY> readWriteTableENTRIES =
             FXCollections.observableArrayList();
 
@@ -237,6 +233,7 @@ public class MainCONTROLLER implements Observer {
                 model.setRadioButtonsDisabled(false);
                 try {
                     model.initExecution();
+                    model.refresh();
                 } catch (IOException | SAXException | ParserConfigurationException e) {
                     e.printStackTrace();
                 }
@@ -289,7 +286,7 @@ public class MainCONTROLLER implements Observer {
         TableColumn modifyBitCOL = new TableColumn("Modify Bit");
         modifyBitCOL.setMinWidth(PAGE_TABLE_COLUMN_WIDTH);
         modifyBitCOL.setCellValueFactory(
-                new PropertyValueFactory<PageTableENTRY, String>("modifyiBt"));
+                new PropertyValueFactory<PageTableENTRY, String>("modifyBit"));
         modifyBitCOL.setSortable(false);
 
         TableColumn lastTimeAccessedCOL = new TableColumn("Last Time Accessed");
