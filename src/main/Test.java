@@ -50,6 +50,8 @@ public class Test {
                     System.out.println("Wrote: " + ram.getPhysicalAddress());
                     System.out.println("Offset: " + currentInstruction.getOffset());
                     System.out.println("FrameNumber: " + ram.getFrameNumber());
+
+                    System.out.println("PROCESS ****************************"+ram.getCurrentProcess().getProcessID());
                     System.out.println("Write count: " + ram.getCurrentProcess().getWriteCount());
                     System.out.println("Read count: " +  ram.getCurrentProcess().getReadCount());
                     System.out.println(ram);

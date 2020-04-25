@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.concurrent.TimeUnit;
+
 import static main.Main.RADIOBUTTON_NUMBER;
 
 
@@ -21,6 +21,7 @@ public class MainMODEL extends Observable {
     private static int timer;
     private Instruction currentInstruction, previousInstruction;
     private PageTable pageTable=new PageTable();
+    private ReadWriteTable readWriteTable = new ReadWriteTable();
     // _________________________ MODEL VARIABLES _________________________
     private int clock;
     private List<Boolean> radioButtons = new ArrayList<>();
@@ -29,10 +30,13 @@ public class MainMODEL extends Observable {
     private InstructionMODEL prevInstrCARD = new InstructionMODEL();
     private FramesMODEL frames = new FramesMODEL();
     private boolean end = false;
-
     /* ------------------------------------------ CONSTRUCTORS ------------------------------------------ */
     public MainMODEL() {
         initModel();
+    }
+
+    public static Ram getRam() {
+        return ram;
     }
 
     /* ------------------------------------------ INIT ------------------------------------------ */
@@ -112,10 +116,12 @@ public class MainMODEL extends Observable {
             case "Read":
                 read(/*currentInstruction*/);
                 setInstrParam();
+                setRWTable();
                 break;
             case "Write":
                 write(/*currentInstruction*/);
                 setInstrParam();
+                setRWTable();
 
                 break;
             case "Start":
@@ -134,6 +140,13 @@ public class MainMODEL extends Observable {
         currentInstruction.setPhysicalAddress(ram.getPhysicalAddress());
         currentInstruction.setFrameNumber(ram.getFrameNumber());
     }
+    public void setRWTable(){
+        int p = ram.getCurrentProcess().getProcessID();
+        int r = ram.getCurrentProcess().getReadCount();
+        int w = ram.getCurrentProcess().getWriteCount();
+        readWriteTable.updateCount(p,r,w);
+    }
+
 
 
     public void read(/*Instruction currentInstruction*/) {
@@ -157,7 +170,7 @@ public class MainMODEL extends Observable {
 
     public void terminate(/*Instruction currentInstruction*/) {
         System.out.println("Terminating process " + currentInstruction.getPID());//TODO
-        ram.removeProcess(currentInstruction.getPID());
+        //ram.removeProcess(currentInstruction.getPID());
         System.out.println("*TERMINATED*" + ram);//TODO
     }
 
@@ -190,6 +203,7 @@ public class MainMODEL extends Observable {
         //FRAMES
         this.frames.setFrames(ram.getPresentPages());
         //PROCESSES
+
 
 
         refresh();
@@ -255,9 +269,6 @@ public class MainMODEL extends Observable {
     }
 
 
-    public void setPageTable() {
-
-    }
 
 
     public void countCLK() {
@@ -276,16 +287,24 @@ public class MainMODEL extends Observable {
         refresh();
     }
 
+    public Boolean getEnd() {
+        return this.end;
+    }
+
     public void setEnd(Boolean b) {
         this.end = b;
     }
 
-    public Boolean getEnd() {
-        return this.end;
-    }
     public PageTable getPageTable(){
         return this.pageTable;
     }
 
+    public ReadWriteTable getReadWriteTable(){
+        return this.readWriteTable;
+    }
 
+
+    public List<Process> getProcesses() {
+        return ram.getProcesses();
+    }
 }

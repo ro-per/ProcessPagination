@@ -8,12 +8,12 @@ import static main.Main.PAGE_TABLE_LENGTH;
 
 public class PageTable {
 
-    private List<Entry> entries;
+    private List<PageTableEntry> entries;
 
     public PageTable() {
         entries = new ArrayList<>();
         for (int i = 0; i < PAGE_TABLE_LENGTH; i++) {
-            entries.add(new Entry(new Page()));
+            entries.add(new PageTableEntry(new Page()));
         }
     }
 
@@ -21,23 +21,23 @@ public class PageTable {
         entries = initPageTable(processId);
     }
 
-    public List<Entry> initPageTable(int processID) {
-        List<Entry> tempPageTable = new ArrayList<>();
+    public List<PageTableEntry> initPageTable(int processID) {
+        List<PageTableEntry> tempPageTable = new ArrayList<>();
         for (int i = 0; i < PAGE_TABLE_LENGTH; i++) {
-            tempPageTable.add(new Entry(new Page(processID, i)));
+            tempPageTable.add(new PageTableEntry(new Page(processID, i)));
         }
         return tempPageTable;
     }
 
     public void updatePageTable(int pageNumber, int frameNumber, boolean isPresent, boolean isModified) {
-        Entry entry = entries.get(pageNumber);
+        PageTableEntry entry = entries.get(pageNumber);
         entry.setFrameNumber(frameNumber);
         entry.setModified(isModified);
         entry.setPresent(isPresent);
     }
 
     public Page getNonPresentedPage() {
-        for (Entry entry : entries) {
+        for (PageTableEntry entry : entries) {
             if (!entry.isPresent()) {
                 return entry.getPage();
             }
@@ -47,7 +47,7 @@ public class PageTable {
 
     public int getAmountOfPresentPages() {
         int count = 0;
-        for (Entry entry : entries) {
+        for (PageTableEntry entry : entries) {
             if (entry.isPresent()) {
                 ++count;
             }
@@ -79,11 +79,11 @@ public class PageTable {
         entries.get(pageNumber).setLastAccessTime(time);
     }
 
-    public List<Entry> getEntries() {
+    public List<PageTableEntry> getEntries() {
         return entries;
     }
 
-    public Entry getEntry(int i) {
+    public PageTableEntry getEntry(int i) {
         return this.entries.get(i);
     }
 

@@ -24,7 +24,7 @@ public class LruStrategy implements ReplacementStrategy {
         minimumAccessTime = Integer.MAX_VALUE;
         Page lruPage = null;
         PageTable pageTable = process.getPageTable();
-        for (Entry entry : pageTable.getEntries()) {
+        for (PageTableEntry entry : pageTable.getEntries()) {
             if (entry.isPresent() && entry.getLastAccessTime() < minimumAccessTime) {
                 minimumAccessTime = entry.getLastAccessTime();
                 lruPage = entry.getPage();

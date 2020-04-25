@@ -1,9 +1,13 @@
 package gui.controller;
 
-import entities.Entry;
+import entities.PageTableEntry;
 import entities.PageTable;
+import entities.Process;
+import entities.ReadWriteTable;
+import entities.ReadWriteTableEntry;
 import gui.model.MainMODEL;
 import gui.model.PageTableENTRY;
+import gui.model.RWTableENRTY;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,7 +32,7 @@ public class MainCONTROLLER implements Observer {
 
     /* ------------------------------------------ MODEL ATTRIBUTES ------------------------------------------ */
     private MainMODEL model;
-    private int x;
+    private int x, y;
     /* ------------------------------------------ VIEW ATTRIBUTES ------------------------------------------ */
     // _________________________ KOLOM 1 _________________________
     //CLOCK
@@ -55,8 +59,8 @@ public class MainCONTROLLER implements Observer {
     // _________________________ KOLOM 2 _________________________
     @FXML
     private AnchorPane pageTablePane;
-    TableView<PageTableENTRY> table;
-    private ObservableList<PageTableENTRY> data =
+    TableView<PageTableENTRY> pageTableView;
+    private ObservableList<PageTableENTRY> pageTableENTRIES =
             FXCollections.observableArrayList();
     // _________________________ KOLOM 3 _________________________
     // FRAMES - IDs
@@ -72,7 +76,12 @@ public class MainCONTROLLER implements Observer {
     @FXML
     private Label frame6Pnr, frame7Pnr, frame8Pnr, frame9Pnr, frame10Pnr, frame11Pnr;
     // _________________________ KOLOM 4 _________________________
+    @FXML
+    private AnchorPane readWriteTablePane;
+    TableView<RWTableENRTY> readWriteTableView;
 
+    private ObservableList<RWTableENRTY> readWriteTableENTRIES =
+            FXCollections.observableArrayList();
 
     /* ------------------------------------------ METHODS ------------------------------------------ */
     // _________________________ UPDATE _________________________
@@ -83,35 +92,46 @@ public class MainCONTROLLER implements Observer {
         updateFrames();
         updateActionButtons();
         updatePageTable();
-    }
-
-    public void addEntryToPageTable(Entry e) {
-        String pid, pb, mb, lta, fn;
-        pid = String.valueOf(x);
-        pb = e.getIsPresentString();
-        mb = e.getIsModifiedString();
-        lta = String.valueOf(e.getLastAccessTime());
-        fn = String.valueOf(e.getFrameNumber());
-
-        data.add(new PageTableENTRY(pid, pb, mb, lta, fn));
-        x++;
+        updateReadWriteTable();
     }
 
     public void updatePageTable() {
-        data = FXCollections.observableArrayList();
-        table.refresh();
+        pageTableENTRIES = FXCollections.observableArrayList();
+        pageTableView.refresh();
 
-        PageTable pt;
-        pt = model.getPageTable();
-        Entry e;
-        x=0;
+        x = 0;
         for (int i = 0; i < PAGE_TABLE_LENGTH; i++) {
-            e = pt.getEntry(i);
-            addEntryToPageTable(e);
+            PageTableEntry e = model.getPageTable().getEntry(i);
+
+            String pid, pb, mb, lta, fn;
+            pid = String.valueOf(x);
+            pb = e.getIsPresentString();
+            mb = e.getIsModifiedString();
+            lta = String.valueOf(e.getLastAccessTime());
+            fn = String.valueOf(e.getFrameNumber());
+            pageTableENTRIES.add(new PageTableENTRY(pid, pb, mb, lta, fn));
+            x++;
+        }
+        pageTableView.setItems(pageTableENTRIES);
+
+    }
+
+    public void updateReadWriteTable() {
+        readWriteTableENTRIES = FXCollections.observableArrayList();
+        readWriteTableView.refresh();
+        try {
+            List<Process> processes = model.getProcesses();
+            for (int i = 0; i < processes.size(); i++) {
+                int pid = processes.get(i).getProcessID();
+                int r = processes.get(i).getReadCount();
+                int w = processes.get(i).getWriteCount();
+                readWriteTableENTRIES.add(new RWTableENRTY(pid, r, w));
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
 
-        table.setItems(data);
-
+        readWriteTableView.setItems(readWriteTableENTRIES);
     }
 
     public void updateActionButtons() {
@@ -193,6 +213,7 @@ public class MainCONTROLLER implements Observer {
         setOpColors();
         setFrames();
         initPageTable();
+        initReadWriteTable();
     }
 
     //FILE CHOOSER
@@ -249,9 +270,9 @@ public class MainCONTROLLER implements Observer {
 
     // PAGE TABLE
     public void initPageTable() {
-        table = new TableView<PageTableENTRY>();
+        pageTableView = new TableView<PageTableENTRY>();
 
-        table.setEditable(true);
+        pageTableView.setEditable(true);
 
         TableColumn pageCOL = new TableColumn("Page");
         pageCOL.setMinWidth(PAGE_TABLE_COLUMN_WIDTH);
@@ -268,7 +289,7 @@ public class MainCONTROLLER implements Observer {
         TableColumn modifyBitCOL = new TableColumn("Modify Bit");
         modifyBitCOL.setMinWidth(PAGE_TABLE_COLUMN_WIDTH);
         modifyBitCOL.setCellValueFactory(
-                new PropertyValueFactory<PageTableENTRY, String>("modifyBit"));
+                new PropertyValueFactory<PageTableENTRY, String>("modifyiBt"));
         modifyBitCOL.setSortable(false);
 
         TableColumn lastTimeAccessedCOL = new TableColumn("Last Time Accessed");
@@ -283,11 +304,43 @@ public class MainCONTROLLER implements Observer {
                 new PropertyValueFactory<PageTableENTRY, String>("frameNumber"));
         frameNumberCOL.setSortable(false);
 
-        table.getColumns().addAll(pageCOL, presentBitCOL, modifyBitCOL, lastTimeAccessedCOL, frameNumberCOL);
-        table.setMinSize(5*PAGE_TABLE_COLUMN_WIDTH,PAGE_TABLE_HEIGHT);
-        pageTablePane.getChildren().add(table);
+        pageTableView.getColumns().addAll(pageCOL, presentBitCOL, modifyBitCOL, lastTimeAccessedCOL, frameNumberCOL);
+        pageTableView.setMinSize(5 * PAGE_TABLE_COLUMN_WIDTH, PAGE_TABLE_HEIGHT);
+        pageTablePane.getChildren().add(pageTableView);
 
     }
+
+    //READ WRITE TABLE
+    public void initReadWriteTable() {
+        readWriteTableView = new TableView<RWTableENRTY>();
+
+        readWriteTableView.setEditable(true);
+
+        TableColumn pidCOL = new TableColumn("PID");
+        pidCOL.setMinWidth(READ_WRITE_TABLE_COLUMN_WIDTH);
+        pidCOL.setCellValueFactory(
+                new PropertyValueFactory<RWTableENRTY, String>("processID"));
+        pidCOL.setSortable(false);
+
+        TableColumn readCOL = new TableColumn("READ");
+        readCOL.setMinWidth(READ_WRITE_TABLE_COLUMN_WIDTH);
+        readCOL.setCellValueFactory(
+                new PropertyValueFactory<RWTableENRTY, String>("readCount"));
+        readCOL.setSortable(false);
+
+        TableColumn writeCOL = new TableColumn("WRITE");
+        writeCOL.setMinWidth(READ_WRITE_TABLE_COLUMN_WIDTH);
+        writeCOL.setCellValueFactory(
+                new PropertyValueFactory<RWTableENRTY, String>("writeCount"));
+        writeCOL.setSortable(false);
+
+
+        readWriteTableView.getColumns().addAll(pidCOL, readCOL, writeCOL);
+        readWriteTableView.setMinSize(3 * READ_WRITE_TABLE_COLUMN_WIDTH, PAGE_TABLE_HEIGHT);
+
+        readWriteTablePane.getChildren().add(readWriteTableView);
+    }
+
 
     //FRAMES
     public void setFrames() {

@@ -1,14 +1,14 @@
 package entities;
 import static main.Main.PAGE_TABLE_TRUE;
 import static main.Main.PAGE_TABLE_FALSE;
-public class Entry {
+public class PageTableEntry {
     private final Page page;
     private boolean isModified;
     private boolean isPresent;
     private int lastAccessTime;
     private int frameNumber;
 
-    public Entry() {
+    public PageTableEntry() {
         isModified = false;
         isPresent = false;
         lastAccessTime = -1;
@@ -16,7 +16,7 @@ public class Entry {
         page = null;
     }
 
-    public Entry(Page page) {
+    public PageTableEntry(Page page) {
         isModified = false;
         isPresent = false;
         lastAccessTime = -1;
