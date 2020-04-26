@@ -9,13 +9,12 @@ import java.util.List;
 import static main.Main.AMOUNT_OF_FRAMES;
 
 public class Ram {
-
     private int framesPerProcess;
     private int processCounter;
     private int totalWrites;
     private int totalReads;
     private int amountOfDifferentProcesses;
-    //Ram has max. 12 frames or maximum 12 pages
+    //Ram has maximum 12 frames or maximum 12 pages
     private Page[] presentPages = new Page[AMOUNT_OF_FRAMES];
 
     //Present Processes
@@ -31,7 +30,7 @@ public class Ram {
 
     //In Ram max 4 times same process
     //Each process has exactly the same amount of frames:
-    // 1 process:   12 frames/process
+    // 1 process:12 frames/process
     // 2 processes: 6 frames/process
     // 3 processes: 4 frames/process
     // 4 processes: 3 frames/process
@@ -60,10 +59,10 @@ public class Ram {
 
     private void removePage(Page page) {
         Process process = getProcess(page.getPID());
-        int frameNumber;
-        frameNumber = process.getFrameNumber(page.getPNR());
-        process.updatePageTable(page.getPNR(), frameNumber, false, false);
-        presentPages[frameNumber] = null;
+        int fnr;
+        fnr = process.getFrameNumber(page.getPNR());
+        process.updatePageTable(page.getPNR(), fnr, false, false);
+        presentPages[fnr] = null;
     }
 
     private void adjustFrames() {
@@ -103,16 +102,16 @@ public class Ram {
 
     private void swapPage(int currentFrameNumber, int newPageNumber, int processID) {
         Page currentPage = presentPages[currentFrameNumber];
-        Process currentProcess = getProcess(processID);
+        Process cp = getProcess(processID);
         if (currentPage != null) {
-            currentProcess.updatePageTable(currentPage.getPNR(), 0, false, false);
-            currentProcess.increaseWriteCount();
+            cp.updatePageTable(currentPage.getPNR(), 0, false, false);
+            cp.increaseWriteCount();
             totalWrites++;
         }
-        currentProcess.updatePageTable(newPageNumber, currentFrameNumber, true, false);
-        currentProcess.increaseReadCount();
+        cp.updatePageTable(newPageNumber, currentFrameNumber, true, false);
+        cp.increaseReadCount();
         totalReads++;
-        presentPages[currentFrameNumber] = currentProcess.getPage(newPageNumber);
+        presentPages[currentFrameNumber] = cp.getPage(newPageNumber);
     }
 
     public void write(int processID, int pageNumber, int time, int offset) {
@@ -128,7 +127,7 @@ public class Ram {
         }
         currentProcess.setPageLastAccessTime(pageNumber, time);
         currentProcess.setProcessLastAccessTime(time);
-        physicalAddress = Integer.parseInt(BinaryConverter.convertToBinary(frameNumber,4)+BinaryConverter.convertToBinary(this.offset,12),2);
+        physicalAddress = Integer.parseInt(BinaryConverter.convertToBinary(frameNumber, 4) + BinaryConverter.convertToBinary(this.offset, 12), 2);
     }
 
     public void read(int processID, int pageNumber, int time, int offset) {
@@ -143,7 +142,7 @@ public class Ram {
         }
         currentProcess.setPageLastAccessTime(pageNumber, time);
         currentProcess.setProcessLastAccessTime(time);
-        physicalAddress = Integer.parseInt(BinaryConverter.convertToBinary(frameNumber,4)+BinaryConverter.convertToBinary(this.offset,12),2);
+        physicalAddress = Integer.parseInt(BinaryConverter.convertToBinary(frameNumber, 4) + BinaryConverter.convertToBinary(this.offset, 12), 2);
     }
 
     public void removeProcess(int processID) {
@@ -181,27 +180,26 @@ public class Ram {
     }
 
 
-    public int getPhysicalAddress(){
+    public int getPhysicalAddress() {
         return physicalAddress;
     }
 
-    public int getFrameNumber(){
+    public int getFrameNumber() {
         return this.frameNumber;
     }
 
-    public List<Process> getProcesses(){
+    public List<Process> getProcesses() {
         return this.processes;
     }
 
-    public List<Process> getProcessHistory(){
+    public List<Process> getProcessHistory() {
         return this.processHistory;
     }
 
 
     @Override
     public String toString() {
-        return "\n" +
-                "-------- Ram --------" +
+        return "\n -------- Ram --------" +
                 "\n ----FRAMES---- \n" + Arrays.toString(presentPages) +
                 "\n ----PROCESSES---- \n" + processes +
                 "\n ----FRAMES/PROCESS---- \n" + framesPerProcess +

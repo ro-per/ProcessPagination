@@ -11,13 +11,12 @@ public class Instruction {
     private int processID;
     private int virtualAddress;
     private String opString;
-    private int opInt; //DUBBELE OPSLAG VOOR VISUALISATIE
+    private int opInt;
     private int offset;
     private int physicalAddress;
     private int frameNumber;
 
     /* ------------------------------------------ CONSTRUCTORS ------------------------------------------ */
-
     public Instruction() {
         processID = 0;
         virtualAddress = 0;
@@ -32,7 +31,6 @@ public class Instruction {
         this.offset = offset;
     }
     /* ------------------------------------------ GETTERS AND SETTERS ------------------------------------------ */
-    // _________________________ PROCESS ID _________________________
 
     public int getPID() {
         return processID;
@@ -42,7 +40,6 @@ public class Instruction {
         this.processID = processID;
     }
 
-    // _________________________ VIRTUAL ADDRESS _________________________
     public int getVirtualAddress() {
         return virtualAddress;
     }
@@ -51,7 +48,6 @@ public class Instruction {
         this.virtualAddress = virtualAddress;
     }
 
-    // _________________________ OPERATION _________________________
     public String getOpString() {
         return opString;
     }
@@ -83,25 +79,22 @@ public class Instruction {
         }
     }
 
-    // _________________________ PHYSICAL ADDRESS _________________________
-    public void setPhysicalAddress(int physicalAddress) {
-        this.physicalAddress = physicalAddress;
-    }
-
     public int getPhysicalAddress() {
         return physicalAddress;
     }
 
-    // _________________________ FRAME NUMBER _________________________
-    public void setFrameNumber(int frameNumber) {
-        this.frameNumber = frameNumber;
+    public void setPhysicalAddress(int physicalAddress) {
+        this.physicalAddress = physicalAddress;
     }
 
     public int getFrameNumber() {
         return this.frameNumber;
     }
 
-    // _________________________ OFFSET _________________________
+    public void setFrameNumber(int frameNumber) {
+        this.frameNumber = frameNumber;
+    }
+
     public void setOffset() {
         String binary = BinaryConverter.convertToBinary(virtualAddress, PAGE_TABLE_LENGTH);
         String binaryOffset = binary.substring(binary.length() - AMOUNT_OF_FRAMES);
@@ -113,15 +106,12 @@ public class Instruction {
         return this.offset;
     }
 
-
-    // _________________________ PAGE NUMBER _________________________
     public int getPageNumber() {
         String binary = BinaryConverter.convertToBinary(virtualAddress, PAGE_TABLE_LENGTH);
         String binaryPageNumber = binary.substring(0, binary.length() - AMOUNT_OF_FRAMES);
         return Integer.parseInt(binaryPageNumber, 2);
     }
 
-    // _________________________ TOSTRING _________________________
     @Override
     public String toString() {
         return "Instruction{" +

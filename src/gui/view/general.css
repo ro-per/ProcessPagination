@@ -1,29 +1,32 @@
 .Root{
 -fx-background-color:#354235;
 }
+
 .button {
 -fx-background-radius: 10px;
 -fx-min-height:30px;
 -fx-background-color:#69bdd2;
 -fx-font-color:white;
 }
+
 .Label{
 -fx-font-family: Century;
 -fx-font-color:white;
-
 }
+
 .TitleLabel{
 -fx-alignment: CENTER;
 -fx-font-family: Century;
 -fx-font-size:20px;
 -fx-text-fill: white;
 }
+
 .TitlePane{
 -fx-min-height:30px;
 -fx-pref-height:30px;
 -fx-max-height:30px;
-
 }
+
 .Field{
 -fx-min-width:50px;
 -fx-min-height:15px;
@@ -32,59 +35,60 @@
 -fx-background-color:white;
 }
 
-/* FRAMES */
 .Frame{
 -fx-background-radius: 10px;
 -fx-background-color: transparent;
 -fx-padding: 5px;
 -fx-border-color:white;
-
 }
 
-
-/* CARDS */
 .card{
 -fx-background-radius: 10px;
 -fx-background-color: transparent;
 -fx-padding: 5px;
 -fx-border-color:white;
 -fx-min-width:300px;
-
 }
 
-/* INSTUCTION CARDS*/
 .pID{
 -fx-background-color: white  ;
 -fx-background-radius: 5px;
 }
+
 .vAddr{
 -fx-background-color: white    ;
 -fx-background-radius: 5px;
 }
+
 .op{
 -fx-min-width:50px;
 -fx-min-height:15px;
 -fx-max-height:15px;
 -fx-font-family:Century;
 }
+
 .opTer{
 -fx-min-width:100px;
 -fx-min-height:15px;
 -fx-max-height:15px;
 -fx-font-family:Century;
 }
+
 .rAddr{
 -fx-background-color: white    ;
 -fx-background-radius: 5px;
 }
+
 .frameNr{
 -fx-background-color: white   ;
 -fx-background-radius: 5px;
 }
+
 .offset{
 -fx-background-color: white   ;
 -fx-background-radius: 5px;
 }
+
 .pageNr{
 -fx-background-color: white   ;
 -fx-background-radius: 5px;

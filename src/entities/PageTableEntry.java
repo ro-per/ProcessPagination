@@ -1,6 +1,8 @@
 package entities;
-import static main.Main.PAGE_TABLE_TRUE;
+
 import static main.Main.PAGE_TABLE_FALSE;
+import static main.Main.PAGE_TABLE_TRUE;
+
 public class PageTableEntry {
     private final Page page;
     private boolean isModified;
@@ -77,6 +79,7 @@ public class PageTableEntry {
             return PAGE_TABLE_FALSE;
         }
     }
+
     public String getIsModifiedString() {
         if (isModified) {
             return PAGE_TABLE_TRUE;

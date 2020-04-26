@@ -1,5 +1,5 @@
 # BS2-ProcessPagination
-In this project pagination is simulated and visualized.
+In this project pagination is being simulated and visualized.
 
 RAM: 48 Kbytes / 12 frames / max 4 processes / each process has equal number of frames
 

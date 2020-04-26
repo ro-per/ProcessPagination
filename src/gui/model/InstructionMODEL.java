@@ -45,7 +45,6 @@ public class InstructionMODEL extends Observable {
     }
 
     /* ------------------------------------------ GETTERS AND SETTERS ------------------------------------------ */
-    // _________________________ PROCESS ID _________________________
     public void setProcessID(int pid) {
         this.processID = pid;
         refresh();
@@ -55,12 +54,10 @@ public class InstructionMODEL extends Observable {
         return this.virtualAddress;
     }
 
-    // _________________________ VIRTUAL ADDRESS _________________________
     public void setVirtualAddress(int vaddr) {
         this.virtualAddress = vaddr;
         refresh();
     }
-    // _________________________ OPERATION _________________________
 
     public String getOperationColor(int i) {
         return opColorList.get(i);
@@ -74,27 +71,27 @@ public class InstructionMODEL extends Observable {
         refresh();
     }
 
-    // _________________________ PHYSICAL ADDRESS _________________________
     public int getPhysicalAddress() {
         return this.physicalAddress;
     }
+
     public void setPhysicalAddress(int physicalAddress) {
-        this.physicalAddress=physicalAddress;
+        this.physicalAddress = physicalAddress;
     }
-    // _________________________ FRAME NUMBER _________________________
+
     public int getFrameNumber() {
         return this.frameNumber;
     }
 
     public void setFrameNumber(int frameNumber) {
-        this.frameNumber=frameNumber;
+        this.frameNumber = frameNumber;
     }
-    // _________________________ OFFSET _________________________
+
     public int getOffset() {
         return this.offset;
     }
 
     public void setOffset(int offset) {
-        this.offset=offset;
+        this.offset = offset;
     }
 }

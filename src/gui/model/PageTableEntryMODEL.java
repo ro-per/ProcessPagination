@@ -3,12 +3,9 @@ package gui.model;
 import javafx.beans.property.SimpleStringProperty;
 
 public class PageTableEntryMODEL {
-
     private final SimpleStringProperty page;
     private final SimpleStringProperty presentBit;
     private final SimpleStringProperty modifyBit;
-
-
     private final SimpleStringProperty lastTimeAccessed;
     private final SimpleStringProperty frameNumber;
 

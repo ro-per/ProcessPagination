@@ -1,8 +1,5 @@
 package entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Process {
 
     private int processID;
@@ -10,7 +7,7 @@ public class Process {
     private int writeCount;
     private int readCount;
 
-    // Each process has 1 page table
+    // Each process has one-page table
     private PageTable pageTable;
 
     public Process(int processID) {
