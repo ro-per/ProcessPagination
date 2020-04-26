@@ -106,7 +106,8 @@
                                                                 <children>
                                                                     <Button fx:id="button_reset" alignment="CENTER"
                                                                             mnemonicParsing="false" onAction="#reset"
-                                                                            prefHeight="25.0" text="Reset">
+                                                                            prefHeight="25.0" text="Reset"
+                                                                            textFill="WHITE">
                                                                         <padding>
                                                                             <Insets left="5.0" right="5.0"/>
                                                                         </padding>
@@ -114,7 +115,7 @@
                                                                     <Button fx:id="button_run" alignment="CENTER"
                                                                             mnemonicParsing="false" onAction="#run"
                                                                             prefHeight="25.0" text="RUN"
-                                                                            HBox.hgrow="ALWAYS">
+                                                                            HBox.hgrow="ALWAYS" textFill="WHITE">
                                                                         <padding>
                                                                             <Insets left="5.0" right="5.0"/>
                                                                         </padding>
@@ -124,7 +125,8 @@
                                                                     </Button>
                                                                     <Button fx:id="button_next" mnemonicParsing="false"
                                                                             onAction="#stepManual" prefHeight="25.0"
-                                                                            text="NEXT" HBox.hgrow="ALWAYS">
+                                                                            text="NEXT" HBox.hgrow="ALWAYS"
+                                                                            textFill="WHITE">
                                                                         <padding>
                                                                             <Insets left="5.0" right="5.0"/>
                                                                         </padding>

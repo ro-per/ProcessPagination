@@ -1,11 +1,11 @@
 .Root{
--fx-background-color:#354235;
+-fx-background-color:#4b6d4b;
 }
 
 .button {
 -fx-background-radius: 10px;
 -fx-min-height:30px;
--fx-background-color:#69bdd2;
+-fx-background-color:black;
 -fx-font-color:white;
 }
 
