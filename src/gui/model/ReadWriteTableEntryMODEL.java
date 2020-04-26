@@ -3,13 +3,13 @@ package gui.model;
 import entities.ReadWriteTableEntry;
 import javafx.beans.property.SimpleStringProperty;
 
-public class RWTableENRTY {
+public class ReadWriteTableEntryMODEL {
 
     private final SimpleStringProperty processID;
     private final SimpleStringProperty readCount;
     private final SimpleStringProperty writeCount;
 
-    public RWTableENRTY(){
+    public ReadWriteTableEntryMODEL(){
         this.processID= new SimpleStringProperty(String.valueOf(-1));
         this.readCount= new SimpleStringProperty((String.valueOf(-1)));
         this.writeCount = new SimpleStringProperty(String.valueOf(-1));
@@ -17,12 +17,12 @@ public class RWTableENRTY {
 
 
 
-    public RWTableENRTY(String pid, String r, String w) {
+    public ReadWriteTableEntryMODEL(String pid, String r, String w) {
         this.processID = new SimpleStringProperty(pid);
         this.readCount = new SimpleStringProperty(r);
         this.writeCount = new SimpleStringProperty(w);
     }
-    public RWTableENRTY(int pid, int r, int w){
+    public ReadWriteTableEntryMODEL(int pid, int r, int w){
         this.processID=new SimpleStringProperty(String.valueOf(pid));
         this.readCount=new SimpleStringProperty(String.valueOf(r));
         this.writeCount=new SimpleStringProperty(String.valueOf(w));

@@ -2,7 +2,7 @@ package gui.model;
 
 import javafx.beans.property.SimpleStringProperty;
 
-public class PageTableENTRY {
+public class PageTableEntryMODEL {
 
     private final SimpleStringProperty page;
     private final SimpleStringProperty presentBit;
@@ -12,7 +12,7 @@ public class PageTableENTRY {
     private final SimpleStringProperty lastTimeAccessed;
     private final SimpleStringProperty frameNumber;
 
-    public PageTableENTRY(String p, String pb, String mb, String lta, String fn) {
+    public PageTableEntryMODEL(String p, String pb, String mb, String lta, String fn) {
         this.page = new SimpleStringProperty(p);
         this.presentBit = new SimpleStringProperty(pb);
         this.modifyBit = new SimpleStringProperty(mb);

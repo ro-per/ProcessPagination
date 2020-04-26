@@ -3,8 +3,8 @@ package gui.controller;
 import entities.PageTableEntry;
 import entities.Process;
 import gui.model.MainMODEL;
-import gui.model.PageTableENTRY;
-import gui.model.RWTableENRTY;
+import gui.model.PageTableEntryMODEL;
+import gui.model.ReadWriteTableEntryMODEL;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,8 +27,8 @@ import static main.Main.*;
 
 public class MainCONTROLLER implements Observer {
 
-    TableView<PageTableENTRY> pageTableView;
-    TableView<RWTableENRTY> readWriteTableView;
+    TableView<PageTableEntryMODEL> pageTableView;
+    TableView<ReadWriteTableEntryMODEL> readWriteTableView;
     /* ------------------------------------------ MODEL ATTRIBUTES ------------------------------------------ */
     private MainMODEL model;
     private int x, y;
@@ -58,7 +58,7 @@ public class MainCONTROLLER implements Observer {
     // _________________________ KOLOM 2 _________________________
     @FXML
     private AnchorPane pageTablePane;
-    private ObservableList<PageTableENTRY> pageTableENTRIES =
+    private ObservableList<PageTableEntryMODEL> pageTableENTRIES =
             FXCollections.observableArrayList();
     // _________________________ KOLOM 3 _________________________
     // FRAMES - IDs
@@ -76,7 +76,7 @@ public class MainCONTROLLER implements Observer {
     // _________________________ KOLOM 4 _________________________
     @FXML
     private AnchorPane readWriteTablePane;
-    private ObservableList<RWTableENRTY> readWriteTableENTRIES =
+    private ObservableList<ReadWriteTableEntryMODEL> readWriteTableENTRIES =
             FXCollections.observableArrayList();
 
     /* ------------------------------------------ METHODS ------------------------------------------ */
@@ -105,7 +105,7 @@ public class MainCONTROLLER implements Observer {
             mb = e.getIsModifiedString();
             lta = String.valueOf(e.getLastAccessTime());
             fn = String.valueOf(e.getFrameNumber());
-            pageTableENTRIES.add(new PageTableENTRY(pid, pb, mb, lta, fn));
+            pageTableENTRIES.add(new PageTableEntryMODEL(pid, pb, mb, lta, fn));
             x++;
         }
         pageTableView.setItems(pageTableENTRIES);
@@ -121,7 +121,7 @@ public class MainCONTROLLER implements Observer {
                 int pid = processes.get(i).getProcessID();
                 int r = processes.get(i).getReadCount();
                 int w = processes.get(i).getWriteCount();
-                readWriteTableENTRIES.add(new RWTableENRTY(pid, r, w));
+                readWriteTableENTRIES.add(new ReadWriteTableEntryMODEL(pid, r, w));
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -267,38 +267,38 @@ public class MainCONTROLLER implements Observer {
 
     // PAGE TABLE
     public void initPageTable() {
-        pageTableView = new TableView<PageTableENTRY>();
+        pageTableView = new TableView<PageTableEntryMODEL>();
 
         pageTableView.setEditable(true);
 
         TableColumn pageCOL = new TableColumn("Page");
         pageCOL.setMinWidth(PAGE_TABLE_COLUMN_WIDTH);
         pageCOL.setCellValueFactory(
-                new PropertyValueFactory<PageTableENTRY, String>("page"));
+                new PropertyValueFactory<PageTableEntryMODEL, String>("page"));
         pageCOL.setSortable(false);
 
         TableColumn presentBitCOL = new TableColumn("Present Bit");
         presentBitCOL.setMinWidth(PAGE_TABLE_COLUMN_WIDTH);
         presentBitCOL.setCellValueFactory(
-                new PropertyValueFactory<PageTableENTRY, String>("presentBit"));
+                new PropertyValueFactory<PageTableEntryMODEL, String>("presentBit"));
         presentBitCOL.setSortable(false);
 
         TableColumn modifyBitCOL = new TableColumn("Modify Bit");
         modifyBitCOL.setMinWidth(PAGE_TABLE_COLUMN_WIDTH);
         modifyBitCOL.setCellValueFactory(
-                new PropertyValueFactory<PageTableENTRY, String>("modifyBit"));
+                new PropertyValueFactory<PageTableEntryMODEL, String>("modifyBit"));
         modifyBitCOL.setSortable(false);
 
         TableColumn lastTimeAccessedCOL = new TableColumn("Last Time Accessed");
         lastTimeAccessedCOL.setMinWidth(PAGE_TABLE_COLUMN_WIDTH);
         lastTimeAccessedCOL.setCellValueFactory(
-                new PropertyValueFactory<PageTableENTRY, String>("lastTimeAccessed"));
+                new PropertyValueFactory<PageTableEntryMODEL, String>("lastTimeAccessed"));
         lastTimeAccessedCOL.setSortable(false);
 
         TableColumn frameNumberCOL = new TableColumn("Frame Number");
         frameNumberCOL.setMinWidth(PAGE_TABLE_COLUMN_WIDTH);
         frameNumberCOL.setCellValueFactory(
-                new PropertyValueFactory<PageTableENTRY, String>("frameNumber"));
+                new PropertyValueFactory<PageTableEntryMODEL, String>("frameNumber"));
         frameNumberCOL.setSortable(false);
 
         pageTableView.getColumns().addAll(pageCOL, presentBitCOL, modifyBitCOL, lastTimeAccessedCOL, frameNumberCOL);
@@ -309,26 +309,26 @@ public class MainCONTROLLER implements Observer {
 
     //READ WRITE TABLE
     public void initReadWriteTable() {
-        readWriteTableView = new TableView<RWTableENRTY>();
+        readWriteTableView = new TableView<ReadWriteTableEntryMODEL>();
 
         readWriteTableView.setEditable(true);
 
         TableColumn pidCOL = new TableColumn("PID");
         pidCOL.setMinWidth(READ_WRITE_TABLE_COLUMN_WIDTH);
         pidCOL.setCellValueFactory(
-                new PropertyValueFactory<RWTableENRTY, String>("processID"));
+                new PropertyValueFactory<ReadWriteTableEntryMODEL, String>("processID"));
         pidCOL.setSortable(false);
 
         TableColumn readCOL = new TableColumn("READ");
         readCOL.setMinWidth(READ_WRITE_TABLE_COLUMN_WIDTH);
         readCOL.setCellValueFactory(
-                new PropertyValueFactory<RWTableENRTY, String>("readCount"));
+                new PropertyValueFactory<ReadWriteTableEntryMODEL, String>("readCount"));
         readCOL.setSortable(false);
 
         TableColumn writeCOL = new TableColumn("WRITE");
         writeCOL.setMinWidth(READ_WRITE_TABLE_COLUMN_WIDTH);
         writeCOL.setCellValueFactory(
-                new PropertyValueFactory<RWTableENRTY, String>("writeCount"));
+                new PropertyValueFactory<ReadWriteTableEntryMODEL, String>("writeCount"));
         writeCOL.setSortable(false);
 
 
